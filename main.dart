@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
+<<<<<<< HEAD
 }
+=======
+}//main
+>>>>>>> bac84b9b4967e415f54035fb67505537f3241777
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
+<<<<<<< HEAD
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -113,3 +118,20 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+=======
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Welcome to Flutter',
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Welcome to Flutter'),
+        ),
+        body: const Center(
+          child: Text('Hello, Flutter!'),
+        ),
+      ),
+    );
+  }//build
+}//MyApp
+>>>>>>> bac84b9b4967e415f54035fb67505537f3241777
