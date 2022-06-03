@@ -1,8 +1,8 @@
+import 'package:city_app/utils/client_info.dart';
 import 'package:flutter/material.dart';
 import 'package:city_app/screens/loginpage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fitbitter/fitbitter.dart';
-import 'package:city_app/utils/client_info.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -63,24 +63,6 @@ class ProfilePage extends StatelessWidget {
                     clientSecret: ClientInfo.fitbitClientSecret,);
               },
               child: Text('Tap to unauthorize'),
-            ),
-          ],
-        ),
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text('login_flow'),
-            ),
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Logout'),
-              onTap: () => _toLoginPage(context),
             ),
           ],
         ),
