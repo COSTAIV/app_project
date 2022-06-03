@@ -14,23 +14,21 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   @override
-
-   void initState() {
+  void initState() {
     super.initState();
     //Check if the user is already logged in before rendering the login page
     _checkLogin();
-  }//initState
+  } //initState
 
   void _checkLogin() async {
     //Get the SharedPreference instance and check if the value of the 'username' filed is set or not
     final sp = await SharedPreferences.getInstance();
-    if(sp.getBool('logged') != null){
+    if (sp.getBool('logged') != null) {
       //If 'username is set, push the ProfilePage
       _toProfilePage(context);
-    }//if
-  }//_checkLogin
+    } //if
+  } //_checkLogin
 
 /*
   void initState() {
@@ -73,17 +71,17 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold( 
+    return Scaffold(
       body: Center(
-      child: IconButton(
-        icon: Icon(Icons.login),
-        onPressed: () async{
-          final sp = await SharedPreferences.getInstance();
-          sp.setBool('logged', true);
-          _toProfilePage(context);
-        },
+        child: IconButton(
+          icon: Icon(Icons.login),
+          onPressed: () async {
+            final sp = await SharedPreferences.getInstance();
+            sp.setBool('logged', true);
+            _toProfilePage(context);
+          },
+        ),
       ),
-    ),
     );
 
     /*

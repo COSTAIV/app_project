@@ -30,7 +30,7 @@ class ProfilePage extends StatelessWidget {
                     clientSecret: ClientInfo.fitbitClientSecret,
                     redirectUri: ClientInfo.fitbitRedirectUri,
                     callbackUrlScheme: ClientInfo.fitbitCallbackScheme);
-                    
+
                 //Instantiate a proper data manager
                 FitbitActivityTimeseriesDataManager
                     fitbitActivityTimeseriesDataManager =
@@ -59,8 +59,9 @@ class ProfilePage extends StatelessWidget {
             ElevatedButton(
               onPressed: () async {
                 await FitbitConnector.unauthorize(
-                    clientID: ClientInfo.fitbitClientID,
-                    clientSecret: ClientInfo.fitbitClientSecret,);
+                  clientID: ClientInfo.fitbitClientID,
+                  clientSecret: ClientInfo.fitbitClientSecret,
+                );
               },
               child: Text('Tap to unauthorize'),
             ),
@@ -70,15 +71,14 @@ class ProfilePage extends StatelessWidget {
     );
   } //build
 
-  void _toLoginPage(BuildContext context) async{
-    //Unset the 'username' filed in SharedPreference 
+  void _toLoginPage(BuildContext context) async {
+    //Unset the 'username' filed in SharedPreference
     final sp = await SharedPreferences.getInstance();
     sp.remove('logged');
 
-    //Pop the drawer first 
+    //Pop the drawer first
     Navigator.pop(context);
     //Then pop the ProfilePage
     Navigator.of(context).pushReplacementNamed(LoginPage.route);
   }
-
 } //ProfilePage
