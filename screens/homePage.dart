@@ -4,6 +4,7 @@ import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:city_app/screens/exploreCities.dart';
 
 //HomePage can be Steless. Only the ListView content changes, not the HomePage by itself.
 class HomePage extends StatelessWidget {
@@ -19,6 +20,23 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text(HomePage.routename),
       ),
+
+      //menù laterale
+
+      drawer: Drawer(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                _toExploresCities(context);
+              },
+              child: Text('Explore Cities'),
+            ),
+          ],
+        ),
+      ),
+
       //The FAB is used to add random entries to the Todo table
       floatingActionButton: FloatingActionButton(
           onPressed: () async {
@@ -83,4 +101,7 @@ class HomePage extends StatelessWidget {
     );
   } //build
 
+  void _toExploresCities(BuildContext context) {
+    Navigator.of(context).pushReplacementNamed(ExploresCities.route);
+  }
 } //HomePage

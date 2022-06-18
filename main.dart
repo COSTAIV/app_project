@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:city_app/screens/profilepage.dart';
 import 'package:city_app/screens/loginpage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:city_app/screens/exploreCities.dart';
 
 import 'package:city_app/database/database.dart';
 import 'package:city_app/repository/databaseRepository.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
         LoginPage.route: (context) => LoginPage(),
         ProfilePage.route: (context) => ProfilePage(),
         HomePage.route: (context) => HomePage(),
+        ExploresCities.route: (context) => ExploresCities(),
       },
     );
   } //build

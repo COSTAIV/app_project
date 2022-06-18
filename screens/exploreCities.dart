@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 
 class ExploresCities extends StatelessWidget {
   ExploresCities({Key? key}) : super(key: key);
+
+  static const route = '/';
+  static const routename = 'ExploresCities';
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -46,4 +50,4 @@ class ExploresCities extends StatelessWidget {
           ),
         ],
       );
-} //MyApp
+} //ExploresCities
