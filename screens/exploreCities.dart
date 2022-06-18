@@ -17,9 +17,19 @@ class ExploresCities extends StatelessWidget {
         drawer: Drawer(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text('An option'),
-              Text('Another option'),
+            children: [
+              ElevatedButton(
+              onPressed: () {
+                
+              },
+              child: Text('An option'),
+              ),
+              ElevatedButton(
+              onPressed: () {
+                
+              },
+              child: Text('Another option'),
+              ),
             ],
           ),
         ),
