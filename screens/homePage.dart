@@ -10,7 +10,7 @@ import 'package:city_app/screens/exploreCities.dart';
 class HomePage extends StatelessWidget {
   HomePage({Key? key}) : super(key: key);
 
-  static const route = '/';
+  static const route = '/homePage/';
   static const routename = 'HomePage';
 
   @override
@@ -102,6 +102,6 @@ class HomePage extends StatelessWidget {
   } //build
 
   void _toExploresCities(BuildContext context) {
-    Navigator.of(context).pushReplacementNamed(ExploresCities.route);
+    Navigator.pushNamed(context, '/exploreCities/');
   }
 } //HomePage

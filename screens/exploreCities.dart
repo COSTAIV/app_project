@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ExploresCities extends StatelessWidget {
   ExploresCities({Key? key}) : super(key: key);
 
-  static const route = '/';
+  static const route = '/exploreCities/';
   static const routename = 'ExploresCities';
 
   @override
