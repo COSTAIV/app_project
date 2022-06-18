@@ -29,6 +29,18 @@ class HomePage extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
+                
+              },
+              child: Text('An option'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                
+              },
+              child: Text('Another option'),
+            ),
+            ElevatedButton(
+              onPressed: () {
                 _toExploresCities(context);
               },
               child: Text('Explore Cities'),
