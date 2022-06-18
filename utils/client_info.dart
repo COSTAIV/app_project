@@ -1,5 +1,4 @@
 class ClientInfo {
-
   // Fitbit Client ID (replace XXX with your client ID)
   static const String fitbitClientID = '238BFW';
 
@@ -11,5 +10,4 @@ class ClientInfo {
 
   /// Callback scheme (replace XXX with your callback scheme)
   static const String fitbitCallbackScheme = 'example';
-
 }//Strings
