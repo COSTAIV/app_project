@@ -120,8 +120,8 @@ class _LoginPageState extends State<LoginPage> {
               mailController.text.isNotEmpty) {
             //String password = getEncryptedString(passwordController.text);
             //String mail = getEncryptedString(mailController.text);
-            if (mailController.text == 'bug@expert.com' &&
-                passwordController.text == '5TrNgP5Wd') {
+            if (mailController.text == 'marco@gmail.com' &&
+                passwordController.text == 'rossi') {
               final sp = await SharedPreferences.getInstance();
               sp.setBool('logged', true);
               _toProfilePage(context);
