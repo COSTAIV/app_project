@@ -1,6 +1,7 @@
 import 'package:city_app/utils/client_info.dart';
 import 'package:flutter/material.dart';
 import 'package:city_app/screens/loginpage.dart';
+import 'package:city_app/screens/homePage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fitbitter/fitbitter.dart';
 
@@ -59,6 +60,8 @@ class ProfilePage extends StatelessWidget {
                     content: Text(
                         'Yesterday you walked ${stepsData[0].value} steps!'));
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+                _toHomePage(context);
               },
               child: Text('Tap to authorize'),
             ),
@@ -86,5 +89,8 @@ class ProfilePage extends StatelessWidget {
     //Navigator.pop(context);        funziona correttemente senza a me ..., al prof va messa 
     //Then pop the ProfilePage
     Navigator.of(context).pushReplacementNamed(LoginPage.route);
+  }
+  void _toHomePage(BuildContext context) {
+    Navigator.of(context).pushReplacementNamed(HomePage.route);
   }
 } //ProfilePage
