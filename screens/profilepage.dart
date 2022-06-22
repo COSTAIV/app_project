@@ -30,14 +30,23 @@ class ProfilePage extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () async {
-                // Authorize the app
+                final sp = await SharedPreferences.getInstance();
+                if (sp.getString('userId') == null)
+                {
+                // Authorize the app se non lhai gia fatto 
                 String? userId = await FitbitConnector.authorize(
                     context: context,
                     clientID: ClientInfo.fitbitClientID,
                     clientSecret: ClientInfo.fitbitClientSecret,
                     redirectUri: ClientInfo.fitbitRedirectUri,
                     callbackUrlScheme: ClientInfo.fitbitCallbackScheme);
-
+                
+                final sp = await SharedPreferences.getInstance();
+                sp.setString('userId', userId!);
+                }
+               
+                  String? userId = sp.getString('userId');
+                  print(userId);    //check 
                 //Instantiate a proper data manager
                 FitbitActivityTimeseriesDataManager
                     fitbitActivityTimeseriesDataManager =
@@ -47,23 +56,32 @@ class ProfilePage extends StatelessWidget {
                   type: 'steps',
                 );
 
-                //Fetch data
+                //Fetch step data
                 final stepsData = await fitbitActivityTimeseriesDataManager
-                    .fetch(FitbitActivityTimeseriesAPIURL.dayWithResource(
-                  date: DateTime.now().subtract(Duration(days: 1)),
+                    .fetch(FitbitActivityTimeseriesAPIURL.weekWithResource(
+                  baseDate: DateTime.now().subtract(Duration(days: 1)),
                   userID: userId,
                   resource: fitbitActivityTimeseriesDataManager.type,
                 )) as List<FitbitActivityTimeseriesData>;
 
+                
+
+                double lastweek_steps = 0;
+                for (var i = 0; i < stepsData. length; i++) {
+                    lastweek_steps += stepsData[i].value!;
+                  }
+
                 // Use them as you want
                 final snackBar = SnackBar(
+                  
                     content: Text(
-                        'Yesterday you walked ${stepsData[0].value} steps!'));
+                        'Last week you walked ${lastweek_steps} steps!'));
                 ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
                 _toHomePage(context);
+                
               },
-              child: Text('Tap to authorize'),
+              child: Text('Tap to synchronize your data'),
             ),
             ElevatedButton(
               onPressed: () async {
@@ -71,6 +89,8 @@ class ProfilePage extends StatelessWidget {
                   clientID: ClientInfo.fitbitClientID,
                   clientSecret: ClientInfo.fitbitClientSecret,
                 );
+                final sp = await SharedPreferences.getInstance();
+                sp.remove('userId');
               },
               child: Text('Tap to unauthorize'),
             ),
