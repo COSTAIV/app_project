@@ -6,8 +6,7 @@ import 'package:city_app/screens/exploreCities.dart';
 
 import 'package:city_app/database/database.dart';
 import 'package:city_app/repository/databaseRepository.dart';
-import 'package:city_app/screens/homePage.dart';
-import 'package:flutter/material.dart';
+import 'package:city_app/screens/stepsPage.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -43,7 +42,7 @@ class MyApp extends StatelessWidget {
       routes: {
         LoginPage.route: (context) => LoginPage(),
         ProfilePage.route: (context) => ProfilePage(),
-        HomePage.route: (context) => HomePage(),
+        StepsPage.route: (context) => StepsPage(),
         ExploresCities.route: (context) => ExploresCities(),
       },
     );

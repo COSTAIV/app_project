@@ -61,7 +61,7 @@ class _$AppDatabase extends AppDatabase {
     changeListener = listener ?? StreamController<String>.broadcast();
   }
 
-  TodoDao? _todoDaoInstance;
+  DayStepsDao? _daystepsDaoInstance;
 
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback? callback]) async {
@@ -82,7 +82,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Todo` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `Day_steps` (`id` INTEGER, `dateTime` INTEGER NOT NULL, `d_steps` REAL NOT NULL, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -91,18 +91,31 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
-  TodoDao get todoDao {
-    return _todoDaoInstance ??= _$TodoDao(database, changeListener);
+  DayStepsDao get daystepsDao {
+    return _daystepsDaoInstance ??= _$DayStepsDao(database, changeListener);
   }
 }
 
-class _$TodoDao extends TodoDao {
-  _$TodoDao(this.database, this.changeListener)
+class _$DayStepsDao extends DayStepsDao {
+  _$DayStepsDao(this.database, this.changeListener)
       : _queryAdapter = QueryAdapter(database),
-        _todoInsertionAdapter = InsertionAdapter(database, 'Todo',
-            (Todo item) => <String, Object?>{'id': item.id, 'name': item.name}),
-        _todoDeletionAdapter = DeletionAdapter(database, 'Todo', ['id'],
-            (Todo item) => <String, Object?>{'id': item.id, 'name': item.name});
+        _day_stepsInsertionAdapter = InsertionAdapter(
+            database,
+            'Day_steps',
+            (Day_steps item) => <String, Object?>{
+                  'id': item.id,
+                  'dateTime': _dateTimeConverter.encode(item.dateTime),
+                  'd_steps': item.d_steps
+                }),
+        _day_stepsDeletionAdapter = DeletionAdapter(
+            database,
+            'Day_steps',
+            ['id'],
+            (Day_steps item) => <String, Object?>{
+                  'id': item.id,
+                  'dateTime': _dateTimeConverter.encode(item.dateTime),
+                  'd_steps': item.d_steps
+                });
 
   final sqflite.DatabaseExecutor database;
 
@@ -110,24 +123,30 @@ class _$TodoDao extends TodoDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<Todo> _todoInsertionAdapter;
+  final InsertionAdapter<Day_steps> _day_stepsInsertionAdapter;
 
-  final DeletionAdapter<Todo> _todoDeletionAdapter;
+  final DeletionAdapter<Day_steps> _day_stepsDeletionAdapter;
 
   @override
-  Future<List<Todo>> findAllTodos() async {
-    return _queryAdapter.queryList('SELECT * FROM Todo',
-        mapper: (Map<String, Object?> row) =>
-            Todo(row['id'] as int?, row['name'] as String));
+  Future<List<Day_steps>> findAllDaySteps() async {
+    return _queryAdapter.queryList('SELECT * FROM Day_steps',
+        mapper: (Map<String, Object?> row) => Day_steps(
+            row['id'] as int?,
+            _dateTimeConverter.decode(row['dateTime'] as int),
+            row['d_steps'] as double));
   }
 
   @override
-  Future<void> insertTodo(Todo todo) async {
-    await _todoInsertionAdapter.insert(todo, OnConflictStrategy.abort);
+  Future<void> insertDaySteps(Day_steps day_steps) async {
+    await _day_stepsInsertionAdapter.insert(
+        day_steps, OnConflictStrategy.ignore);
   }
 
   @override
-  Future<void> deleteTodo(Todo task) async {
-    await _todoDeletionAdapter.delete(task);
+  Future<void> removeDaySteps(Day_steps task) async {
+    await _day_stepsDeletionAdapter.delete(task);
   }
 }
+
+// ignore_for_file: unused_element
+final _dateTimeConverter = DateTimeConverter();
