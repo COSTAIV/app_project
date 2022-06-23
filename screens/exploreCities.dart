@@ -1,4 +1,7 @@
-import 'dart:ui';
+
+//quando clicchi su una cittta vai su cityPage e la visualizzi 
+
+
 
 import 'package:flutter/material.dart';
 
