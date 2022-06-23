@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import 'package:city_app/database/database.dart';
 import 'package:city_app/repository/databaseRepository.dart';
+<<<<<<< HEAD
 
 
 import 'package:city_app/screens/profilepage.dart';
@@ -15,6 +16,10 @@ import 'package:city_app/screens/stopsCities.dart';
 import 'package:city_app/screens/homePage.dart';
 
 
+=======
+import 'package:city_app/screens/stepsPage.dart';
+import 'package:provider/provider.dart';
+>>>>>>> master
 
 Future<void> main() async {
   //This is a special method that use WidgetFlutterBinding to interact with the Flutter engine.
@@ -49,7 +54,7 @@ class MyApp extends StatelessWidget {
       routes: {
         LoginPage.route: (context) => LoginPage(),
         ProfilePage.route: (context) => ProfilePage(),
-        HomePage.route: (context) => HomePage(),
+        StepsPage.route: (context) => StepsPage(),
         ExploresCities.route: (context) => ExploresCities(),
         IconStepperDemos.route:(context) => IconStepperDemos(),
       },

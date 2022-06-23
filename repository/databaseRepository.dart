@@ -1,5 +1,5 @@
 import 'package:city_app/database/database.dart';
-import 'package:city_app/database/entities/todo.dart';
+import 'package:city_app/database/entities/daysteps.dart';
 import 'package:flutter/material.dart';
 
 class DatabaseRepository extends ChangeNotifier {
@@ -10,23 +10,23 @@ class DatabaseRepository extends ChangeNotifier {
   DatabaseRepository({required this.database});
 
   //This method wraps the findAllTodos() method of the DAO
-  Future<List<Todo>> findAllTodos() async {
-    final results = await database.todoDao.findAllTodos();
+  Future<List<Day_steps>> findAllDaySteps() async {
+    final results = await database.daystepsDao.findAllDaySteps();
     return results;
   } //findAllTodos
 
   //This method wraps the insertTodo() method of the DAO.
   //Then, it notifies the listeners that something changed.
-  Future<void> insertTodo(Todo todo) async {
-    await database.todoDao.insertTodo(todo);
+  Future<void> insertDaySteps(Day_steps day_steps) async {
+    await database.daystepsDao.insertDaySteps(day_steps);
     notifyListeners();
-  } //insertTodo
+  } //insert day steps
 
-  //This method wraps the deleteTodo() method of the DAO.
+ 
   //Then, it notifies the listeners that something changed.
-  Future<void> removeTodo(Todo todo) async {
-    await database.todoDao.deleteTodo(todo);
+  Future<void> removeDaySteps(Day_steps day_steps) async {
+    await database.daystepsDao.removeDaySteps(day_steps);
     notifyListeners();
-  } //removeTodo
+  } //removeDaySteps
 
 } //DatabaseRepository

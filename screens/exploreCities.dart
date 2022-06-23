@@ -1,4 +1,9 @@
 
+<<<<<<< HEAD
+=======
+//quando clicchi su una cittta vai su cityPage e la visualizzi 
+
+>>>>>>> master
 
 
 import 'package:flutter/material.dart';
