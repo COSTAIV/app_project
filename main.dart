@@ -1,14 +1,20 @@
+import 'package:im_stepper/main.dart';
 import 'package:flutter/material.dart';
-import 'package:city_app/screens/profilepage.dart';
-import 'package:city_app/screens/loginpage.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:city_app/screens/exploreCities.dart';
+import 'package:flutter/material.dart';
 
 import 'package:city_app/database/database.dart';
 import 'package:city_app/repository/databaseRepository.dart';
+
+
+import 'package:city_app/screens/profilepage.dart';
+import 'package:city_app/screens/loginpage.dart';
+import 'package:city_app/screens/exploreCities.dart';
+import 'package:city_app/screens/stopsCities.dart';
 import 'package:city_app/screens/homePage.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
+
 
 Future<void> main() async {
   //This is a special method that use WidgetFlutterBinding to interact with the Flutter engine.
@@ -45,6 +51,7 @@ class MyApp extends StatelessWidget {
         ProfilePage.route: (context) => ProfilePage(),
         HomePage.route: (context) => HomePage(),
         ExploresCities.route: (context) => ExploresCities(),
+        IconStepperDemos.route:(context) => IconStepperDemos(),
       },
     );
   } //build

@@ -1,4 +1,5 @@
-import 'dart:ui';
+
+
 
 import 'package:flutter/material.dart';
 
@@ -8,8 +9,11 @@ class ExploresCities extends StatelessWidget {
   static const route = '/exploreCities/';
   static const routename = 'ExploresCities';
 
+  late BuildContext ctx;
+
   @override
   Widget build(BuildContext context) {
+    ctx =context;
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -18,6 +22,7 @@ class ExploresCities extends StatelessWidget {
           backgroundColor: Color.fromARGB(255, 48, 41, 255).withOpacity(0.8),
         ),
         body: _exploreCity(),
+                 
         drawer: Drawer(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -45,10 +50,12 @@ class ExploresCities extends StatelessWidget {
         ),
       ),
     );
-  } //build
-
+   //build
+  } 
+ 
   //Returns the ListView as
   Widget _exploreCity() => ListView(
+    
         children: [
           ListTile(
             leading: Icon(Icons.flight_takeoff_rounded),
@@ -61,12 +68,13 @@ class ExploresCities extends StatelessWidget {
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
               ),
               onPressed: () {
-                                
+                _toStopsCities(ctx); //QUI DA ERRORE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
               },
               label: Text('Visit'),
               icon: Icon(Icons.navigate_next_outlined),      
             ),
           ),
+          
           ListTile(
             leading: Icon(Icons.flight_takeoff_rounded),
             title: Text('Paris', style: TextStyle(color: Colors.black, fontSize: 20),),
@@ -78,7 +86,7 @@ class ExploresCities extends StatelessWidget {
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
               ),
               onPressed: () {
-                                
+                               
               },
               label: Text('Visit'),
               icon: Icon(Icons.navigate_next_outlined),      
@@ -103,7 +111,15 @@ class ExploresCities extends StatelessWidget {
           ),
         ],
       );
-    void _toHomePage(BuildContext context) {
+  
+
+      
+  void _toStopsCities(BuildContext ctx){
+    Navigator.pushNamed(ctx, '/stops/');
+  }
+
+  void _toHomePage(BuildContext context) {
     Navigator.pop(context, '/homePage/');
   }
+      
 } //ExploresCities
