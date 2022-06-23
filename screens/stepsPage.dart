@@ -1,24 +1,23 @@
-import 'package:city_app/database/entities/todo.dart';
+import 'package:city_app/database/entities/daysteps.dart';
 import 'package:city_app/repository/databaseRepository.dart';
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:city_app/screens/exploreCities.dart';
 
 //HomePage can be Steless. Only the ListView content changes, not the HomePage by itself.
-class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
+class StepsPage extends StatelessWidget {
+  StepsPage({Key? key}) : super(key: key);
 
-  static const route = '/homePage/';
-  static const routename = 'HomePage';
+  static const route = '/stepsPage/';
+  static const routename = 'StepsPage';
 
   @override
   Widget build(BuildContext context) {
-    print('${HomePage.routename} built');
+    print('${StepsPage.routename} built');
     return Scaffold(
       appBar: AppBar(
-        title: Text(HomePage.routename),
+        title: Text(StepsPage.routename),
       ),
 
       //menù laterale
@@ -40,15 +39,12 @@ class HomePage extends StatelessWidget {
       //The FAB is used to add random entries to the Todo table
       floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            final wp = WordPair.random();
-            //No need to use a Consumer, we are just using a method of the DatabaseRepository
-            await Provider.of<DatabaseRepository>(context, listen: false)
-                .insertTodo(Todo(null, wp.first));
           },
           child: Icon(Icons.add)),
+
       body: Center(
         child:
-            //We will show the todo table with a ListView.
+            
             //To do so, we use a Consumer of DatabaseRepository in order to rebuild the widget tree when
             //entries are deleted or created.
             Consumer<DatabaseRepository>(builder: (context, dbr, child) {
@@ -57,14 +53,14 @@ class HomePage extends StatelessWidget {
           //We need to use a FutureBuilder since the result of dbr.findAllTodos() is a Future.
           return FutureBuilder(
             initialData: null,
-            future: dbr.findAllTodos(),
+            future: dbr.findAllDaySteps(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                final data = snapshot.data as List<Todo>;
+                final data = snapshot.data as List<Day_steps>;
                 return ListView.builder(
                     itemCount: data.length,
-                    itemBuilder: (context, todoIndex) {
-                      final todo = data[todoIndex];
+                    itemBuilder: (context, stepsIndex) {
+                      final daysteps = data[stepsIndex];
                       return Card(
                         elevation: 5,
                         //Here we use a Dismissible widget to create a nicer UI.
@@ -76,8 +72,8 @@ class HomePage extends StatelessWidget {
                           //The ListTile is used to show the Todo entry
                           child: ListTile(
                             leading: Icon(MdiIcons.note),
-                            title: Text(todo.name),
-                            subtitle: Text('ID: ${todo.id}'),
+                            title: Text('${daysteps.dateTime}'),
+                            subtitle: Text('You walked ${daysteps.d_steps} !'),
                             //If the ListTile is tapped, it is deleted
                           ),
                           //This method is called when the ListTile is dismissed
@@ -85,7 +81,7 @@ class HomePage extends StatelessWidget {
                             //No need to use a Consumer, we are just using a method of the DatabaseRepository
                             await Provider.of<DatabaseRepository>(context,
                                     listen: false)
-                                .removeTodo(todo);
+                                .removeDaySteps(daysteps);
                           },
                         ),
                       );
@@ -104,4 +100,4 @@ class HomePage extends StatelessWidget {
   void _toExploresCities(BuildContext context) {
     Navigator.pushNamed(context, '/exploreCities/');
   }
-} //HomePage
+} //StepsPage

@@ -1,18 +1,20 @@
 //Imports that are necessary to the code generator of floor
 import 'dart:async';
 import 'package:floor/floor.dart';
+import 'package:city_app/database/typeConverters/dateTimeConverter.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 
 //Here, we are importing the entities and the daos of the database
-import 'daos/todoDaos.dart';
-import 'entities/todo.dart';
+import 'daos/DayStepsDaos.dart';
+import 'entities/daysteps.dart';
 
 //The generated code will be in database.g.dart
 part 'database.g.dart';
 
 //Here we are saying that this is the first version of the Database and it has just 1 entity, i.e., Todo
-@Database(version: 1, entities: [Todo])
+@TypeConverters([DateTimeConverter])
+@Database(version: 1, entities: [Day_steps])
 abstract class AppDatabase extends FloorDatabase {
   //Add all the daos as getters here
-  TodoDao get todoDao;
+  DayStepsDao get daystepsDao;
 }//AppDatabase
