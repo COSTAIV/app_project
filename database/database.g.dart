@@ -82,7 +82,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Day_steps` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `d_steps` REAL NOT NULL, `dateTime` INTEGER NOT NULL)');
+            'CREATE TABLE IF NOT EXISTS `Day_steps` (`id` INTEGER, `dateTime` INTEGER NOT NULL, `d_steps` REAL NOT NULL, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -104,8 +104,8 @@ class _$DayStepsDao extends DayStepsDao {
             'Day_steps',
             (Day_steps item) => <String, Object?>{
                   'id': item.id,
-                  'd_steps': item.d_steps,
-                  'dateTime': _dateTimeConverter.encode(item.dateTime)
+                  'dateTime': _dateTimeConverter.encode(item.dateTime),
+                  'd_steps': item.d_steps
                 }),
         _day_stepsDeletionAdapter = DeletionAdapter(
             database,
@@ -113,8 +113,8 @@ class _$DayStepsDao extends DayStepsDao {
             ['id'],
             (Day_steps item) => <String, Object?>{
                   'id': item.id,
-                  'd_steps': item.d_steps,
-                  'dateTime': _dateTimeConverter.encode(item.dateTime)
+                  'dateTime': _dateTimeConverter.encode(item.dateTime),
+                  'd_steps': item.d_steps
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -132,18 +132,18 @@ class _$DayStepsDao extends DayStepsDao {
     return _queryAdapter.queryList('SELECT * FROM Day_steps',
         mapper: (Map<String, Object?> row) => Day_steps(
             row['id'] as int?,
-            row['d_steps'] as double,
-            _dateTimeConverter.decode(row['dateTime'] as int)));
+            _dateTimeConverter.decode(row['dateTime'] as int),
+            row['d_steps'] as double));
   }
 
   @override
   Future<void> insertDaySteps(Day_steps day_steps) async {
     await _day_stepsInsertionAdapter.insert(
-        day_steps, OnConflictStrategy.abort);
+        day_steps, OnConflictStrategy.ignore);
   }
 
   @override
-  Future<void> deleteDaySteps(Day_steps task) async {
+  Future<void> removeDaySteps(Day_steps task) async {
     await _day_stepsDeletionAdapter.delete(task);
   }
 }

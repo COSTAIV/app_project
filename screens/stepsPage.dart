@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:city_app/screens/exploreCities.dart';
+import 'package:city_app/screens/profilePage.dart';
 
 //HomePage can be Steless. Only the ListView content changes, not the HomePage by itself.
 class StepsPage extends StatelessWidget {
@@ -31,6 +32,12 @@ class StepsPage extends StatelessWidget {
                 _toExploresCities(context);
               },
               child: Text('Explore Cities'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                _toProfilePage(context);
+              },
+              child: Text('Back to profile page'),
             ),
           ],
         ),
@@ -97,7 +104,14 @@ class StepsPage extends StatelessWidget {
     );
   } //build
 
+ 
+} //StepsPage
+
+
   void _toExploresCities(BuildContext context) {
     Navigator.pushNamed(context, '/exploreCities/');
   }
-} //StepsPage
+
+ void _toProfilePage(BuildContext context) {
+    Navigator.of(context).pushReplacementNamed(ProfilePage.route);
+  } //_toProfilePage

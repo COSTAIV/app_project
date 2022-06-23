@@ -25,7 +25,7 @@ class DatabaseRepository extends ChangeNotifier {
  
   //Then, it notifies the listeners that something changed.
   Future<void> removeDaySteps(Day_steps day_steps) async {
-    await database.daystepsDao.deleteDaySteps(day_steps);
+    await database.daystepsDao.removeDaySteps(day_steps);
     notifyListeners();
   } //removeDaySteps
 
