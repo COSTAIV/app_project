@@ -11,8 +11,35 @@ class ExploreCities extends StatelessWidget {
   static const routename = 'ExploresCities';
 
   late BuildContext ctx;
-
-  City Padova = City(
+City Venezia = City(
+  "Venezia", 
+  List<Stop>.from([ 
+    Stop.create("", "", ""),
+    Stop.create("", "", ""),
+    Stop.create("", "", ""),
+    Stop.create("", "", ""),
+    Stop.create("", "", ""),
+    Stop.create("", "", ""),
+    Stop.create("", "", ""),
+    Stop.create("", "", ""),
+    Stop.create("", "", "") 
+  ])
+);
+City Roma = City(
+  "Roma", 
+  List<Stop>.from([ 
+    Stop.create("", "", ""),
+    Stop.create("", "", ""),
+    Stop.create("", "", ""),
+    Stop.create("", "", ""),
+    Stop.create("", "", ""),
+    Stop.create("", "", ""),
+    Stop.create("", "", ""),
+    Stop.create("", "", ""),
+    Stop.create("", "", "") 
+  ])
+);
+City Padova = City(
   "Padova", 
   List<Stop>.from([ 
     Stop.create("Stazione dei treni", "https://cdn.archilovers.com/projects/c_383_037e4d6dee6446579c6b5c9fcf17d213.jpg", ""),
@@ -24,6 +51,20 @@ class ExploreCities extends StatelessWidget {
     Stop.create("Parco Iris", "https://citynews-padovaoggi.stgy.ovh/~media/horizontal-mid/12215231983253/parco-iris-panoramica-alto-2.jpg", ""),
     Stop.create("Ikea", "https://citynews-padovaoggi.stgy.ovh/~media/original-hi/52677538776932/il-negozio-ikea-di-padova-2.jpg", ""),
     Stop.create("DEI e Naviglio", "https://www.mivado.it/wp-content/uploads/2020/06/mivado-navigli-padova.jpg", "") 
+  ])
+);
+City NewYork = City(
+  "New York", 
+  List<Stop>.from([ 
+    Stop.create("", "", ""),
+    Stop.create("", "", ""),
+    Stop.create("", "", ""),
+    Stop.create("", "", ""),
+    Stop.create("", "", ""),
+    Stop.create("", "", ""),
+    Stop.create("", "", ""),
+    Stop.create("", "", ""),
+    Stop.create("", "", "") 
   ])
 );
 City Paris = City(
@@ -38,6 +79,20 @@ City Paris = City(
     Stop.create("Place des Vosges", "immagine_dello_stop7.jpg", "Place des Vosges is one of the most beautiful squares in Le Marais or even Paris which is funny if you think about it. If someone described it as a, “small park completely walled in by four walls of houses that look exactly the same as one another,” you may not really want to go there!"),
     Stop.create("Musée de l\'Armée", "immagine_dello_stop8.jpg", "The Musée de l'Armée is a national military museum of France located at Les Invalides in the 7th arrondissement of Paris. It is served by Paris Métro stations Invalides, Varenne, and La Tour-Maubourg. The Musée de l'Armée was created in 1905 with the merger of the Musée d'Artillerie and the Musée Historique de l'Armée. The museum's seven main spaces and departments contain collections that span the period from antiquity through the 20th century. "),
     Stop.create("Versailles", "immagine_dello_stop9.jpg", "The Château de Versailles, the sprawling palace and former seat of power, is located 14 miles southwest of Paris in Versailles. Every year, millions of travelers make the trek from Paris to bear witness to the chateau's world-famous grandeur in person. But between all of the gold figurines, dramatic frescoes and cascading crystal chandeliers you'll no doubt find in bulk throughout the chateau, you might be surprised to learn that King Louis XIV's extravagant former residence had pretty humble-ish beginnings.") 
+  ])
+);
+City London = City(
+  "London", 
+  List<Stop>.from([ 
+    Stop.create("", "", ""),
+    Stop.create("", "", ""),
+    Stop.create("", "", ""),
+    Stop.create("", "", ""),
+    Stop.create("", "", ""),
+    Stop.create("", "", ""),
+    Stop.create("", "", ""),
+    Stop.create("", "", ""),
+    Stop.create("", "", "") 
   ])
 );
 City CiudadDeMexico = City(
@@ -111,6 +166,48 @@ City CiudadDeMexico = City(
           ListTile(
             leading: Icon(Icons.flight_takeoff_rounded),
             title: Text(
+              'Venezia',
+              style: TextStyle(color: Colors.black, fontSize: 20),
+            ),
+            subtitle: Text('The city unlocks with at least 8700 steps', style: TextStyle(color: Colors.grey),),
+            trailing: ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                primary: Color.fromARGB(255, 48, 41, 255),        
+                elevation: 3,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+              ),
+              onPressed: () {
+                
+                _toStopsCities(ctx, Venezia); 
+              },
+              label: Text('Visit'),
+              icon: Icon(Icons.navigate_next_outlined),      
+            ),
+          ),
+          ListTile(
+            leading: Icon(Icons.flight_takeoff_rounded),
+            title: Text(
+              'Roma',
+              style: TextStyle(color: Colors.black, fontSize: 20),
+            ),
+            subtitle: Text('The city unlocks with at least 17000 steps', style: TextStyle(color: Colors.grey),),
+            trailing: ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                primary: Color.fromARGB(255, 48, 41, 255),        
+                elevation: 3,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+              ),
+              onPressed: () {
+                
+                _toStopsCities(ctx, Roma); 
+              },
+              label: Text('Visit'),
+              icon: Icon(Icons.navigate_next_outlined),      
+            ),
+          ),
+          ListTile(
+            leading: Icon(Icons.flight_takeoff_rounded),
+            title: Text(
               'Padova',
               style: TextStyle(color: Colors.black, fontSize: 20),
             ),
@@ -124,6 +221,27 @@ City CiudadDeMexico = City(
               onPressed: () {
                 
                 _toStopsCities(ctx, Padova); 
+              },
+              label: Text('Visit'),
+              icon: Icon(Icons.navigate_next_outlined),      
+            ),
+          ),
+          ListTile(
+            leading: Icon(Icons.flight_takeoff_rounded),
+            title: Text(
+              'New York',
+              style: TextStyle(color: Colors.black, fontSize: 20),
+            ),
+            subtitle: Text('The city unlocks with at least 47800 steps', style: TextStyle(color: Colors.grey),),
+            trailing: ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                primary: Color.fromARGB(255, 48, 41, 255),        
+                elevation: 3,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+              ),
+              onPressed: () {
+                
+                _toStopsCities(ctx, NewYork); 
               },
               label: Text('Visit'),
               icon: Icon(Icons.navigate_next_outlined),      
@@ -147,6 +265,27 @@ City CiudadDeMexico = City(
                  
                 _toStopsCities(ctx, Paris);  
                             
+              },
+              label: Text('Visit'),
+              icon: Icon(Icons.navigate_next_outlined),      
+            ),
+          ),
+          ListTile(
+            leading: Icon(Icons.flight_takeoff_rounded),
+            title: Text(
+              'London',
+              style: TextStyle(color: Colors.black, fontSize: 20),
+            ),
+            subtitle: Text('The city unlocks with at least 105500 steps', style: TextStyle(color: Colors.grey),),
+            trailing: ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                primary: Color.fromARGB(255, 48, 41, 255),        
+                elevation: 3,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+              ),
+              onPressed: () {
+                
+                _toStopsCities(ctx, London); 
               },
               label: Text('Visit'),
               icon: Icon(Icons.navigate_next_outlined),      
