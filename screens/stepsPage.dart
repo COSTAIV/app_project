@@ -6,12 +6,29 @@ import 'package:provider/provider.dart';
 import 'package:city_app/screens/exploreCities.dart';
 import 'package:city_app/screens/profilePage.dart';
 
+import 'package:syncfusion_flutter_charts/charts.dart'; ////////////////////
+import 'package:intl/intl.dart'; ////////////////////
+
 //HomePage can be Steless. Only the ListView content changes, not the HomePage by itself.
 class StepsPage extends StatelessWidget {
   StepsPage({Key? key}) : super(key: key);
 
   static const route = '/stepsPage/';
   static const routename = 'StepsPage';
+
+   //TooltipBehavior _tooltipBehavior;
+   final _tooltipBehavior = TooltipBehavior(enable: true); //nella versione del tipo questo viene 
+                                                          //messo dentro initstate 
+
+   final _zoomPanBehavior = ZoomPanBehavior(
+                  enableSelectionZooming: true,
+                  selectionRectBorderColor: Colors.red,
+                  selectionRectBorderWidth: 1,
+                  selectionRectColor: Colors.grey,
+                  enablePinching: true,
+                  zoomMode: ZoomMode.x,
+                  enablePanning: true,
+                );
 
   @override
   Widget build(BuildContext context) {
@@ -29,19 +46,7 @@ class StepsPage extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
-                
-              },
-              child: Text('An option'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                
-              },
-              child: Text('Another option'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                _toExploreCities(context);
+                _toExploresCities(context);
               },
               child: Text('Explore Cities'),
             ),
@@ -56,17 +61,57 @@ class StepsPage extends StatelessWidget {
       ),
 
       //The FAB is used to add random entries to the Todo table
-      floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-          },
-          child: Icon(Icons.add)),
+      //floatingActionButton:
+          //FloatingActionButton(onPressed: () async {}, child: Icon(Icons.add)),
 
       body: Center(
-        child:
-            
+        child: 
+        
+        Consumer<DatabaseRepository>(builder: (context, dbr, child) {
+        return FutureBuilder(
+          initialData: null,
+            future: dbr.findAllDaySteps(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final data = snapshot.data as List<Day_steps>;
+        
+        return SfCartesianChart(
+          title: ChartTitle(text: 'Your steps'),
+          legend: Legend(isVisible: true),
+          tooltipBehavior: _tooltipBehavior,
+          zoomPanBehavior: _zoomPanBehavior,
+          enableAxisAnimation: true, 
+          series: <ChartSeries>[
+            LineSeries<Day_steps, DateTime>(
+                name: 'steps',
+                dataSource: data,
+                xValueMapper: (Day_steps day_steps, _) => day_steps.dateTime,
+                yValueMapper: (Day_steps day_steps, _) => day_steps.d_steps,
+                dataLabelSettings: DataLabelSettings(isVisible: true),
+                enableTooltip: true)
+          ],
+          primaryXAxis: DateTimeAxis(
+            enableAutoIntervalOnZooming: true,
+            //edgeLabelPlacement: EdgeLabelPlacement.shift,
+          ),
+          primaryYAxis: NumericAxis(),
+        );
+             
+        } else {
+                //A CircularProgressIndicator is shown while the list of Todo is loading.
+                return CircularProgressIndicator();
+              } //else
+            }, //builder of FutureBuilder
+          );
+        }
+        
+        
+
+
+        
             //To do so, we use a Consumer of DatabaseRepository in order to rebuild the widget tree when
             //entries are deleted or created.
-            Consumer<DatabaseRepository>(builder: (context, dbr, child) {
+            /*Consumer<DatabaseRepository>(builder: (context, dbr, child) {
           //The logic is to query the DB for the entire list of Todo using dbr.findAllTodos()
           //and then populate the ListView accordingly.
           //We need to use a FutureBuilder since the result of dbr.findAllTodos() is a Future.
@@ -111,19 +156,19 @@ class StepsPage extends StatelessWidget {
               } //else
             }, //builder of FutureBuilder
           );
-        }),
+        }*/),
       ),
     );
   } //build
 
- 
 } //StepsPage
 
+void _toExploresCities(BuildContext context) {
+  Navigator.pushNamed(context, '/exploreCities/');
+}
 
-  void _toExploreCities(BuildContext context) {
-    Navigator.pushNamed(context, '/exploreCities/');
-  }
+void _toProfilePage(BuildContext context) {
+  Navigator.of(context).pushReplacementNamed(ProfilePage.route);
+} //_toProfilePage
 
- void _toProfilePage(BuildContext context) {
-    Navigator.of(context).pushReplacementNamed(ProfilePage.route);
-  } //_toProfilePage
+

@@ -6,7 +6,7 @@ import 'package:floor/floor.dart';
 @dao
 abstract class DayStepsDao {
   //Query #1: SELECT -> this allows to obtain all the entries of the Day_steps table
-  @Query('SELECT * FROM Day_steps')
+  @Query('SELECT * FROM Day_steps ORDER BY Day_steps.dateTime ASC')     //trovato su sql_query examples
   Future<List<Day_steps>> findAllDaySteps();
 
   //Query #2: INSERT -> this allows to add a Todo in the table

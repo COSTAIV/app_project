@@ -129,7 +129,8 @@ class _$DayStepsDao extends DayStepsDao {
 
   @override
   Future<List<Day_steps>> findAllDaySteps() async {
-    return _queryAdapter.queryList('SELECT * FROM Day_steps',
+    return _queryAdapter.queryList(
+        'SELECT * FROM Day_steps ORDER BY Day_steps.dateTime ASC',
         mapper: (Map<String, Object?> row) => Day_steps(
             row['id'] as int?,
             _dateTimeConverter.decode(row['dateTime'] as int),
