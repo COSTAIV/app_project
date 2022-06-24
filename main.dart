@@ -12,9 +12,8 @@ import 'package:city_app/screens/profilepage.dart';
 import 'package:city_app/screens/loginpage.dart';
 import 'package:city_app/screens/exploreCities.dart';
 import 'package:city_app/screens/stopsCities.dart';
-
 import 'package:city_app/screens/stepsPage.dart';
-import 'package:provider/provider.dart';
+
 
 Future<void> main() async {
   //This is a special method that use WidgetFlutterBinding to interact with the Flutter engine.
