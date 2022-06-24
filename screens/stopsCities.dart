@@ -1,8 +1,7 @@
-import 'package:city_app/utils/stops_names.dart';
-import 'package:city_app/utils/stops_images.dart';
-import 'package:city_app/utils/descriptions.dart';
 import 'package:flutter/material.dart';
 import 'package:im_stepper/stepper.dart';
+
+import 'package:city_app/models/City.dart';
 
 class IconStepperDemos extends StatefulWidget {
   const IconStepperDemos({Key? key}) : super(key: key);
@@ -18,18 +17,29 @@ class IconStepperDemos extends StatefulWidget {
 class _IconStepperDemo extends State<IconStepperDemos> {
   // THE FOLLOWING TWO VARIABLES ARE REQUIRED TO CONTROL THE STEPPER.
   int activeStep = 0; // Initial step set to 0.
-  int upperBound = 10; // upperBound MUST BE total number of icons minus 1.
+  int stopIndex = 0; // Index used to navigate the City stop array
+  int upperBound = 9; // upperBound MUST BE total number of icons minus 1.
   int n_steps= 50;
-
+  
+  City? city;
   
   @override
   Widget build(BuildContext context) {
+
+    city = ModalRoute.of(context)?.settings.arguments as City;
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              _toExploreCities(context);
+            },
+            icon: Icon(Icons.arrow_back_rounded)
+          ),
           title: Text(
-            'Padova', //qui metto city.name
+            city?.name ?? "",
             style: TextStyle(color: Colors.white),
           ),
             backgroundColor: Color.fromARGB(255, 5, 185, 137).withOpacity(0.5),
@@ -57,18 +67,20 @@ class _IconStepperDemo extends State<IconStepperDemos> {
                 onStepReached: (index) {
                   setState(() {
                     activeStep = index;
+                    stopIndex = index >= 9 ? 0 : index ;
+                    
                   });
                 },
                 activeStepColor: Color.fromARGB(255, 5, 185, 137),
               ),
-              header(),// qui aggiungo tra le parentesi la citta con il nome delle tappe
+              header(),
                 Container(
                   height: 200.0,
                   width: 400.0,
                   decoration: BoxDecoration(
                     image:DecorationImage(                      
                       image: NetworkImage(
-                        stopImage() //qui aggiungo la citta a cui ci riferiamo
+                        city?.stops[stopIndex]?.img ?? "" 
                         ),
                       fit: BoxFit.fill,                     
                     ),
@@ -100,13 +112,19 @@ class _IconStepperDemo extends State<IconStepperDemos> {
                       ),
                     ],
                   ),
-                  child: Text( 
-                    descriptionText(), //qui aggiungo a che citta ci stiamo riferendo
-                    style: TextStyle( 
-                      color: Color.fromARGB(255, 0, 0, 0),
-                      fontSize: 20,
+                  child: SingleChildScrollView(
+                          scrollDirection: Axis.vertical,//.horizontal
+                          child: Padding(
+                            padding: EdgeInsets.all(20), //You can use EdgeInsets like above
+                            child: Text( 
+                                        city?.stops[stopIndex]?.desc ?? "", 
+                                        style: TextStyle( 
+                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          fontSize: 20,
+                                        ),
+                                  ),
+                          ),
                     ),
-                  ),
                 ),
               ),
               Row(
@@ -141,6 +159,7 @@ class _IconStepperDemo extends State<IconStepperDemos> {
         if (activeStep < upperBound) {
           setState(() {
             activeStep++;
+            stopIndex = activeStep >= 9 ? 0 : activeStep;
           });
         }
       },
@@ -161,7 +180,14 @@ class _IconStepperDemo extends State<IconStepperDemos> {
         // Decrement activeStep, when the previous button is tapped. However, check for lower bound i.e., must be greater than 0.
         if (activeStep > 0) {
           setState(() {
-            activeStep--;
+            if (activeStep >= 0 && activeStep < 9) {
+              activeStep--;
+              stopIndex--;
+            }
+            else {
+              activeStep--;
+              stopIndex = activeStep;
+            }
           });
         }
       },
@@ -170,8 +196,10 @@ class _IconStepperDemo extends State<IconStepperDemos> {
     );
   }
 
+    
   /// Returns the header wrapping the header text.
-  Widget header() {
+  Widget header() {  
+    
     return Container(
       decoration: BoxDecoration(
         color: Color.fromARGB(255, 5, 185, 137),
@@ -182,7 +210,8 @@ class _IconStepperDemo extends State<IconStepperDemos> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              headerText(),
+              city?.stops[stopIndex]?.name ?? "",
+              
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 20,
@@ -194,71 +223,8 @@ class _IconStepperDemo extends State<IconStepperDemos> {
     );
   }
 
-  // Returns the header text based on the activeStep.
-  String headerText() {
-    switch (activeStep) {
-      case 1:
-        return Padova_stops.stop2;
-      case 2:
-        return Padova_stops.stop3;
-      case 3:
-        return Padova_stops.stop4;
-      case 4:
-        return Padova_stops.stop5;
-      case 5:
-        return Padova_stops.stop6;
-      case 6:
-        return Padova_stops.stop7;        
-      case 7:
-        return Padova_stops.stop8;
-      case 8:
-        return Padova_stops.stop9;
-      default:
-        return Padova_stops.stop1;
-    }
+  void _toExploreCities(BuildContext context) {
+    Navigator.pop(context, '/exploreCities/');
   }
-  String stopImage() {
-    switch (activeStep) {
-      case 1:
-        return Padova_stops_images.im2;//scrovegni
-      case 2:
-        return Padova_stops_images.im3;//bo
-      case 3:
-        return Padova_stops_images.im4;//ragione
-      case 4:
-        return Padova_stops_images.im5;//prato
-      case 5:
-        return Padova_stops_images.im6;//s.antonio
-      case 6:
-        return Padova_stops_images.im7;//iris        
-      case 7:
-        return Padova_stops_images.im8;//ikea
-      case 8:
-        return Padova_stops_images.im9;//naviglio
-      default:
-        return Padova_stops_images.im1;//stazione
-    }
-  }
-  String descriptionText() {
-    switch (activeStep) {
-      case 1:
-        return Padova_descriptions.des2;
-      case 2:
-        return Padova_descriptions.des3;
-      case 3:
-        return Padova_descriptions.des4;
-      case 4:
-        return Padova_descriptions.des5;
-      case 5:
-        return Padova_descriptions.des6;
-      case 6:
-        return Padova_descriptions.des7;        
-      case 7:
-        return Padova_descriptions.des8;
-      case 8:
-        return Padova_descriptions.des9;
-      default:
-        return Padova_descriptions.des1;
-    }
-  }
+  
 }

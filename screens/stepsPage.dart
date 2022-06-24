@@ -41,7 +41,7 @@ class StepsPage extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                _toExploresCities(context);
+                _toExploreCities(context);
               },
               child: Text('Explore Cities'),
             ),
@@ -120,7 +120,7 @@ class StepsPage extends StatelessWidget {
 } //StepsPage
 
 
-  void _toExploresCities(BuildContext context) {
+  void _toExploreCities(BuildContext context) {
     Navigator.pushNamed(context, '/exploreCities/');
   }
 
