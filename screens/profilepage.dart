@@ -10,12 +10,17 @@ import 'package:city_app/repository/databaseRepository.dart';
 import 'package:floor/floor.dart';
 //import 'package:city_app/database/typeConverters/dateTimeConverter.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
   static const route = '/profile/';
   static const routename = 'Profilepage';
 
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     print('${ProfilePage.routename} built');
@@ -27,6 +32,27 @@ class ProfilePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            FutureBuilder(
+              future: SharedPreferences.getInstance(),
+              builder: ((context, snapshot) {
+                if(snapshot.hasData){
+                  final sp = snapshot.data as SharedPreferences;
+                  if(sp.getDouble('week_steps') == null)
+                  {
+                      sp.setDouble('week_steps', 0);
+                      return Text ('Last week you walked 0 steps !');
+                  }
+                  else
+                  {
+                    return Text ('Last week you walked ${sp.getDouble('week_steps')} steps !');
+                  }
+                }
+                else{
+                  return CircularProgressIndicator();
+                }
+              }),
+            ),
+            
             IconButton(
               icon: Icon(Icons.logout),
               onPressed: () async {
@@ -50,7 +76,7 @@ class ProfilePage extends StatelessWidget {
                 //}
 
                 String? user_id = sp.getString('userId');
-                print(user_id); //check
+               
                 //Instantiate a proper data manager
                 FitbitActivityTimeseriesDataManager
                     fitbitActivityTimeseriesDataManager =
@@ -63,8 +89,7 @@ class ProfilePage extends StatelessWidget {
                 //Fetch step data
                 final stepsData = await fitbitActivityTimeseriesDataManager
                     .fetch(FitbitActivityTimeseriesAPIURL.weekWithResource(
-                  //baseDate: DateTime.now().subtract(Duration(days: 1)),
-                  baseDate: DateTime.now(),
+                  baseDate: DateTime.now().subtract(Duration(days: 1)),
                   userID: userId,
                   resource: fitbitActivityTimeseriesDataManager.type,
                 )) as List<FitbitActivityTimeseriesData>;
@@ -92,8 +117,9 @@ class ProfilePage extends StatelessWidget {
                       .insertDaySteps(newdaysteps);
                    
                 }
-
-                //stepsData = null;
+                setState(() {
+                  sp.setDouble('week_steps', lastweek_steps);
+                });
 
                 // Use them as you want
                 final snackBar = SnackBar(
@@ -130,8 +156,8 @@ class ProfilePage extends StatelessWidget {
         ),
       ),
     );
-  } //build
-
+  } 
+ //build
   void _toLoginPage(BuildContext context) async {
     //Unset the 'username' filed in SharedPreference
     final sp = await SharedPreferences.getInstance();
@@ -150,36 +176,13 @@ class ProfilePage extends StatelessWidget {
       await Provider.of<DatabaseRepository>(context, listen: false)
           .removeDaySteps(data[i]);
     }
+    final sp = await SharedPreferences.getInstance();
+    setState(() {
+    sp.remove('week_steps');
+    });
   }
 
   void _tostepsPage(BuildContext context) {
     Navigator.of(context).pushReplacementNamed(StepsPage.route);
   }
-
-  /*Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-            context: context,
-            initialDate: _selectedDate,
-            firstDate: DateTime(2010),
-            lastDate: DateTime(2101))
-        .then((value) async {
-      if (value != null) {
-        TimeOfDay? pickedTime = await showTimePicker(
-          context: context,
-          initialTime: TimeOfDay(
-              hour: _selectedDate.hour, minute: _selectedDate.minute),
-        );
-        return pickedTime != null
-            ? value.add(
-                Duration(hours: pickedTime.hour, minutes: pickedTime.minute))
-            : null;
-      }
-      return null;
-    });
-    if (picked != null && picked != _selectedDate)
-      //Here, I'm using setState to update the _selectedDate field and rebuild the UI.
-      setState(() {
-        _selectedDate = picked;
-      });
-  } //_selectDate*/
 } //ProfilePage
