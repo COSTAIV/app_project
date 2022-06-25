@@ -52,6 +52,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 }
               }),
             ),
+
+            //poi farai un future builder per il sonno 
             
             IconButton(
               icon: Icon(Icons.logout),
@@ -61,9 +63,6 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             ElevatedButton(
               onPressed: () async {
-                //final sp = await SharedPreferences.getInstance();
-                //if (sp.getString('userId') == null) {     cambia logica perche expires il token mi sa ...
-                // Authorize the app se non lhai gia fatto
                 String? userId = await FitbitConnector.authorize(
                     context: context,
                     clientID: ClientInfo.fitbitClientID,
@@ -94,8 +93,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   resource: fitbitActivityTimeseriesDataManager.type,
                 )) as List<FitbitActivityTimeseriesData>;
 
-                //riempimento database con passi
 
+
+                //riempimento database con passi
                 double lastweek_steps = 0;
                 //DateTime _selectedDate;
                 for (var i = 0; i < stepsData.length; i++) {
