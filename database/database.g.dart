@@ -61,7 +61,7 @@ class _$AppDatabase extends AppDatabase {
     changeListener = listener ?? StreamController<String>.broadcast();
   }
 
-  DayStepsDao? _daystepsDaoInstance;
+  DayInfosDao? _dayinfosDaoInstance;
 
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback? callback]) async {
@@ -82,7 +82,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Day_steps` (`id` INTEGER, `dateTime` INTEGER NOT NULL, `d_steps` REAL NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `Day_infos` (`id` INTEGER, `dateTime` INTEGER NOT NULL, `d_steps` REAL NOT NULL, `sleep_minutes` REAL NOT NULL, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -91,30 +91,32 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
-  DayStepsDao get daystepsDao {
-    return _daystepsDaoInstance ??= _$DayStepsDao(database, changeListener);
+  DayInfosDao get dayinfosDao {
+    return _dayinfosDaoInstance ??= _$DayInfosDao(database, changeListener);
   }
 }
 
-class _$DayStepsDao extends DayStepsDao {
-  _$DayStepsDao(this.database, this.changeListener)
+class _$DayInfosDao extends DayInfosDao {
+  _$DayInfosDao(this.database, this.changeListener)
       : _queryAdapter = QueryAdapter(database),
-        _day_stepsInsertionAdapter = InsertionAdapter(
+        _day_infosInsertionAdapter = InsertionAdapter(
             database,
-            'Day_steps',
-            (Day_steps item) => <String, Object?>{
+            'Day_infos',
+            (Day_infos item) => <String, Object?>{
                   'id': item.id,
                   'dateTime': _dateTimeConverter.encode(item.dateTime),
-                  'd_steps': item.d_steps
+                  'd_steps': item.d_steps,
+                  'sleep_minutes': item.sleep_minutes
                 }),
-        _day_stepsDeletionAdapter = DeletionAdapter(
+        _day_infosDeletionAdapter = DeletionAdapter(
             database,
-            'Day_steps',
+            'Day_infos',
             ['id'],
-            (Day_steps item) => <String, Object?>{
+            (Day_infos item) => <String, Object?>{
                   'id': item.id,
                   'dateTime': _dateTimeConverter.encode(item.dateTime),
-                  'd_steps': item.d_steps
+                  'd_steps': item.d_steps,
+                  'sleep_minutes': item.sleep_minutes
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -123,29 +125,30 @@ class _$DayStepsDao extends DayStepsDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<Day_steps> _day_stepsInsertionAdapter;
+  final InsertionAdapter<Day_infos> _day_infosInsertionAdapter;
 
-  final DeletionAdapter<Day_steps> _day_stepsDeletionAdapter;
+  final DeletionAdapter<Day_infos> _day_infosDeletionAdapter;
 
   @override
-  Future<List<Day_steps>> findAllDaySteps() async {
+  Future<List<Day_infos>> findAllDayInfos() async {
     return _queryAdapter.queryList(
-        'SELECT * FROM Day_steps ORDER BY Day_steps.dateTime ASC',
-        mapper: (Map<String, Object?> row) => Day_steps(
+        'SELECT * FROM Day_infos ORDER BY Day_infos.dateTime ASC',
+        mapper: (Map<String, Object?> row) => Day_infos(
             row['id'] as int?,
             _dateTimeConverter.decode(row['dateTime'] as int),
-            row['d_steps'] as double));
+            row['d_steps'] as double,
+            row['sleep_minutes'] as double));
   }
 
   @override
-  Future<void> insertDaySteps(Day_steps day_steps) async {
-    await _day_stepsInsertionAdapter.insert(
-        day_steps, OnConflictStrategy.ignore);
+  Future<void> insertDayInfos(Day_infos day_infos) async {
+    await _day_infosInsertionAdapter.insert(
+        day_infos, OnConflictStrategy.ignore);
   }
 
   @override
-  Future<void> removeDaySteps(Day_steps task) async {
-    await _day_stepsDeletionAdapter.delete(task);
+  Future<void> removeDayInfos(Day_infos task) async {
+    await _day_infosDeletionAdapter.delete(task);
   }
 }
 

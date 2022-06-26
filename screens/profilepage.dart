@@ -1,8 +1,9 @@
-import 'package:city_app/database/entities/daysteps.dart';
+import 'package:city_app/database/entities/dayinfos.dart';
 import 'package:city_app/utils/client_info.dart';
 import 'package:flutter/material.dart';
 import 'package:city_app/screens/loginpage.dart';
 import 'package:city_app/screens/stepsPage.dart';
+import 'package:city_app/screens/sleepPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fitbitter/fitbitter.dart';
 import 'package:provider/provider.dart';
@@ -62,6 +63,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 style: TextStyle(fontSize: 24.0),
               ),
               onTap: () {
+                _tosleepPage(context);
                 title:
                 'Sleep';
               },
@@ -73,6 +75,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 style: TextStyle(fontSize: 24.0),
               ),
               onTap: () {
+                _tostepsPage(context);
                 title:
                 'Steps';
               },
@@ -140,6 +143,9 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             ElevatedButton(
               onPressed: () async {
+                //final sp = await SharedPreferences.getInstance();
+                //if (sp.getString('userId') == null) {     cambia logica perche expires il token mi sa ...
+                // Authorize the app se non lhai gia fatto
                 String? userId = await FitbitConnector.authorize(
                     context: context,
                     clientID: ClientInfo.fitbitClientID,
@@ -195,9 +201,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     DateTime.now().subtract(Duration(days: 1));
                 current_day = DateUtils.dateOnly(current_day);
 
+
+                //riempimento database 
                 DateTime lim_inf = sleepData[0].entryDateTime!;
                 DateTime lim_sup = sleepData[0].entryDateTime!;
-                num minutes_of_sleep;
+                num minutes_of_sleep = 0;
+                int k = 0;
+                double lastweek_steps = 0;
 
                 for (var i = 0; i < sleepData.length - 2; i++) {
                   if (DateUtils.dateOnly(sleepData[i].dateOfSleep!) ==
@@ -208,36 +218,40 @@ class _ProfilePageState extends State<ProfilePage> {
                     minutes_of_sleep = (lim_sup.millisecondsSinceEpoch -
                             lim_inf.millisecondsSinceEpoch) /
                         60000;
+                    lastweek_steps += stepsData[k].value!;
                     print(minutes_of_sleep);
+                    Day_infos newdayinfos = Day_infos(
+                    stepsData[6 - k].dateOfMonitoring!.millisecondsSinceEpoch,
+                    stepsData[6 - k].dateOfMonitoring!,
+                    stepsData[6 - k].value!,
+                    minutes_of_sleep.toDouble(),
+                  ); //devo essere sicuro che non sono null
 
+
+                  //print (newdaysteps);
+                  await Provider.of<DatabaseRepository>(context, listen: false)
+                      .insertDayInfos(newdayinfos);
+
+                    k = k + 1;
                     ///salva in memoria minuti con data
-
                     lim_inf = sleepData[i + 1].entryDateTime!;
                     current_day = current_day.subtract(Duration(days: 1));
                   }
                 }
 
                 ////////////////////////////////////////////////
-                //riempimento database con passi
-                double lastweek_steps = 0;
+                
                 //DateTime _selectedDate;
                 for (var i = 0; i < stepsData.length; i++) {
                   //print (stepsData.length);
-                  lastweek_steps += stepsData[i].value!;
+                  
                   /*print (stepsData[i]
                           .dateOfMonitoring);
                   print (stepsData[i].value);*/
 
                   // _selectedDate =
 
-                  Day_steps newdaysteps = Day_steps(
-                    stepsData[i].dateOfMonitoring!.millisecondsSinceEpoch,
-                    stepsData[i].dateOfMonitoring!,
-                    stepsData[i].value!,
-                  ); //devo essere sicuro che non sono null
-                  //print (newdaysteps);
-                  await Provider.of<DatabaseRepository>(context, listen: false)
-                      .insertDaySteps(newdaysteps);
+                  
                 }
                 setState(() {
                   sp.setDouble('week_steps', lastweek_steps);
@@ -264,16 +278,11 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             ElevatedButton(
               onPressed: () async {
-                _deleteStepsTable(context);
+                _deleteInfosTable(context);
               },
               child: Text('Tap to delete the content of the database'),
             ),
-            ElevatedButton(
-              onPressed: () async {
-                _tostepsPage(context);
-              },
-              child: Text('to steps page'),
-            ),
+            
           ],
         ),
       ),
@@ -293,12 +302,12 @@ class _ProfilePageState extends State<ProfilePage> {
     Navigator.of(context).pushReplacementNamed(LoginPage.route);
   }
 
-  void _deleteStepsTable(BuildContext context) async {
+  void _deleteInfosTable(BuildContext context) async {
     final data = await Provider.of<DatabaseRepository>(context, listen: false)
-        .findAllDaySteps() as List<Day_steps>;
+        .findAllDayInfos() as List<Day_infos>;
     for (var i = 0; i < data.length; i++) {
       await Provider.of<DatabaseRepository>(context, listen: false)
-          .removeDaySteps(data[i]);
+          .removeDayInfos(data[i]);
     }
     final sp = await SharedPreferences.getInstance();
     setState(() {
@@ -308,5 +317,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void _tostepsPage(BuildContext context) {
     Navigator.of(context).pushReplacementNamed(StepsPage.route);
+  }
+  void _tosleepPage(BuildContext context) {
+    Navigator.of(context).pushReplacementNamed(SleepPage.route);
   }
 } //ProfilePage

@@ -10,11 +10,11 @@ import 'package:syncfusion_flutter_charts/charts.dart'; ////////////////////
 import 'package:intl/intl.dart'; ////////////////////
 
 //HomePage can be Steless. Only the ListView content changes, not the HomePage by itself.
-class StepsPage extends StatelessWidget {
-  StepsPage({Key? key}) : super(key: key);
+class SleepPage extends StatelessWidget {
+  SleepPage({Key? key}) : super(key: key);
 
-  static const route = '/stepsPage/';
-  static const routename = 'StepsPage';
+  static const route = '/sleepPage/';
+  static const routename = 'SleepPage';
 
    //TooltipBehavior _tooltipBehavior;
    final _tooltipBehavior = TooltipBehavior(enable: true); //nella versione del tipo questo viene 
@@ -32,10 +32,10 @@ class StepsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('${StepsPage.routename} built');
+    print('${SleepPage.routename} built');
     return Scaffold(
       appBar: AppBar(
-        title: Text(StepsPage.routename),
+        title: Text(SleepPage.routename),
       ),
 
       //menù laterale
@@ -76,17 +76,17 @@ class StepsPage extends StatelessWidget {
                 final data = snapshot.data as List<Day_infos>;
         
         return SfCartesianChart(
-          title: ChartTitle(text: 'Your steps'),
+          title: ChartTitle(text: 'Your hours of sleep'),
           legend: Legend(isVisible: true),
           tooltipBehavior: _tooltipBehavior,
           zoomPanBehavior: _zoomPanBehavior,
           enableAxisAnimation: true, 
           series: <ChartSeries>[
             LineSeries<Day_infos, DateTime>(
-                name: 'steps',
+                name: 'hours of sleep',
                 dataSource: data,
-                xValueMapper: (Day_infos day_steps, _) => day_steps.dateTime,
-                yValueMapper: (Day_infos day_steps, _) => day_steps.d_steps,
+                xValueMapper: (Day_infos day_sleep, _) => day_sleep.dateTime,
+                yValueMapper: (Day_infos day_sleep, _) => day_sleep.sleep_minutes / 60,
                 dataLabelSettings: DataLabelSettings(isVisible: true),
                 enableTooltip: true)
           ],

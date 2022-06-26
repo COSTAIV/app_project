@@ -13,6 +13,7 @@ import 'package:city_app/screens/loginpage.dart';
 import 'package:city_app/screens/exploreCities.dart';
 import 'package:city_app/screens/stopsCities.dart';
 import 'package:city_app/screens/stepsPage.dart';
+import 'package:city_app/screens/sleepPage.dart';
 
 
 Future<void> main() async {
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
         LoginPage.route: (context) => LoginPage(),
         ProfilePage.route: (context) => ProfilePage(),
         StepsPage.route: (context) => StepsPage(),
+        SleepPage.route: (context) => SleepPage(),
         ExploreCities.route: (context) => ExploreCities(),
         IconStepperDemos.route:(context) => IconStepperDemos(),
       },
