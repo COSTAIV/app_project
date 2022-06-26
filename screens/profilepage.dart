@@ -8,6 +8,15 @@ import 'package:fitbitter/fitbitter.dart';
 import 'package:provider/provider.dart';
 import 'package:city_app/repository/databaseRepository.dart';
 import 'package:floor/floor.dart';
+
+/*//test miei ///////////////////////////////////////////////////////
+import 'package:logger/logger.dart';
+import 'package:fitbitter/src/urls/fitbitAPIURL.dart';
+import 'package:fitbitter/src/data/fitbitData.dart';
+import 'package:fitbitter/src/data/fitbitSleepData.dart';
+import 'package:fitbitter/src/managers/fitbitDataManager.dart';
+////////////////////////////////////////////////////////////////////
+import 'package:dio/dio.dart';*/
 //import 'package:city_app/database/typeConverters/dateTimeConverter.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -21,6 +30,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final nicknameController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     print('${ProfilePage.routename} built');
@@ -28,31 +39,99 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         title: Text(ProfilePage.routename),
       ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+             UserAccountsDrawerHeader(
+              currentAccountPictureSize: Size.square(90.0),
+              currentAccountPicture: CircleAvatar(
+                backgroundImage: NetworkImage(
+                    'https://www.facciabuco.com/grafica/vignette/preview_big/futurama-fry.jpg'),
+              ),
+              accountEmail: Text(''),
+              accountName: Text(''),
+              decoration: BoxDecoration(
+                color: Color.fromARGB(177, 44, 100, 212),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.bed),
+              title: const Text(
+                'Sleep',
+                style: TextStyle(fontSize: 24.0),
+              ),
+              onTap: () {
+                title:
+                'Sleep';
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.directions_walk),
+              title: const Text(
+                'Steps',
+                style: TextStyle(fontSize: 24.0),
+              ),
+              onTap: () {
+                title:
+                'Steps';
+              },
+            ),
+          ],
+        ),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            CircleAvatar(
+              //foregroundColor: Color.fromARGB(176, 234, 237, 243),
+              radius: 100,
+              backgroundImage: NetworkImage(
+                  'https://www.facciabuco.com/grafica/vignette/preview_big/futurama-fry.jpg'),
+            ),
+            SizedBox(height: 10),
+            TextField(
+                controller: nicknameController,
+                style: TextStyle(
+                  fontSize: 24.0,
+                  color: Colors.white,
+                  fontFamily: 'OpenSans',
+                ),
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.only(top: 40.0),
+                  /*prefixIcon: Icon(
+                    Icons.person,
+                    size: 12,
+                    color: Colors.white,
+                  ),*/
+                  hintText: 'Edit your nickname',
+                  hintStyle: TextStyle(
+                    color: Color.fromARGB(137, 211, 19, 19),
+                    fontFamily: 'OpenSans',
+                  ),
+                ),
+              ),
+
+              SizedBox(height: 10),
             FutureBuilder(
               future: SharedPreferences.getInstance(),
               builder: ((context, snapshot) {
-                if(snapshot.hasData){
+                if (snapshot.hasData) {
                   final sp = snapshot.data as SharedPreferences;
-                  if(sp.getDouble('week_steps') == null)
-                  {
-                      sp.setDouble('week_steps', 0);
-                      return Text ('Last week you walked 0 steps !');
+                  if (sp.getDouble('week_steps') == null) {
+                    sp.setDouble('week_steps', 0);
+                    return Text('Last week you walked 0 steps !');
+                  } else {
+                    return Text(
+                        'Last week you walked ${sp.getDouble('week_steps')} steps !');
                   }
-                  else
-                  {
-                    return Text ('Last week you walked ${sp.getDouble('week_steps')} steps !');
-                  }
-                }
-                else{
+                } else {
                   return CircularProgressIndicator();
                 }
               }),
             ),
-            
             IconButton(
               icon: Icon(Icons.logout),
               onPressed: () async {
@@ -76,7 +155,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 //}
 
                 String? user_id = sp.getString('userId');
-               
+
                 //Instantiate a proper data manager
                 FitbitActivityTimeseriesDataManager
                     fitbitActivityTimeseriesDataManager =
@@ -94,8 +173,55 @@ class _ProfilePageState extends State<ProfilePage> {
                   resource: fitbitActivityTimeseriesDataManager.type,
                 )) as List<FitbitActivityTimeseriesData>;
 
-                //riempimento database con passi
+                //fetchare dati sonno ////
 
+                FitbitSleepDataManager fitbitSleepDataManager =
+                    FitbitSleepDataManager(
+                  clientID: ClientInfo.fitbitClientID,
+                  clientSecret: ClientInfo.fitbitClientSecret,
+                );
+
+                FitbitSleepAPIURL fitbitSleepAPIURL =
+                    FitbitSleepAPIURL.withUserIDAndDateRange(
+                  startDate: DateTime.now().subtract(Duration(days: 8)),
+                  endDate: DateTime.now().subtract(Duration(days: 1)),
+                  userID: userId,
+                );
+
+                //List<FitbitSleepAPIURL> fitbitSleepAPIURL = await fitbitSleepDataManager.fetch(fitbitSleepAPIURL);  nel sito prof
+                final sleepData = await fitbitSleepDataManager
+                    .fetch(fitbitSleepAPIURL) as List<FitbitSleepData>;
+                //final response = await getResponse(fitbitSleepAPIURL);
+
+                //trovo durata in minuti del sonno nelle varie giornate
+                DateTime current_day =
+                    DateTime.now().subtract(Duration(days: 1));
+                current_day = DateUtils.dateOnly(current_day);
+
+                DateTime lim_inf = sleepData[0].entryDateTime!;
+                DateTime lim_sup = sleepData[0].entryDateTime!;
+                num minutes_of_sleep;
+
+                for (var i = 0; i < sleepData.length - 2; i++) {
+                  if (DateUtils.dateOnly(sleepData[i].dateOfSleep!) ==
+                          current_day &&
+                      DateUtils.dateOnly(sleepData[i + 1].dateOfSleep!) !=
+                          current_day) {
+                    lim_sup = sleepData[i].entryDateTime!;
+                    minutes_of_sleep = (lim_sup.millisecondsSinceEpoch -
+                            lim_inf.millisecondsSinceEpoch) /
+                        60000;
+                    print(minutes_of_sleep);
+
+                    ///salva in memoria minuti con data
+
+                    lim_inf = sleepData[i + 1].entryDateTime!;
+                    current_day = current_day.subtract(Duration(days: 1));
+                  }
+                }
+
+                ////////////////////////////////////////////////
+                //riempimento database con passi
                 double lastweek_steps = 0;
                 //DateTime _selectedDate;
                 for (var i = 0; i < stepsData.length; i++) {
@@ -107,20 +233,18 @@ class _ProfilePageState extends State<ProfilePage> {
 
                   // _selectedDate =
 
-                  Day_steps newdaysteps = Day_steps(stepsData[i].dateOfMonitoring!.millisecondsSinceEpoch,
+                  Day_steps newdaysteps = Day_steps(
+                    stepsData[i].dateOfMonitoring!.millisecondsSinceEpoch,
                     stepsData[i].dateOfMonitoring!,
                     stepsData[i].value!,
                   ); //devo essere sicuro che non sono null
                   //print (newdaysteps);
-                  await Provider.of<DatabaseRepository>(context,
-                          listen: false)
+                  await Provider.of<DatabaseRepository>(context, listen: false)
                       .insertDaySteps(newdaysteps);
-                   
                 }
                 setState(() {
                   sp.setDouble('week_steps', lastweek_steps);
                 });
-
                 // Use them as you want
                 final snackBar = SnackBar(
                     content:
@@ -130,6 +254,7 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Text('Tap to synchronize your data'),
             ),
             ElevatedButton(
+              //style: ,
               onPressed: () async {
                 await FitbitConnector.unauthorize(
                   clientID: ClientInfo.fitbitClientID,
@@ -156,12 +281,14 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
     );
-  } 
- //build
+  }
+
+  //build
   void _toLoginPage(BuildContext context) async {
     //Unset the 'username' filed in SharedPreference
     final sp = await SharedPreferences.getInstance();
     sp.remove('logged');
+    sp.remove('email');
 
     //Pop the drawer first
     //Navigator.pop(context);        funziona correttemente senza a me ..., al prof va messa
@@ -178,7 +305,7 @@ class _ProfilePageState extends State<ProfilePage> {
     }
     final sp = await SharedPreferences.getInstance();
     setState(() {
-    sp.remove('week_steps');
+      sp.remove('week_steps');
     });
   }
 
