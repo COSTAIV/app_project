@@ -1,3 +1,4 @@
+
 import 'package:city_app/database/entities/dayinfos.dart';
 import 'package:city_app/repository/databaseRepository.dart';
 import 'package:flutter/material.dart';
@@ -86,7 +87,7 @@ class SleepPage extends StatelessWidget {
                 name: 'hours of sleep',
                 dataSource: data,
                 xValueMapper: (Day_infos day_sleep, _) => day_sleep.dateTime,
-                yValueMapper: (Day_infos day_sleep, _) => day_sleep.sleep_minutes / 60,
+                yValueMapper: (Day_infos day_sleep, _) => double.parse((day_sleep.sleep_minutes / 60).toStringAsFixed(2)),
                 dataLabelSettings: DataLabelSettings(isVisible: true),
                 enableTooltip: true)
           ],
@@ -170,5 +171,7 @@ void _toExploresCities(BuildContext context) {
 void _toProfilePage(BuildContext context) {
   Navigator.of(context).pushReplacementNamed(ProfilePage.route);
 } //_toProfilePage
+
+
 
 

@@ -1,4 +1,5 @@
 import 'package:city_app/database/entities/dayinfos.dart';
+import 'package:city_app/database/entities/yeasterdaysleep.dart';
 import 'package:city_app/utils/client_info.dart';
 import 'package:flutter/material.dart';
 import 'package:city_app/screens/loginpage.dart';
@@ -10,15 +11,11 @@ import 'package:provider/provider.dart';
 import 'package:city_app/repository/databaseRepository.dart';
 import 'package:floor/floor.dart';
 
-/*//test miei ///////////////////////////////////////////////////////
-import 'package:logger/logger.dart';
-import 'package:fitbitter/src/urls/fitbitAPIURL.dart';
-import 'package:fitbitter/src/data/fitbitData.dart';
-import 'package:fitbitter/src/data/fitbitSleepData.dart';
-import 'package:fitbitter/src/managers/fitbitDataManager.dart';
-////////////////////////////////////////////////////////////////////
-import 'package:dio/dio.dart';*/
-//import 'package:city_app/database/typeConverters/dateTimeConverter.dart';
+
+import 'package:syncfusion_flutter_charts/charts.dart'; ////////////////////
+import 'package:intl/intl.dart'; ////////////////////
+
+
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -44,7 +41,7 @@ class _ProfilePageState extends State<ProfilePage> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-             UserAccountsDrawerHeader(
+            UserAccountsDrawerHeader(
               currentAccountPictureSize: Size.square(90.0),
               currentAccountPicture: CircleAvatar(
                 backgroundImage: NetworkImage(
@@ -95,29 +92,28 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             SizedBox(height: 10),
             TextField(
-                controller: nicknameController,
-                style: TextStyle(
-                  fontSize: 24.0,
-                  color: Colors.white,
-                  fontFamily: 'OpenSans',
-                ),
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.only(top: 40.0),
-                  /*prefixIcon: Icon(
+              controller: nicknameController,
+              style: TextStyle(
+                fontSize: 24.0,
+                color: Colors.white,
+                fontFamily: 'OpenSans',
+              ),
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.only(top: 40.0),
+                /*prefixIcon: Icon(
                     Icons.person,
                     size: 12,
                     color: Colors.white,
                   ),*/
-                  hintText: 'Edit your nickname',
-                  hintStyle: TextStyle(
-                    color: Color.fromARGB(137, 211, 19, 19),
-                    fontFamily: 'OpenSans',
-                  ),
+                hintText: 'Edit your nickname',
+                hintStyle: TextStyle(
+                  color: Color.fromARGB(137, 211, 19, 19),
+                  fontFamily: 'OpenSans',
                 ),
               ),
-
-              SizedBox(height: 10),
+            ),
+            SizedBox(height: 10),
             FutureBuilder(
               future: SharedPreferences.getInstance(),
               builder: ((context, snapshot) {
@@ -200,14 +196,15 @@ class _ProfilePageState extends State<ProfilePage> {
                 DateTime current_day =
                     DateTime.now().subtract(Duration(days: 1));
                 current_day = DateUtils.dateOnly(current_day);
+                final yeasterday = current_day;
 
-
-                //riempimento database 
+                //riempimento database (magari mettilo sottoforma di funzione da chiamare)
                 DateTime lim_inf = sleepData[0].entryDateTime!;
                 DateTime lim_sup = sleepData[0].entryDateTime!;
                 num minutes_of_sleep = 0;
                 int k = 0;
                 double lastweek_steps = 0;
+                double lastweek_sleep = 0;
 
                 for (var i = 0; i < sleepData.length - 2; i++) {
                   if (DateUtils.dateOnly(sleepData[i].dateOfSleep!) ==
@@ -219,42 +216,48 @@ class _ProfilePageState extends State<ProfilePage> {
                             lim_inf.millisecondsSinceEpoch) /
                         60000;
                     lastweek_steps += stepsData[k].value!;
+                    lastweek_steps += minutes_of_sleep;
                     print(minutes_of_sleep);
                     Day_infos newdayinfos = Day_infos(
-                    stepsData[6 - k].dateOfMonitoring!.millisecondsSinceEpoch,
-                    stepsData[6 - k].dateOfMonitoring!,
-                    stepsData[6 - k].value!,
-                    minutes_of_sleep.toDouble(),
-                  ); //devo essere sicuro che non sono null
+                      stepsData[6 - k].dateOfMonitoring!.millisecondsSinceEpoch,
+                      stepsData[6 - k].dateOfMonitoring!,
+                      stepsData[6 - k].value!,
+                      minutes_of_sleep.toDouble(),
+                    ); //devo essere sicuro che non sono null
 
-
-                  //print (newdaysteps);
-                  await Provider.of<DatabaseRepository>(context, listen: false)
-                      .insertDayInfos(newdayinfos);
+                    //print (newdaysteps);
+                    await Provider.of<DatabaseRepository>(context,
+                            listen: false)
+                        .insertDayInfos(newdayinfos);
 
                     k = k + 1;
+
                     ///salva in memoria minuti con data
                     lim_inf = sleepData[i + 1].entryDateTime!;
                     current_day = current_day.subtract(Duration(days: 1));
                   }
+
+                  if (DateUtils.dateOnly(sleepData[i].dateOfSleep!) ==
+                      yeasterday) {
+                    Yeasterday_sleep newyeasterday = Yeasterday_sleep(
+                      sleepData[i].entryDateTime!.millisecondsSinceEpoch,
+                      DateTime.now().subtract(Duration(days: 1)),
+                      sleepData[i].level!,
+                      sleepData[i].entryDateTime!,
+                    );
+                    print (i);
+                    //inserisco primo per discorso indici
+                    await Provider.of<DatabaseRepository>(context,
+                            listen: false)
+                        .insertYeasterdaySleep(newyeasterday);
+                  }
                 }
 
-                ////////////////////////////////////////////////
-                
-                //DateTime _selectedDate;
-                for (var i = 0; i < stepsData.length; i++) {
-                  //print (stepsData.length);
-                  
-                  /*print (stepsData[i]
-                          .dateOfMonitoring);
-                  print (stepsData[i].value);*/
-
-                  // _selectedDate =
-
-                  
-                }
                 setState(() {
                   sp.setDouble('week_steps', lastweek_steps);
+                });
+                setState(() {
+                  sp.setDouble('week_sleep', lastweek_sleep);
                 });
                 // Use them as you want
                 final snackBar = SnackBar(
@@ -282,7 +285,6 @@ class _ProfilePageState extends State<ProfilePage> {
               },
               child: Text('Tap to delete the content of the database'),
             ),
-            
           ],
         ),
       ),
@@ -309,15 +311,24 @@ class _ProfilePageState extends State<ProfilePage> {
       await Provider.of<DatabaseRepository>(context, listen: false)
           .removeDayInfos(data[i]);
     }
+    final data_yeasterdaysleep =
+        await Provider.of<DatabaseRepository>(context, listen: false)
+            .findAllYeasterdaySleep() as List<Yeasterday_sleep>;
+    for (var i = 0; i < data_yeasterdaysleep.length; i++) {
+      await Provider.of<DatabaseRepository>(context, listen: false)
+          .removeYeasterdaySleep(data_yeasterdaysleep[i]);
+    }
     final sp = await SharedPreferences.getInstance();
     setState(() {
       sp.remove('week_steps');
+      sp.remove('week_sleep');
     });
   }
 
   void _tostepsPage(BuildContext context) {
     Navigator.of(context).pushReplacementNamed(StepsPage.route);
   }
+
   void _tosleepPage(BuildContext context) {
     Navigator.of(context).pushReplacementNamed(SleepPage.route);
   }
