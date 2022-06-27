@@ -37,11 +37,18 @@ class SleepPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(SleepPage.routename),
+        backgroundColor: Color.fromARGB(255, 48, 41, 255).withOpacity(0.8),
+        leading: IconButton(
+          onPressed: () {
+          _toProfilePage(context);
+        },
+         icon: Icon(Icons.arrow_back_rounded),
+      ),
       ),
 
       //menù laterale
 
-      drawer: Drawer(
+      /*endDrawer: Drawer(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -59,7 +66,7 @@ class SleepPage extends StatelessWidget {
             ),
           ],
         ),
-      ),
+      ),*/
 
       //The FAB is used to add random entries to the Todo table
       //floatingActionButton:
