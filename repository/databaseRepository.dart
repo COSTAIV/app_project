@@ -1,6 +1,6 @@
 import 'package:city_app/database/database.dart';
 import 'package:city_app/database/entities/dayinfos.dart';
-import 'package:city_app/database/entities/yeasterdaysleep.dart';
+import 'package:city_app/database/entities/yesterdaysleep.dart';
 import 'package:flutter/material.dart';
 
 class DatabaseRepository extends ChangeNotifier {
@@ -33,21 +33,21 @@ class DatabaseRepository extends ChangeNotifier {
 
 
     //This method wraps the findAllTodos() method of the DAO
-  Future<List<Yeasterday_sleep>> findAllYeasterdaySleep() async {
-    final results = await database.yeasterdaysleepDao.findAllYeasterdaySleep();
+  Future<List<Yesterday_sleep>> findAllYesterdaySleep() async {
+    final results = await database.yesterdaysleepDao.findAllYesterdaySleep();
     return results;
   } //findAllTodos
 
   //This method wraps the insertTodo() method of the DAO.
   //Then, it notifies the listeners that something changed.
-  Future<void> insertYeasterdaySleep(Yeasterday_sleep yeasterday_sleep) async {
-    await database.yeasterdaysleepDao.insertYeasterdaySleep(yeasterday_sleep);
+  Future<void> insertYesterdaySleep(Yesterday_sleep yesterday_sleep) async {
+    await database.yesterdaysleepDao.insertYesterdaySleep(yesterday_sleep);
     notifyListeners();
   } 
  
   //Then, it notifies the listeners that something changed.
-  Future<void> removeYeasterdaySleep(Yeasterday_sleep yeasterday_sleep) async {
-    await database.yeasterdaysleepDao.removeYeasterdaySleep(yeasterday_sleep);
+  Future<void> removeYesterdaySleep(Yesterday_sleep yesterday_sleep) async {
+    await database.yesterdaysleepDao.removeYesterdaySleep(yesterday_sleep);
     notifyListeners();
   } //removeDaySteps
 

@@ -78,7 +78,7 @@ class SleepPage extends StatelessWidget {
         
         return SfCartesianChart(
           title: ChartTitle(text: 'Your hours of sleep'),
-          legend: Legend(isVisible: true),
+          legend: Legend(isVisible: false),
           tooltipBehavior: _tooltipBehavior,
           zoomPanBehavior: _zoomPanBehavior,
           enableAxisAnimation: true, 

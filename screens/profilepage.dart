@@ -1,5 +1,5 @@
 import 'package:city_app/database/entities/dayinfos.dart';
-import 'package:city_app/database/entities/yeasterdaysleep.dart';
+import 'package:city_app/database/entities/yesterdaysleep.dart';
 import 'package:city_app/utils/client_info.dart';
 import 'package:flutter/material.dart';
 import 'package:city_app/screens/loginpage.dart';
@@ -11,11 +11,8 @@ import 'package:provider/provider.dart';
 import 'package:city_app/repository/databaseRepository.dart';
 import 'package:floor/floor.dart';
 
-
 import 'package:syncfusion_flutter_charts/charts.dart'; ////////////////////
 import 'package:intl/intl.dart'; ////////////////////
-
-
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -29,6 +26,8 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final nicknameController = TextEditingController();
+
+  final _tooltipBehavior = TooltipBehavior(enable: true);
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +76,41 @@ class _ProfilePageState extends State<ProfilePage> {
                 'Steps';
               },
             ),
+            ListTile(
+              leading: const Icon(Icons.unarchive),
+              title: const Text(
+                'Unauthorize',
+                style: TextStyle(fontSize: 24.0),
+              ),
+              onTap: () async{
+                await FitbitConnector.unauthorize(
+                  clientID: ClientInfo.fitbitClientID,
+                  clientSecret: ClientInfo.fitbitClientSecret,
+                );
+                final sp = await SharedPreferences.getInstance();
+                sp.remove('userId');
+                title:
+                'Unauthorize';
+              },
+            ), 
+            ListTile(
+              leading: const Icon(Icons.delete),
+              title: const Text(
+                'Delete your data',
+                style: TextStyle(fontSize: 24.0),
+              ),
+              onTap: () async{
+                _deleteInfosTable(context);
+                title:
+                'Delete your data';
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.logout),
+              onPressed: () async {
+                _toLoginPage(context);
+              },
+            ),
           ],
         ),
       ),
@@ -91,7 +125,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   'https://www.facciabuco.com/grafica/vignette/preview_big/futurama-fry.jpg'),
             ),
             SizedBox(height: 10),
-            TextField(
+            /*TextField(
               controller: nicknameController,
               style: TextStyle(
                 fontSize: 24.0,
@@ -112,7 +146,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   fontFamily: 'OpenSans',
                 ),
               ),
-            ),
+            ),*/
             SizedBox(height: 10),
             FutureBuilder(
               future: SharedPreferences.getInstance(),
@@ -131,12 +165,89 @@ class _ProfilePageState extends State<ProfilePage> {
                 }
               }),
             ),
-            IconButton(
-              icon: Icon(Icons.logout),
-              onPressed: () async {
-                _toLoginPage(context);
-              },
+
+            /////////////////////////////////////
+            ///
+            ///metti circularchart dei dati sonno di ieri
+            /////////////////////////////////////////////////\
+            Container(
+              width: 400,
+              height: 400,
+              child:
+                  Consumer<DatabaseRepository>(builder: (context, dbr, child) {
+                return FutureBuilder(
+                  initialData: null,
+                  future: dbr.findAllYesterdaySleep(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      final data = snapshot.data as List<Yesterday_sleep>;
+                      List<_PieData>? piedata = [
+                        _PieData('light', 0),
+                        _PieData('deep', 0),
+                        _PieData('rem', 0),
+                        _PieData('wake', 0)
+                      ];
+
+                      int cont_light = 0;
+                      int cont_deep = 0;
+                      int cont_rem = 0;
+                      int cont_wake = 0;
+
+                      //////////////riempimento della lista
+                      for (var i = 0; i < data.length; i++) {
+                        if (data[i].level == 'light') {
+                          cont_light++;
+                        }
+                        if (data[i].level == 'deep') {
+                          cont_deep++;
+                        }
+                        if (data[i].level == 'rem') {
+                          cont_rem++;
+                        }
+                        if (data[i].level == 'wake') {
+                          cont_wake++;
+                        }
+                      }
+
+                      piedata[0].yData = (cont_light * 30) / 60;
+                      piedata[1].yData = (cont_deep * 30) / 60;
+                      piedata[2].yData = (cont_rem * 30) / 60;
+                      piedata[3].yData = (cont_wake * 30) / 60;
+
+                      cont_light = 0;
+                      cont_deep = 0;
+                      cont_rem = 0;
+                      cont_wake = 0;
+
+                      return SfCircularChart(
+                        title: ChartTitle(text: 'Yesterday sleep'),
+                        legend: Legend(isVisible: true),
+                        tooltipBehavior: _tooltipBehavior,
+                        series: <PieSeries<_PieData, String>>[
+                          PieSeries<_PieData, String>(
+                              explode: true,
+                              explodeIndex: 0,
+                              name: 'sleep',
+                              dataSource: piedata,
+                              xValueMapper: (_PieData pie_data, _) =>
+                                  pie_data.xData,
+                              yValueMapper: (_PieData pie_data, _) =>
+                                pie_data.yData / 60, //dato in ore
+                              dataLabelSettings:
+                                  DataLabelSettings(isVisible: false),
+                              dataLabelMapper: (_PieData data, _) => data.text,
+                              enableTooltip: true)
+                        ],
+                      );
+                    } else {
+                      //A CircularProgressIndicator is shown while the list of Todo is loading.
+                      return CircularProgressIndicator();
+                    } //else
+                  }, //builder of FutureBuilder
+                );
+              }),
             ),
+
             ElevatedButton(
               onPressed: () async {
                 //final sp = await SharedPreferences.getInstance();
@@ -196,7 +307,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 DateTime current_day =
                     DateTime.now().subtract(Duration(days: 1));
                 current_day = DateUtils.dateOnly(current_day);
-                final yeasterday = current_day;
+                final yesterday = current_day;
 
                 //riempimento database (magari mettilo sottoforma di funzione da chiamare)
                 DateTime lim_inf = sleepData[0].entryDateTime!;
@@ -238,18 +349,18 @@ class _ProfilePageState extends State<ProfilePage> {
                   }
 
                   if (DateUtils.dateOnly(sleepData[i].dateOfSleep!) ==
-                      yeasterday) {
-                    Yeasterday_sleep newyeasterday = Yeasterday_sleep(
+                      yesterday) {
+                    Yesterday_sleep newyesterday = Yesterday_sleep(
                       sleepData[i].entryDateTime!.millisecondsSinceEpoch,
                       DateTime.now().subtract(Duration(days: 1)),
                       sleepData[i].level!,
                       sleepData[i].entryDateTime!,
                     );
-                    print (i);
+                    print(i);
                     //inserisco primo per discorso indici
                     await Provider.of<DatabaseRepository>(context,
                             listen: false)
-                        .insertYeasterdaySleep(newyeasterday);
+                        .insertYesterdaySleep(newyesterday);
                   }
                 }
 
@@ -267,7 +378,8 @@ class _ProfilePageState extends State<ProfilePage> {
               },
               child: Text('Tap to synchronize your data'),
             ),
-            ElevatedButton(
+            
+            /*ElevatedButton(
               //style: ,
               onPressed: () async {
                 await FitbitConnector.unauthorize(
@@ -278,13 +390,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 sp.remove('userId');
               },
               child: Text('Tap to unauthorize'),
-            ),
-            ElevatedButton(
+            ),*/
+            /*ElevatedButton(
               onPressed: () async {
                 _deleteInfosTable(context);
               },
               child: Text('Tap to delete the content of the database'),
-            ),
+            ),*/
           ],
         ),
       ),
@@ -313,10 +425,10 @@ class _ProfilePageState extends State<ProfilePage> {
     }
     final data_yeasterdaysleep =
         await Provider.of<DatabaseRepository>(context, listen: false)
-            .findAllYeasterdaySleep() as List<Yeasterday_sleep>;
+            .findAllYesterdaySleep() as List<Yesterday_sleep>;
     for (var i = 0; i < data_yeasterdaysleep.length; i++) {
       await Provider.of<DatabaseRepository>(context, listen: false)
-          .removeYeasterdaySleep(data_yeasterdaysleep[i]);
+          .removeYesterdaySleep(data_yeasterdaysleep[i]);
     }
     final sp = await SharedPreferences.getInstance();
     setState(() {
@@ -333,3 +445,10 @@ class _ProfilePageState extends State<ProfilePage> {
     Navigator.of(context).pushReplacementNamed(SleepPage.route);
   }
 } //ProfilePage
+
+class _PieData {
+  _PieData(this.xData, this.yData, [this.text]);
+  String xData = "";
+  num yData = 0;
+  String? text;
+}

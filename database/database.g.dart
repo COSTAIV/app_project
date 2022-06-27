@@ -63,7 +63,7 @@ class _$AppDatabase extends AppDatabase {
 
   DayInfosDao? _dayinfosDaoInstance;
 
-  YeasterdaySleepDao? _yeasterdaysleepDaoInstance;
+  YesterdaySleepDao? _yesterdaysleepDaoInstance;
 
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback? callback]) async {
@@ -86,7 +86,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `Day_infos` (`id` INTEGER, `dateTime` INTEGER NOT NULL, `d_steps` REAL NOT NULL, `sleep_minutes` REAL NOT NULL, PRIMARY KEY (`id`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `Yeasterday_sleep` (`id` INTEGER, `dateTime` INTEGER NOT NULL, `level` TEXT NOT NULL, `entryDateTime` INTEGER NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `Yesterday_sleep` (`id` INTEGER, `dateTime` INTEGER NOT NULL, `level` TEXT NOT NULL, `entryDateTime` INTEGER NOT NULL, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -100,9 +100,9 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
-  YeasterdaySleepDao get yeasterdaysleepDao {
-    return _yeasterdaysleepDaoInstance ??=
-        _$YeasterdaySleepDao(database, changeListener);
+  YesterdaySleepDao get yesterdaysleepDao {
+    return _yesterdaysleepDaoInstance ??=
+        _$YesterdaySleepDao(database, changeListener);
   }
 }
 
@@ -162,23 +162,23 @@ class _$DayInfosDao extends DayInfosDao {
   }
 }
 
-class _$YeasterdaySleepDao extends YeasterdaySleepDao {
-  _$YeasterdaySleepDao(this.database, this.changeListener)
+class _$YesterdaySleepDao extends YesterdaySleepDao {
+  _$YesterdaySleepDao(this.database, this.changeListener)
       : _queryAdapter = QueryAdapter(database),
-        _yeasterday_sleepInsertionAdapter = InsertionAdapter(
+        _yesterday_sleepInsertionAdapter = InsertionAdapter(
             database,
-            'Yeasterday_sleep',
-            (Yeasterday_sleep item) => <String, Object?>{
+            'Yesterday_sleep',
+            (Yesterday_sleep item) => <String, Object?>{
                   'id': item.id,
                   'dateTime': _dateTimeConverter.encode(item.dateTime),
                   'level': item.level,
                   'entryDateTime': _dateTimeConverter.encode(item.entryDateTime)
                 }),
-        _yeasterday_sleepDeletionAdapter = DeletionAdapter(
+        _yesterday_sleepDeletionAdapter = DeletionAdapter(
             database,
-            'Yeasterday_sleep',
+            'Yesterday_sleep',
             ['id'],
-            (Yeasterday_sleep item) => <String, Object?>{
+            (Yesterday_sleep item) => <String, Object?>{
                   'id': item.id,
                   'dateTime': _dateTimeConverter.encode(item.dateTime),
                   'level': item.level,
@@ -191,15 +191,15 @@ class _$YeasterdaySleepDao extends YeasterdaySleepDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<Yeasterday_sleep> _yeasterday_sleepInsertionAdapter;
+  final InsertionAdapter<Yesterday_sleep> _yesterday_sleepInsertionAdapter;
 
-  final DeletionAdapter<Yeasterday_sleep> _yeasterday_sleepDeletionAdapter;
+  final DeletionAdapter<Yesterday_sleep> _yesterday_sleepDeletionAdapter;
 
   @override
-  Future<List<Yeasterday_sleep>> findAllYeasterdaySleep() async {
+  Future<List<Yesterday_sleep>> findAllYesterdaySleep() async {
     return _queryAdapter.queryList(
-        'SELECT * FROM Yeasterday_sleep ORDER BY Yeasterday_sleep.entryDateTime ASC',
-        mapper: (Map<String, Object?> row) => Yeasterday_sleep(
+        'SELECT * FROM Yesterday_sleep ORDER BY Yesterday_sleep.entryDateTime ASC',
+        mapper: (Map<String, Object?> row) => Yesterday_sleep(
             row['id'] as int?,
             _dateTimeConverter.decode(row['dateTime'] as int),
             row['level'] as String,
@@ -207,14 +207,14 @@ class _$YeasterdaySleepDao extends YeasterdaySleepDao {
   }
 
   @override
-  Future<void> insertYeasterdaySleep(Yeasterday_sleep yeasterday_sleep) async {
-    await _yeasterday_sleepInsertionAdapter.insert(
-        yeasterday_sleep, OnConflictStrategy.ignore);
+  Future<void> insertYesterdaySleep(Yesterday_sleep yesterday_sleep) async {
+    await _yesterday_sleepInsertionAdapter.insert(
+        yesterday_sleep, OnConflictStrategy.ignore);
   }
 
   @override
-  Future<void> removeYeasterdaySleep(Yeasterday_sleep task) async {
-    await _yeasterday_sleepDeletionAdapter.delete(task);
+  Future<void> removeYesterdaySleep(Yesterday_sleep task) async {
+    await _yesterday_sleepDeletionAdapter.delete(task);
   }
 }
 

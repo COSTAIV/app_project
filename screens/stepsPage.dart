@@ -77,7 +77,7 @@ class StepsPage extends StatelessWidget {
         
         return SfCartesianChart(
           title: ChartTitle(text: 'Your steps'),
-          legend: Legend(isVisible: true),
+          legend: Legend(isVisible: false),
           tooltipBehavior: _tooltipBehavior,
           zoomPanBehavior: _zoomPanBehavior,
           enableAxisAnimation: true, 
