@@ -11,6 +11,7 @@ class ExploreCities extends StatelessWidget {
   static const routename = 'ExploresCities';
 
   late BuildContext ctx;
+  double? n;
   City Venezia = City(
       "Venezia",
       List<Stop>.from([
@@ -267,16 +268,7 @@ class ExploreCities extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
-    ctx =context;
-    final n;
-      
-    
-
-    
-=======
     ctx = context;
->>>>>>> 6403b56da8a379d9412c0efe0d08cf91399978cb
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -286,7 +278,6 @@ class ExploreCities extends StatelessWidget {
           ),
           backgroundColor: Color.fromARGB(255, 48, 41, 255).withOpacity(0.8),
           leading: IconButton(
-<<<<<<< HEAD
             onPressed: () {
               _toProfilePage(context);
             },
@@ -298,15 +289,6 @@ class ExploreCities extends StatelessWidget {
                  
         /*endDrawer: Drawer(
           
-=======
-              onPressed: () {
-                _toStepsPage(context);
-              },
-              icon: Icon(Icons.arrow_back_rounded)),
-        ),
-        body: _exploreCity(),
-        endDrawer: Drawer(
->>>>>>> 6403b56da8a379d9412c0efe0d08cf91399978cb
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -319,17 +301,10 @@ class ExploreCities extends StatelessWidget {
                 child: Text('Another option'),
               ),
               ElevatedButton(
-<<<<<<< HEAD
               onPressed: () {
                 _toProfilePage(context);
               },
               child: Text('Back to Profile Page'),
-=======
-                onPressed: () {
-                  _toStepsPage(context);
-                },
-                child: Text('Back to StepsPage'),
->>>>>>> 6403b56da8a379d9412c0efe0d08cf91399978cb
               ),
             ],
           ),
@@ -351,7 +326,7 @@ class ExploreCities extends StatelessWidget {
                   sp.setDouble('week_steps', 0);
                   return Text("");
                 } else {
-                  double? n= sp.getDouble('week_steps');
+                  n= sp.getDouble('week_steps');
                   return Text("");
                 }
               }
@@ -378,16 +353,12 @@ class ExploreCities extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30)),
               ),
               onPressed: () {
-<<<<<<< HEAD
-                if (n >= 8700){
+                if (n! >= 8700){
                   _toStopsCities(ctx, Venezia);
                 }
                 else{
-                 
+                
                 }                 
-=======
-                _toStopsCities(ctx, Venezia);
->>>>>>> 6403b56da8a379d9412c0efe0d08cf91399978cb
               },
               label: Text('Visit'),
               icon: Icon(Icons.navigate_next_outlined),
@@ -411,16 +382,12 @@ class ExploreCities extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30)),
               ),
               onPressed: () {
-<<<<<<< HEAD
-                if (n >= 17000){
+                if (n! >= 17000){
                   _toStopsCities(ctx, Roma);
                 }
                 else{
                  
                 } 
-=======
-                _toStopsCities(ctx, Roma);
->>>>>>> 6403b56da8a379d9412c0efe0d08cf91399978cb
               },
               label: Text('Visit'),
               icon: Icon(Icons.navigate_next_outlined),
@@ -444,16 +411,12 @@ class ExploreCities extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30)),
               ),
               onPressed: () {
-<<<<<<< HEAD
-                if (n >= 27500){
+                if (n! >= 27500){
                   _toStopsCities(ctx, Padova);
                 }
                 else{
                  
                 } 
-=======
-                _toStopsCities(ctx, Padova);
->>>>>>> 6403b56da8a379d9412c0efe0d08cf91399978cb
               },
               label: Text('Visit'),
               icon: Icon(Icons.navigate_next_outlined),
@@ -469,7 +432,8 @@ class ExploreCities extends StatelessWidget {
               'The city unlocks with at least 47800 steps',
               style: TextStyle(color: Colors.grey),
             ),
-            trailing: ElevatedButton.icon(
+            trailing: 
+            ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                 primary: Color.fromARGB(255, 48, 41, 255),
                 elevation: 3,
@@ -477,16 +441,12 @@ class ExploreCities extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30)),
               ),
               onPressed: () {
-<<<<<<< HEAD
-                if (n >= 47800){
+                if (n! >= 47800){
                   _toStopsCities(ctx, NewYork);
                 }
                 else{
-                 
+
                 } 
-=======
-                _toStopsCities(ctx, NewYork);
->>>>>>> 6403b56da8a379d9412c0efe0d08cf91399978cb
               },
               label: Text('Visit'),
               icon: Icon(Icons.navigate_next_outlined),
@@ -510,16 +470,12 @@ class ExploreCities extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30)),
               ),
               onPressed: () {
-<<<<<<< HEAD
-               if (n >= 75300){
+               if (n! >= 75300){
                   _toStopsCities(ctx, Paris);
                 }
                 else{
                  
                 }            
-=======
-                _toStopsCities(ctx, Paris);
->>>>>>> 6403b56da8a379d9412c0efe0d08cf91399978cb
               },
               label: Text('Visit'),
               icon: Icon(Icons.navigate_next_outlined),
@@ -543,16 +499,12 @@ class ExploreCities extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30)),
               ),
               onPressed: () {
-<<<<<<< HEAD
-                if (n >= 105500){
+                if (n! >= 105500){
                   _toStopsCities(ctx, London);
                 }
                 else{
                  
                 }  
-=======
-                _toStopsCities(ctx, London);
->>>>>>> 6403b56da8a379d9412c0efe0d08cf91399978cb
               },
               label: Text('Visit'),
               icon: Icon(Icons.navigate_next_outlined),
@@ -576,16 +528,12 @@ class ExploreCities extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30)),
               ),
               onPressed: () {
-<<<<<<< HEAD
-               if (n >= 161400){
+               if (n! >= 161400){
                   _toStopsCities(ctx, CiudadDeMexico);
                 }
                 else{
                  
                 }               
-=======
-                _toStopsCities(ctx, CiudadDeMexico);
->>>>>>> 6403b56da8a379d9412c0efe0d08cf91399978cb
               },
               label: Text('Visit'),
               icon: Icon(Icons.navigate_next_outlined),
@@ -599,7 +547,6 @@ class ExploreCities extends StatelessWidget {
     print('Going to ${city.name}');
   }
 
-<<<<<<< HEAD
   void _toProfilePage(BuildContext context) {
   Navigator.of(context).pushReplacementNamed(ProfilePage.route);
 }
@@ -607,9 +554,3 @@ class ExploreCities extends StatelessWidget {
 } 
 
  
-=======
-  void _toStepsPage(BuildContext context) {
-    Navigator.pop(context, '/stepsPage/');
-  }
-}
->>>>>>> 6403b56da8a379d9412c0efe0d08cf91399978cb

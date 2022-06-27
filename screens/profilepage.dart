@@ -173,6 +173,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     sp.setDouble('week_steps', 0);
                     return Text('Last week you walked 0 steps !');
                   } else {
+                    double? n =sp.getDouble('week_steps');
                     return Text(
                         'Last week you walked ${sp.getDouble('week_steps')} steps !');
                   }
