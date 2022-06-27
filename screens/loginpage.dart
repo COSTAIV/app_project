@@ -124,6 +124,8 @@ class _LoginPageState extends State<LoginPage> {
                 passwordController.text == 'rossi') {
               final sp = await SharedPreferences.getInstance();
               sp.setBool('logged', true);
+              sp.setString('email', mailController.text);
+
               _toProfilePage(context);
               //final sp = await SharedPreferences.getInstance();
               //sp.setString('username', data.name);

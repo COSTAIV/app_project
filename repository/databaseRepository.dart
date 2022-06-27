@@ -1,5 +1,6 @@
 import 'package:city_app/database/database.dart';
-import 'package:city_app/database/entities/daysteps.dart';
+import 'package:city_app/database/entities/dayinfos.dart';
+import 'package:city_app/database/entities/yeasterdaysleep.dart';
 import 'package:flutter/material.dart';
 
 class DatabaseRepository extends ChangeNotifier {
@@ -10,22 +11,43 @@ class DatabaseRepository extends ChangeNotifier {
   DatabaseRepository({required this.database});
 
   //This method wraps the findAllTodos() method of the DAO
-  Future<List<Day_steps>> findAllDaySteps() async {
-    final results = await database.daystepsDao.findAllDaySteps();
+  Future<List<Day_infos>> findAllDayInfos() async {
+    final results = await database.dayinfosDao.findAllDayInfos();
     return results;
   } //findAllTodos
 
   //This method wraps the insertTodo() method of the DAO.
   //Then, it notifies the listeners that something changed.
-  Future<void> insertDaySteps(Day_steps day_steps) async {
-    await database.daystepsDao.insertDaySteps(day_steps);
+  Future<void> insertDayInfos(Day_infos day_infos) async {
+    await database.dayinfosDao.insertDayInfos(day_infos);
     notifyListeners();
-  } //insert day steps
+  } 
 
  
   //Then, it notifies the listeners that something changed.
-  Future<void> removeDaySteps(Day_steps day_steps) async {
-    await database.daystepsDao.removeDaySteps(day_steps);
+  Future<void> removeDayInfos(Day_infos day_infos) async {
+    await database.dayinfosDao.removeDayInfos(day_infos);
+    notifyListeners();
+  } //removeDaySteps
+
+
+
+    //This method wraps the findAllTodos() method of the DAO
+  Future<List<Yeasterday_sleep>> findAllYeasterdaySleep() async {
+    final results = await database.yeasterdaysleepDao.findAllYeasterdaySleep();
+    return results;
+  } //findAllTodos
+
+  //This method wraps the insertTodo() method of the DAO.
+  //Then, it notifies the listeners that something changed.
+  Future<void> insertYeasterdaySleep(Yeasterday_sleep yeasterday_sleep) async {
+    await database.yeasterdaysleepDao.insertYeasterdaySleep(yeasterday_sleep);
+    notifyListeners();
+  } 
+ 
+  //Then, it notifies the listeners that something changed.
+  Future<void> removeYeasterdaySleep(Yeasterday_sleep yeasterday_sleep) async {
+    await database.yeasterdaysleepDao.removeYeasterdaySleep(yeasterday_sleep);
     notifyListeners();
   } //removeDaySteps
 
