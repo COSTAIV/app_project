@@ -19,4 +19,4 @@ class Day_infos {
   //Default constructor
   Day_infos(this.id, this.dateTime, this.d_steps, this.sleep_minutes);
   
-}//Meal
+}

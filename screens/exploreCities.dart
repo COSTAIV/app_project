@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:city_app/models/City.dart';
 import 'package:city_app/models/Stop.dart';
+import 'package:city_app/screens/profilepage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class ExploreCities extends StatelessWidget {
@@ -113,6 +115,11 @@ City CiudadDeMexico = City(
   @override
   Widget build(BuildContext context) {
     ctx =context;
+    final n;
+      
+    
+
+    
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
@@ -121,14 +128,15 @@ City CiudadDeMexico = City(
           backgroundColor: Color.fromARGB(255, 48, 41, 255).withOpacity(0.8),
           leading: IconButton(
             onPressed: () {
-              _toStepsPage(context);
+              _toProfilePage(context);
             },
             icon: Icon(Icons.arrow_back_rounded)
           ),
         ),
         body: _exploreCity(),
+        
                  
-        endDrawer: Drawer(
+        /*endDrawer: Drawer(
           
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -147,13 +155,13 @@ City CiudadDeMexico = City(
               ),
               ElevatedButton(
               onPressed: () {
-                _toStepsPage(context);
+                _toProfilePage(context);
               },
-              child: Text('Back to StepsPage'),
+              child: Text('Back to Profile Page'),
               ),
             ],
           ),
-        ),
+        ),*/
       ),
     );
    //build
@@ -163,6 +171,24 @@ City CiudadDeMexico = City(
   Widget _exploreCity() => ListView(
     
         children: [
+          FutureBuilder(
+            future: SharedPreferences.getInstance(),
+            builder: ((context, snapshot) {
+              if (snapshot.hasData) {
+                final sp = snapshot.data as SharedPreferences;
+                if (sp.getDouble('week_steps') == null) {
+                  sp.setDouble('week_steps', 0);
+                  return Text("");
+                } else {
+                  double? n= sp.getDouble('week_steps');
+                  return Text("");
+                }
+              }
+              else {
+                return CircularProgressIndicator();
+              }
+            }),
+          ),
           ListTile(
             leading: Icon(Icons.flight_takeoff_rounded),
             title: Text(
@@ -177,8 +203,12 @@ City CiudadDeMexico = City(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
               ),
               onPressed: () {
-                
-                _toStopsCities(ctx, Venezia); 
+                if (n >= 8700){
+                  _toStopsCities(ctx, Venezia);
+                }
+                else{
+                 
+                }                 
               },
               label: Text('Visit'),
               icon: Icon(Icons.navigate_next_outlined),      
@@ -198,8 +228,12 @@ City CiudadDeMexico = City(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
               ),
               onPressed: () {
-                
-                _toStopsCities(ctx, Roma); 
+                if (n >= 17000){
+                  _toStopsCities(ctx, Roma);
+                }
+                else{
+                 
+                } 
               },
               label: Text('Visit'),
               icon: Icon(Icons.navigate_next_outlined),      
@@ -219,8 +253,12 @@ City CiudadDeMexico = City(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
               ),
               onPressed: () {
-                
-                _toStopsCities(ctx, Padova); 
+                if (n >= 27500){
+                  _toStopsCities(ctx, Padova);
+                }
+                else{
+                 
+                } 
               },
               label: Text('Visit'),
               icon: Icon(Icons.navigate_next_outlined),      
@@ -240,8 +278,12 @@ City CiudadDeMexico = City(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
               ),
               onPressed: () {
-                
-                _toStopsCities(ctx, NewYork); 
+                if (n >= 47800){
+                  _toStopsCities(ctx, NewYork);
+                }
+                else{
+                 
+                } 
               },
               label: Text('Visit'),
               icon: Icon(Icons.navigate_next_outlined),      
@@ -262,9 +304,12 @@ City CiudadDeMexico = City(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
               ),
               onPressed: () {
+               if (n >= 75300){
+                  _toStopsCities(ctx, Paris);
+                }
+                else{
                  
-                _toStopsCities(ctx, Paris);  
-                            
+                }            
               },
               label: Text('Visit'),
               icon: Icon(Icons.navigate_next_outlined),      
@@ -284,8 +329,12 @@ City CiudadDeMexico = City(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
               ),
               onPressed: () {
-                
-                _toStopsCities(ctx, London); 
+                if (n >= 105500){
+                  _toStopsCities(ctx, London);
+                }
+                else{
+                 
+                }  
               },
               label: Text('Visit'),
               icon: Icon(Icons.navigate_next_outlined),      
@@ -305,8 +354,12 @@ City CiudadDeMexico = City(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
               ),
               onPressed: () {
-               
-                _toStopsCities(ctx, CiudadDeMexico);               
+               if (n >= 161400){
+                  _toStopsCities(ctx, CiudadDeMexico);
+                }
+                else{
+                 
+                }               
               },
               label: Text('Visit'),
               icon: Icon(Icons.navigate_next_outlined),      
@@ -322,9 +375,9 @@ City CiudadDeMexico = City(
     print('Going to ${city.name}');
   }
 
-  void _toStepsPage(BuildContext context) {
-    Navigator.pop(context, '/stepsPage/');
-  }
+  void _toProfilePage(BuildContext context) {
+  Navigator.of(context).pushReplacementNamed(ProfilePage.route);
+}
       
 } 
 

@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:city_app/database/entities/dayinfos.dart';
 import 'package:city_app/database/entities/yeasterdaysleep.dart';
+import 'package:city_app/screens/exploreCities.dart';
 import 'package:city_app/utils/client_info.dart';
 import 'package:flutter/material.dart';
 import 'package:city_app/screens/loginpage.dart';
@@ -38,47 +41,94 @@ class _ProfilePageState extends State<ProfilePage> {
         title: Text(ProfilePage.routename),
       ),
       drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
+        child: Column(
           children: [
-            UserAccountsDrawerHeader(
-              currentAccountPictureSize: Size.square(90.0),
-              currentAccountPicture: CircleAvatar(
-                backgroundImage: NetworkImage(
-                    'https://www.facciabuco.com/grafica/vignette/preview_big/futurama-fry.jpg'),
-              ),
-              accountEmail: Text(''),
-              accountName: Text(''),
-              decoration: BoxDecoration(
-                color: Color.fromARGB(177, 44, 100, 212),
+            Expanded(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  UserAccountsDrawerHeader(
+                    currentAccountPictureSize: Size.square(90.0),
+                    currentAccountPicture: CircleAvatar(
+                      backgroundImage: NetworkImage(
+                          'https://www.facciabuco.com/grafica/vignette/preview_big/futurama-fry.jpg'),
+                    ),
+                    accountEmail: Text(''),
+                    accountName: Text(''),
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(177, 44, 100, 212),
+                    ),
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.bed),
+                    title: const Text(
+                      'Sleep',
+                      style: TextStyle(fontSize: 24.0),
+                    ),
+                    onTap: () {
+                      _tosleepPage(context);
+                      title:
+                      'Sleep';
+                    },
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.directions_walk),
+                    title: const Text(
+                      'Steps',
+                      style: TextStyle(fontSize: 24.0),
+                    ),
+                    onTap: () {
+                      _tostepsPage(context);
+                      title:
+                      'Steps';
+                    },
+                  ),
+                ],
               ),
             ),
-            ListTile(
-              leading: const Icon(Icons.bed),
-              title: const Text(
-                'Sleep',
-                style: TextStyle(fontSize: 24.0),
-              ),
-              onTap: () {
-                _tosleepPage(context);
-                title:
-                'Sleep';
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.directions_walk),
-              title: const Text(
-                'Steps',
-                style: TextStyle(fontSize: 24.0),
-              ),
-              onTap: () {
-                _tostepsPage(context);
-                title:
-                'Steps';
-              },
-            ),
+            Container(
+              // This align moves the children to the bottom
+              child: Align(
+                  alignment: FractionalOffset.bottomCenter,
+                  // This container holds all the children that will be aligned
+                  // on the bottom and should not scroll with the above ListView
+                  child: Container(
+                      child: Column(
+                    children: [
+                      Divider(),
+                      SizedBox(
+                        height:100 ,
+                        width:300 ,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: Color.fromARGB(255, 48, 41, 255),
+                            elevation: 3,
+                            shape:  RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                          ),
+                          onPressed: () {
+                          _toExploreCities(context);
+                          },
+                          child: Text('Explore Cities', style: TextStyle(fontSize: 24),),
+                        ),
+                        
+                      ),
+                      SizedBox(
+                        child: IconButton(
+                          icon: Icon(Icons.logout),
+                          onPressed: () async {
+                          _toLoginPage(context);
+                          },
+                        ),
+                      )
+                    ],
+                  )
+                )
+            )
+            )
+            
           ],
         ),
+        
       ),
       body: Center(
         child: Column(
@@ -95,7 +145,7 @@ class _ProfilePageState extends State<ProfilePage> {
               controller: nicknameController,
               style: TextStyle(
                 fontSize: 24.0,
-                color: Colors.white,
+                color: Colors.blue,
                 fontFamily: 'OpenSans',
               ),
               decoration: InputDecoration(
@@ -130,12 +180,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   return CircularProgressIndicator();
                 }
               }),
-            ),
-            IconButton(
-              icon: Icon(Icons.logout),
-              onPressed: () async {
-                _toLoginPage(context);
-              },
             ),
             ElevatedButton(
               onPressed: () async {
@@ -285,6 +329,12 @@ class _ProfilePageState extends State<ProfilePage> {
               },
               child: Text('Tap to delete the content of the database'),
             ),
+            /*IconButton(
+              icon: Icon(Icons.logout),
+              onPressed: () async {
+                _toLoginPage(context);
+              },
+            ),*/
           ],
         ),
       ),
@@ -331,5 +381,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void _tosleepPage(BuildContext context) {
     Navigator.of(context).pushReplacementNamed(SleepPage.route);
+  }
+
+  void _toExploreCities(BuildContext context) {
+    Navigator.of(context).pushReplacementNamed(ExploreCities.route);
   }
 } //ProfilePage
