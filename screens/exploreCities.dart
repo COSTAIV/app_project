@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:city_app/models/City.dart';
 import 'package:city_app/models/Stop.dart';
 import 'package:city_app/screens/profilepage.dart';
+import 'package:city_app/screens/riddlePage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ExploreCities extends StatelessWidget {
@@ -269,46 +270,27 @@ class ExploreCities extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ctx = context;
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'Explore cities',
-            style: TextStyle(color: Colors.white),
-          ),
-          backgroundColor: Color.fromARGB(255, 48, 41, 255).withOpacity(0.8),
-          leading: IconButton(
+      return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Explore cities',
+          style: TextStyle(color: Colors.white),
+          textScaleFactor: 0.9,
+        ),
+        backgroundColor: Color.fromARGB(177, 44, 100, 212).withOpacity(0.8),
+        leading: IconButton(
             onPressed: () {
               _toProfilePage(context);
             },
-            icon: Icon(Icons.arrow_back_rounded)
-          ),
-        ),
-        body: _exploreCity(),
-        
-                 
-        /*endDrawer: Drawer(
-          
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: () {},
-                child: Text('An option'),
-              ),
-              ElevatedButton(
-                onPressed: () {},
-                child: Text('Another option'),
-              ),
-              ElevatedButton(
-              onPressed: () {
-                _toProfilePage(context);
-              },
-              child: Text('Back to Profile Page'),
-              ),
-            ],
-          ),
-        ),*/
+            icon: Icon(Icons.arrow_back_rounded)),
+      ),
+      body: _exploreCity(),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color.fromARGB(176, 255, 255, 255).withOpacity(0.8),
+        onPressed: () async {
+          Navigator.of(context).pushReplacementNamed(RiddlePage.route);
+        },
+        child: Icon(Icons.lock_open),
       ),
     );
     //build
@@ -324,13 +306,13 @@ class ExploreCities extends StatelessWidget {
                 final sp = snapshot.data as SharedPreferences;
                 if (sp.getDouble('week_steps') == null) {
                   sp.setDouble('week_steps', 0);
+                  n = 0;
                   return Text("");
                 } else {
-                  n= sp.getDouble('week_steps');
+                  n = sp.getDouble('week_steps');
                   return Text("");
                 }
-              }
-              else {
+              } else {
                 return CircularProgressIndicator();
               }
             }),
@@ -339,7 +321,7 @@ class ExploreCities extends StatelessWidget {
             leading: Icon(Icons.flight_takeoff_rounded),
             title: Text(
               'Venezia',
-              style: TextStyle(color: Colors.black, fontSize: 20),
+              style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             subtitle: Text(
               'The city unlocks with at least 8700 steps',
@@ -347,18 +329,15 @@ class ExploreCities extends StatelessWidget {
             ),
             trailing: ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 48, 41, 255),
+                primary: Color.fromARGB(177, 44, 100, 212).withOpacity(0.8),
                 elevation: 3,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),
               ),
               onPressed: () {
-                if (n! >= 8700){
+                if (n! >= 8700) {
                   _toStopsCities(ctx, Venezia);
-                }
-                else{
-                
-                }                 
+                } else {}
               },
               label: Text('Visit'),
               icon: Icon(Icons.navigate_next_outlined),
@@ -368,7 +347,7 @@ class ExploreCities extends StatelessWidget {
             leading: Icon(Icons.flight_takeoff_rounded),
             title: Text(
               'Roma',
-              style: TextStyle(color: Colors.black, fontSize: 20),
+              style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             subtitle: Text(
               'The city unlocks with at least 17000 steps',
@@ -376,18 +355,15 @@ class ExploreCities extends StatelessWidget {
             ),
             trailing: ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 48, 41, 255),
+                primary: Color.fromARGB(177, 44, 100, 212).withOpacity(0.8),
                 elevation: 3,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),
               ),
               onPressed: () {
-                if (n! >= 17000){
+                if (n! >= 17000) {
                   _toStopsCities(ctx, Roma);
-                }
-                else{
-                 
-                } 
+                } else {}
               },
               label: Text('Visit'),
               icon: Icon(Icons.navigate_next_outlined),
@@ -397,7 +373,7 @@ class ExploreCities extends StatelessWidget {
             leading: Icon(Icons.flight_takeoff_rounded),
             title: Text(
               'Padova',
-              style: TextStyle(color: Colors.black, fontSize: 20),
+              style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             subtitle: Text(
               'The city unlocks with at least 27500 steps',
@@ -405,18 +381,15 @@ class ExploreCities extends StatelessWidget {
             ),
             trailing: ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 48, 41, 255),
+                primary: Color.fromARGB(177, 44, 100, 212).withOpacity(0.8),
                 elevation: 3,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),
               ),
               onPressed: () {
-                if (n! >= 27500){
+                if (n! >= 27500) {
                   _toStopsCities(ctx, Padova);
-                }
-                else{
-                 
-                } 
+                } else {}
               },
               label: Text('Visit'),
               icon: Icon(Icons.navigate_next_outlined),
@@ -426,27 +399,23 @@ class ExploreCities extends StatelessWidget {
             leading: Icon(Icons.flight_takeoff_rounded),
             title: Text(
               'New York',
-              style: TextStyle(color: Colors.black, fontSize: 20),
+              style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             subtitle: Text(
               'The city unlocks with at least 47800 steps',
               style: TextStyle(color: Colors.grey),
             ),
-            trailing: 
-            ElevatedButton.icon(
+            trailing: ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 48, 41, 255),
+                primary: Color.fromARGB(177, 44, 100, 212).withOpacity(0.8),
                 elevation: 3,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),
               ),
               onPressed: () {
-                if (n! >= 47800){
+                if (n! >= 47800) {
                   _toStopsCities(ctx, NewYork);
-                }
-                else{
-
-                } 
+                } else {}
               },
               label: Text('Visit'),
               icon: Icon(Icons.navigate_next_outlined),
@@ -456,7 +425,7 @@ class ExploreCities extends StatelessWidget {
             leading: Icon(Icons.flight_takeoff_rounded),
             title: Text(
               'Paris',
-              style: TextStyle(color: Colors.black, fontSize: 20),
+              style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             subtitle: Text(
               'The city unlocks with at least 75300 steps',
@@ -464,18 +433,15 @@ class ExploreCities extends StatelessWidget {
             ),
             trailing: ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 48, 41, 255),
+                primary:Color.fromARGB(177, 44, 100, 212).withOpacity(0.8),
                 elevation: 3,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),
               ),
               onPressed: () {
-               if (n! >= 75300){
+                if (n! >= 75300) {
                   _toStopsCities(ctx, Paris);
-                }
-                else{
-                 
-                }            
+                } else {}
               },
               label: Text('Visit'),
               icon: Icon(Icons.navigate_next_outlined),
@@ -485,7 +451,7 @@ class ExploreCities extends StatelessWidget {
             leading: Icon(Icons.flight_takeoff_rounded),
             title: Text(
               'London',
-              style: TextStyle(color: Colors.black, fontSize: 20),
+              style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             subtitle: Text(
               'The city unlocks with at least 105500 steps',
@@ -493,18 +459,15 @@ class ExploreCities extends StatelessWidget {
             ),
             trailing: ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 48, 41, 255),
+                primary: Color.fromARGB(177, 44, 100, 212).withOpacity(0.8),
                 elevation: 3,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),
               ),
               onPressed: () {
-                if (n! >= 105500){
+                if (n! >= 105500) {
                   _toStopsCities(ctx, London);
-                }
-                else{
-                 
-                }  
+                } else {}
               },
               label: Text('Visit'),
               icon: Icon(Icons.navigate_next_outlined),
@@ -514,7 +477,7 @@ class ExploreCities extends StatelessWidget {
             leading: Icon(Icons.flight_takeoff_rounded),
             title: Text(
               'Ciudad de México',
-              style: TextStyle(color: Colors.black, fontSize: 20),
+              style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             subtitle: Text(
               'The city unlocks with at least 161400 steps',
@@ -522,18 +485,15 @@ class ExploreCities extends StatelessWidget {
             ),
             trailing: ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 48, 41, 255),
+                primary: Color.fromARGB(177, 44, 100, 212).withOpacity(0.8),
                 elevation: 3,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30)),
               ),
               onPressed: () {
-               if (n! >= 161400){
+                if (n! >= 161400) {
                   _toStopsCities(ctx, CiudadDeMexico);
-                }
-                else{
-                 
-                }               
+                } else {}
               },
               label: Text('Visit'),
               icon: Icon(Icons.navigate_next_outlined),
@@ -548,9 +508,6 @@ class ExploreCities extends StatelessWidget {
   }
 
   void _toProfilePage(BuildContext context) {
-  Navigator.of(context).pushReplacementNamed(ProfilePage.route);
+    Navigator.of(context).pushReplacementNamed(ProfilePage.route);
+  }
 }
-      
-} 
-
- 

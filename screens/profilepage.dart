@@ -41,30 +41,33 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     print('${ProfilePage.routename} built');
     return Scaffold(
-      appBar: AppBar(title: Text(ProfilePage.routename), actions: <Widget>[
-        loading_flag == true
-            ? Container(
-                margin: EdgeInsets.all(10),
-                child: CircularProgressIndicator(
-                  backgroundColor: Colors.grey,
-                  color: Color.fromARGB(255, 24, 202, 30),
-                  strokeWidth: 5,
-                ),
-              )
-            : SizedBox(),
-        Padding(padding: EdgeInsets.only(right: 25.0)),
-        Padding(
-            padding: EdgeInsets.only(right: 25.0),
-            child: GestureDetector(
-              onTap: () async {
-                _deleteInfosTable(context);
-              },
-              child: Icon(
-                Icons.delete,
-                size: 26.0,
-              ),
-            )),
-      ]),
+      appBar: AppBar(
+          title: Text(ProfilePage.routename, textScaleFactor: 0.9),
+          backgroundColor: Color.fromARGB(177, 44, 100, 212).withOpacity(0.8),
+          actions: <Widget>[
+            loading_flag == true
+                ? Container(
+                    margin: EdgeInsets.all(10),
+                    child: CircularProgressIndicator(
+                      backgroundColor: Colors.grey,
+                      color: Color.fromARGB(255, 24, 202, 30),
+                      strokeWidth: 5,
+                    ),
+                  )
+                : SizedBox(),
+            Padding(padding: EdgeInsets.only(right: 25.0)),
+            Padding(
+                padding: EdgeInsets.only(right: 25.0),
+                child: GestureDetector(
+                  onTap: () async {
+                    _deleteInfosTable(context);
+                  },
+                  child: Icon(
+                    Icons.delete,
+                    size: 26.0,
+                  ),
+                )),
+          ]),
       drawer: Drawer(
         child: Column(
           children: [
@@ -72,14 +75,16 @@ class _ProfilePageState extends State<ProfilePage> {
               child: ListView(
                 padding: EdgeInsets.zero,
                 children: [
-                  UserAccountsDrawerHeader(
-                    currentAccountPictureSize: Size.square(90.0),
-                    currentAccountPicture: CircleAvatar(
+                  Container(
+                    height: 200,
+                    alignment: Alignment.topLeft,
+                    child: Column(children: [
+                      SizedBox(height: 25),
+                      CircleAvatar(
+                      radius: 75,
                       backgroundImage: NetworkImage(
                           'https://www.facciabuco.com/grafica/vignette/preview_big/futurama-fry.jpg'),
-                    ),
-                    accountEmail: Text(''),
-                    accountName: Text(''),
+                    ),]),
                     decoration: BoxDecoration(
                       color: Color.fromARGB(177, 44, 100, 212),
                     ),
@@ -160,58 +165,105 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SizedBox(height: 10),
             CircleAvatar(
               //foregroundColor: Color.fromARGB(176, 234, 237, 243),
-              radius: 100,
+              radius: 85,
               backgroundImage: NetworkImage(
                   'https://www.facciabuco.com/grafica/vignette/preview_big/futurama-fry.jpg'),
             ),
             SizedBox(height: 10),
-            /*TextField(
-              controller: nicknameController,
-              style: TextStyle(
-                fontSize: 24.0,
-                color: Colors.blue,
-                fontFamily: 'OpenSans',
-              ),
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.only(top: 40.0),
-                /*prefixIcon: Icon(
-                    Icons.person,
-                    size: 12,
-                    color: Colors.white,
-                  ),*/
-                hintText: 'Edit your nickname',
-                hintStyle: TextStyle(
-                  color: Color.fromARGB(137, 211, 19, 19),
-                  fontFamily: 'OpenSans',
-                ),
-              ),
-            ),*/
-            SizedBox(height: 10),
-            FutureBuilder(
-              future: SharedPreferences.getInstance(),
-              builder: ((context, snapshot) {
-                if (snapshot.hasData) {
-                  final sp = snapshot.data as SharedPreferences;
-                  if (sp.getDouble('week_steps') == null) {
-                    sp.setDouble('week_steps', 0);
-                    return Text('Last week you walked 0 steps !');
-                  } else {
-                    double? n = sp.getDouble('week_steps');
-                    return Text(
-                        'Last week you walked ${sp.getDouble('week_steps')} steps !');
-                  }
-                } else {
-                  return CircularProgressIndicator();
-                }
-              }),
-            ),
-
             Container(
+              //height: MediaQuery.of(context).size.height * 1 / 10,
+              //width: MediaQuery.of(context).size.width * 3 / 5,
+              height: 50,
+              width: 320,
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Color(0xff424242),
+                      Color.fromARGB(177, 44, 100, 212),
+                    ]),
+                borderRadius: BorderRadius.circular(16.0),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                // ignore: prefer_const_literals_to_create_immutables
+                children: [
+                  FutureBuilder(
+                    future: SharedPreferences.getInstance(),
+                    builder: ((context, snapshot) {
+                      if (snapshot.hasData) {
+                        final sp = snapshot.data as SharedPreferences;
+                        if (sp.getDouble('week_steps') == null) {
+                          sp.setDouble('week_steps', 0);
+                          return Text('Last week you walked 0 steps !', style: TextStyle(
+                                fontSize: 16.0, fontStyle: FontStyle.italic));
+                        } else {
+                          double? n = sp.getDouble('week_steps');
+                          return Text(
+                              'Last week you walked ${sp.getDouble('week_steps')} steps !', style: TextStyle(
+                                fontSize: 16.0, fontStyle: FontStyle.italic));
+                        }
+                      } else {
+                        return CircularProgressIndicator();
+                      }
+                    }),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 10),
+            Container(
+              //height: MediaQuery.of(context).size.height * 1 / 10,
+              //width: MediaQuery.of(context).size.width * 3 / 5,
+              height: 50,
               width: 350,
-              height: 350,
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Color(0xff424242),
+                      Color.fromARGB(177, 44, 100, 212),
+                    ]),
+                borderRadius: BorderRadius.circular(16.0),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                // ignore: prefer_const_literals_to_create_immutables
+                children: [
+                  FutureBuilder(
+                    future: SharedPreferences.getInstance(),
+                    builder: ((context, snapshot) {
+                      if (snapshot.hasData) {
+                        final sp = snapshot.data as SharedPreferences;
+                        if (sp.getDouble('week_sleep') == null) {
+                          sp.setDouble('week_sleep', 0);
+                          return Text('Last week you slept 0 hurs !',style: TextStyle(
+                                fontSize: 16.0, fontStyle: FontStyle.italic));
+                        } else {
+                          return Text(
+
+                              'Last week you slept ${(sp.getDouble('week_sleep')! / (7 * 60)).toStringAsFixed(2)} hours on average !',
+                                style: TextStyle(
+                                fontSize: 16.0, fontStyle: FontStyle.italic)
+                          );
+                        }
+                      } else {
+                        return CircularProgressIndicator();
+                      }
+                    }),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 10),
+            Container(
+              width: 320,
+              height: 320,
               child:
                   Consumer<DatabaseRepository>(builder: (context, dbr, child) {
                 return FutureBuilder(
@@ -259,8 +311,13 @@ class _ProfilePageState extends State<ProfilePage> {
                       cont_wake = 0;
 
                       return SfCircularChart(
-                        title: ChartTitle(text: 'Yesterday sleep'),
+                        title: ChartTitle(
+                            text: 'Yesterday sleep',
+                            textStyle: TextStyle(
+                                fontSize: 26.0, fontStyle: FontStyle.italic)),
                         legend: Legend(isVisible: true),
+                        borderColor: Color.fromARGB(177, 44, 100, 212),
+                        borderWidth: 1.0,
                         tooltipBehavior: _tooltipBehavior,
                         series: <PieSeries<_PieData, String>>[
                           PieSeries<_PieData, String>(
@@ -286,19 +343,19 @@ class _ProfilePageState extends State<ProfilePage> {
                 );
               }),
             ),
-
+            SizedBox(height: 10),
             Container(
               //height: MediaQuery.of(context).size.height * 1 / 10,
               //width: MediaQuery.of(context).size.width * 3 / 5,
-              height: 100,
+              height: 60,
               width: 300,
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      Color.fromARGB(255, 195, 199, 219),
-                      Color.fromARGB(255, 20, 96, 158),
+                      Color(0xff424242),
+                      Color.fromARGB(177, 44, 100, 212),
                     ]),
                 borderRadius: BorderRadius.circular(16.0),
               ),
@@ -310,14 +367,13 @@ class _ProfilePageState extends State<ProfilePage> {
                   const Text(
                     "Synchronize your data",
                     style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white),
+                                fontSize: 20.0, fontStyle: FontStyle.normal)
                   ),
+                  SizedBox(height: 10),
                   Container(
                       padding: const EdgeInsets.all(8.0),
                       decoration: const BoxDecoration(
-                          shape: BoxShape.circle, color: Colors.white),
+                          shape: BoxShape.circle, color: Color(0xff0277BD)),
                       child: IconButton(
                         icon: Icon(Icons.sync),
                         iconSize: 25.0,
@@ -449,7 +505,7 @@ class _ProfilePageState extends State<ProfilePage> {
             (lim_sup.millisecondsSinceEpoch - lim_inf.millisecondsSinceEpoch) /
                 60000;
         lastweek_steps += stepsData[k].value!;
-        lastweek_steps += minutes_of_sleep;
+        lastweek_sleep += minutes_of_sleep;
         print(minutes_of_sleep);
         Day_infos newdayinfos = Day_infos(
           stepsData[6 - k].dateOfMonitoring!.millisecondsSinceEpoch,
@@ -485,14 +541,10 @@ class _ProfilePageState extends State<ProfilePage> {
 
     setState(() {
       sp.setDouble('week_steps', lastweek_steps);
-    });
-    setState(() {
       sp.setDouble('week_sleep', lastweek_sleep);
-    });
-
-    setState(() {
       loading_flag = false;
     });
+
     // Use them as you want
     final snackBar = SnackBar(
         content: Text('Last week you walked ${lastweek_steps} steps!'));

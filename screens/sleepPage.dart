@@ -36,8 +36,8 @@ class SleepPage extends StatelessWidget {
     print('${SleepPage.routename} built');
     return Scaffold(
       appBar: AppBar(
-        title: Text(SleepPage.routename),
-        backgroundColor: Color.fromARGB(255, 48, 41, 255).withOpacity(0.8),
+        title: Text(SleepPage.routename, textScaleFactor: 0.9),
+        backgroundColor: Color.fromARGB(177, 44, 100, 212).withOpacity(0.8),
         leading: IconButton(
           onPressed: () {
           _toProfilePage(context);
@@ -84,7 +84,8 @@ class SleepPage extends StatelessWidget {
                 final data = snapshot.data as List<Day_infos>;
         
         return SfCartesianChart(
-          title: ChartTitle(text: 'Your hours of sleep'),
+          title: ChartTitle(text: 'Your hours of sleep',textStyle: TextStyle(
+                                fontSize: 26.0, fontStyle: FontStyle.italic)),
           legend: Legend(isVisible: false),
           tooltipBehavior: _tooltipBehavior,
           zoomPanBehavior: _zoomPanBehavior,

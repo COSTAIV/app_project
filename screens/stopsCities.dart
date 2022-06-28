@@ -28,9 +28,7 @@ class _IconStepperDemo extends State<IconStepperDemos> {
 
     city = ModalRoute.of(context)?.settings.arguments as City;
 
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           leading: IconButton(
             onPressed: () {
@@ -41,8 +39,9 @@ class _IconStepperDemo extends State<IconStepperDemos> {
           title: Text(
             city?.name ?? "",
             style: TextStyle(color: Colors.white),
+            textScaleFactor: 0.9,
           ),
-            backgroundColor: Color.fromARGB(255, 5, 185, 137).withOpacity(0.5),
+            backgroundColor: Color.fromARGB(177, 44, 100, 212).withOpacity(0.8),
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -71,7 +70,7 @@ class _IconStepperDemo extends State<IconStepperDemos> {
                     
                   });
                 },
-                activeStepColor: Color.fromARGB(255, 5, 185, 137),
+                activeStepColor: Color.fromARGB(177, 44, 100, 212).withOpacity(0.8),
               ),
               header(),
                 Container(
@@ -137,8 +136,7 @@ class _IconStepperDemo extends State<IconStepperDemos> {
             ],
           ),
         ),
-      ),
-    );
+      );
   }
   bool _steppingEnabledChecked(){
     if (n_steps >0 && n_steps<100)
@@ -150,7 +148,7 @@ class _IconStepperDemo extends State<IconStepperDemos> {
   Widget nextButton() {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-        primary: Color.fromARGB(255, 5, 185, 137),        
+        primary: Color.fromARGB(177, 44, 100, 212).withOpacity(0.8),        
         elevation: 3,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       ),
@@ -172,7 +170,7 @@ class _IconStepperDemo extends State<IconStepperDemos> {
   Widget previousButton() {
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-        primary: Color.fromARGB(255, 5, 185, 137),        
+        primary: Color.fromARGB(177, 44, 100, 212).withOpacity(0.8),        
         elevation: 3,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       ),
@@ -202,7 +200,7 @@ class _IconStepperDemo extends State<IconStepperDemos> {
     
     return Container(
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 5, 185, 137),
+        color: Color.fromARGB(177, 44, 100, 212).withOpacity(0.8),
         borderRadius: BorderRadius.circular(5),
       ),
       child: Row(

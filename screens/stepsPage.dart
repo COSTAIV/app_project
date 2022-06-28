@@ -35,8 +35,8 @@ class StepsPage extends StatelessWidget {
     print('${StepsPage.routename} built');
     return Scaffold(
       appBar: AppBar(
-        title: Text(StepsPage.routename),
-        backgroundColor: Color.fromARGB(255, 48, 41, 255).withOpacity(0.8),
+        title: Text(StepsPage.routename, textScaleFactor: 0.9),
+        //backgroundColor: Color.fromARGB(255, 48, 41, 255).withOpacity(0.8),
         leading: IconButton(
           onPressed: () {
           _toProfilePage(context);
@@ -83,7 +83,8 @@ class StepsPage extends StatelessWidget {
                 final data = snapshot.data as List<Day_infos>;
         
         return SfCartesianChart(
-          title: ChartTitle(text: 'Your steps'),
+          title: ChartTitle(text: 'Your steps',textStyle: TextStyle(
+                                fontSize: 26.0, fontStyle: FontStyle.italic)),
           legend: Legend(isVisible: false),
           tooltipBehavior: _tooltipBehavior,
           zoomPanBehavior: _zoomPanBehavior,
