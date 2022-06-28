@@ -264,8 +264,8 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             SizedBox(height: 10),
             Container(
-              width: 320,
-              height: 320,
+              width: 280,
+              height: 280,
               child:
                   Consumer<DatabaseRepository>(builder: (context, dbr, child) {
                 return FutureBuilder(
