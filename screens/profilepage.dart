@@ -81,10 +81,11 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Column(children: [
                       SizedBox(height: 25),
                       CircleAvatar(
-                      radius: 75,
-                      backgroundImage: NetworkImage(
-                          'https://www.facciabuco.com/grafica/vignette/preview_big/futurama-fry.jpg'),
-                    ),]),
+                        radius: 75,
+                        backgroundImage: NetworkImage(
+                            'https://www.facciabuco.com/grafica/vignette/preview_big/futurama-fry.jpg'),
+                      ),
+                    ]),
                     decoration: BoxDecoration(
                       color: Color.fromARGB(177, 44, 100, 212),
                     ),
@@ -199,13 +200,15 @@ class _ProfilePageState extends State<ProfilePage> {
                         final sp = snapshot.data as SharedPreferences;
                         if (sp.getDouble('week_steps') == null) {
                           sp.setDouble('week_steps', 0);
-                          return Text('Last week you walked 0 steps !', style: TextStyle(
-                                fontSize: 16.0, fontStyle: FontStyle.italic));
+                          return Text('Last week you walked 0 steps !',
+                              style: TextStyle(
+                                  fontSize: 16.0, fontStyle: FontStyle.italic));
                         } else {
                           double? n = sp.getDouble('week_steps');
                           return Text(
-                              'Last week you walked ${sp.getDouble('week_steps')} steps !', style: TextStyle(
-                                fontSize: 16.0, fontStyle: FontStyle.italic));
+                              'Last week you walked ${sp.getDouble('week_steps')} steps !',
+                              style: TextStyle(
+                                  fontSize: 16.0, fontStyle: FontStyle.italic));
                         }
                       } else {
                         return CircularProgressIndicator();
@@ -242,15 +245,14 @@ class _ProfilePageState extends State<ProfilePage> {
                         final sp = snapshot.data as SharedPreferences;
                         if (sp.getDouble('week_sleep') == null) {
                           sp.setDouble('week_sleep', 0);
-                          return Text('Last week you slept 0 hurs !',style: TextStyle(
-                                fontSize: 16.0, fontStyle: FontStyle.italic));
+                          return Text('Last week you slept 0 hurs !',
+                              style: TextStyle(
+                                  fontSize: 16.0, fontStyle: FontStyle.italic));
                         } else {
                           return Text(
-
                               'Last week you slept ${(sp.getDouble('week_sleep')! / (7 * 60)).toStringAsFixed(2)} hours on average !',
-                                style: TextStyle(
-                                fontSize: 16.0, fontStyle: FontStyle.italic)
-                          );
+                              style: TextStyle(
+                                  fontSize: 16.0, fontStyle: FontStyle.italic));
                         }
                       } else {
                         return CircularProgressIndicator();
@@ -364,11 +366,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 // ignore: prefer_const_literals_to_create_immutables
                 children: [
                   const Text(""),
-                  const Text(
-                    "Synchronize your data",
-                    style: TextStyle(
-                                fontSize: 20.0, fontStyle: FontStyle.normal)
-                  ),
+                  const Text("Synchronize your data",
+                      style: TextStyle(
+                          fontSize: 20.0, fontStyle: FontStyle.normal)),
                   SizedBox(height: 10),
                   Container(
                       padding: const EdgeInsets.all(8.0),
@@ -545,10 +545,6 @@ class _ProfilePageState extends State<ProfilePage> {
       loading_flag = false;
     });
 
-    // Use them as you want
-    final snackBar = SnackBar(
-        content: Text('Last week you walked ${lastweek_steps} steps!'));
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   void _tostepsPage(BuildContext context) {

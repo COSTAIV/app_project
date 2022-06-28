@@ -73,6 +73,7 @@ class _IconStepperDemo extends State<IconStepperDemos> {
                 activeStepColor: Color.fromARGB(177, 44, 100, 212).withOpacity(0.8),
               ),
               header(),
+              SizedBox(height: 10),
                 Container(
                   height: 200.0,
                   width: 400.0,
@@ -86,11 +87,12 @@ class _IconStepperDemo extends State<IconStepperDemos> {
                     borderRadius: BorderRadius.circular(17),
                   ),
                 ),
-              Column(
+              /*Column(
                 children: [
-                  Text('curiosità', style: TextStyle(fontSize: 20),)
+                  Text('Fun facts', style: TextStyle(fontSize: 20),)
                 ],
-              ),
+              ),*/
+              SizedBox(height: 10),
               Expanded(
                 child: Container(
                   alignment: Alignment.topCenter,
@@ -98,7 +100,7 @@ class _IconStepperDemo extends State<IconStepperDemos> {
                   height: double.infinity,
                   width:double.infinity,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Colors.grey.shade400,
                     borderRadius: BorderRadius.circular(17), //border corner radius
                     boxShadow:[ 
                       BoxShadow(
@@ -118,8 +120,9 @@ class _IconStepperDemo extends State<IconStepperDemos> {
                             child: Text( 
                                         city?.stops[stopIndex]?.desc ?? "", 
                                         style: TextStyle( 
-                                          color: Color.fromARGB(255, 0, 0, 0),
+                                          color: Colors.black,
                                           fontSize: 20,
+                                          fontStyle: FontStyle.italic,
                                         ),
                                   ),
                           ),
@@ -199,20 +202,23 @@ class _IconStepperDemo extends State<IconStepperDemos> {
   Widget header() {  
     
     return Container(
+      alignment: Alignment.center,
       decoration: BoxDecoration(
         color: Color.fromARGB(177, 44, 100, 212).withOpacity(0.8),
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(17),
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
               city?.stops[stopIndex]?.name ?? "",
-              
+              textAlign: TextAlign.center,
               style: TextStyle(
-                color: Colors.black,
+                color: Colors.white,
                 fontSize: 20,
+                fontStyle: FontStyle.italic,
               ),
             ),
           ),

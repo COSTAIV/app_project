@@ -15,7 +15,7 @@ class RiddlePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(RiddlePage.routename, textScaleFactor: 0.9),
-        backgroundColor: Color.fromARGB(255, 48, 41, 255).withOpacity(0.8),
+        backgroundColor: Color.fromARGB(177, 44, 100, 212).withOpacity(0.8),
         leading: IconButton(
           onPressed: () {
             _toExploreCities(context);
