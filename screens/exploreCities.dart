@@ -43,13 +43,26 @@ class ExploreCities extends StatelessWidget {
       ),
       body: _exploreCity(),
       floatingActionButton: FloatingActionButton(
+        
         backgroundColor: Color.fromARGB(176, 255, 255, 255).withOpacity(0.8),
-        onPressed: () async {
+        onPressed: () {
           Navigator.of(context).pushReplacementNamed(RiddlePage.route);
         },
-        child: Icon(Icons.lock_open),
+        child: FutureBuilder(
+                    future: SharedPreferences.getInstance(),
+                    builder: ((context, snapshot) {
+                      if (snapshot.hasData) {
+                        final sp = snapshot.data as SharedPreferences;
+                        if (sp.getBool('riddle_answer') == true) 
+                        {return Icon(Icons.lock_open);}
+                        else
+                        {
+                          return Icon(Icons.lock);
+                        }}else {
+                        return CircularProgressIndicator();
+                      }}),
       ),
-    );
+    ),);
     //build
   }
 
@@ -89,14 +102,15 @@ class ExploreCities extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30)),
                       ),
-                      onPressed: () {
-                        if (n! >= list_cities[Index].min_steps!) {
+                      onPressed: () async {
+                        final sp = await SharedPreferences.getInstance();
+                        if (n! >= list_cities[Index].min_steps! || sp.getBool('riddle_answer') == true) {
                           _toStopsCities(ctx, list_cities[Index]);
                         } else {
                           final snackBar = SnackBar(
                             backgroundColor: Colors.grey.shade400,
                               content: Text(
-                                  'You have to do at least ${list_cities[Index].min_steps} steps to visit that city !'));
+                                  'Not enough steps !', textAlign: TextAlign.center,));
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         }
                       },

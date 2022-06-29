@@ -3,7 +3,7 @@ import 'package:city_app/models/Stop.dart';
 class City {
 	String name = "";
 	List<Stop?> stops = List<Stop?>.filled(9 , null); // inizialmente vuoto, max length 9
-  int? min_steps;
+  double? min_steps;
 	// costruttore con parametri
 	City(this.name, List<Stop?> s, this.min_steps) {
 		for (int i = 0; i < stops.length; i++) {

@@ -397,6 +397,7 @@ class _ProfilePageState extends State<ProfilePage> {
     final sp = await SharedPreferences.getInstance();
     sp.remove('logged');
     sp.remove('email');
+    sp.remove('riddle_answer');
 
     //Pop the drawer first
     //Navigator.pop(context);        funziona correttemente senza a me ..., al prof va messa
@@ -544,7 +545,6 @@ class _ProfilePageState extends State<ProfilePage> {
       sp.setDouble('week_sleep', lastweek_sleep);
       loading_flag = false;
     });
-
   }
 
   void _tostepsPage(BuildContext context) {

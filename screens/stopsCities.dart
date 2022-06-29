@@ -19,7 +19,7 @@ class _IconStepperDemo extends State<IconStepperDemos> {
   int activeStep = 0; // Initial step set to 0.
   int stopIndex = 0; // Index used to navigate the City stop array
   int upperBound = 9; // upperBound MUST BE total number of icons minus 1.
-  int n_steps= 50;
+  int n_steps = 50;
   
   City? city;
   

@@ -2,12 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:city_app/screens/exploreCities.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class RiddlePage extends StatelessWidget {
+class RiddlePage extends StatefulWidget {
   RiddlePage({Key? key}) : super(key: key);
 
   static const route = '/riddlePage/';
   static const routename = 'RiddlePage';
+
+  @override
+  State<RiddlePage> createState() => _RiddlePageState();
+}
+
+class _RiddlePageState extends State<RiddlePage> {
+
+  final riddleController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -24,19 +33,136 @@ class RiddlePage extends StatelessWidget {
         ),
       ),
       body: Center(
-        child: Container(
-          color: Color.fromARGB(255, 38, 45, 50),
-          alignment: AlignmentDirectional(0.0, 0.0),
-          child: Container(
-            color: Colors.green,
-            child: Text("Mettere indovinello"),
-            constraints: BoxConstraints.expand(width: 350.0, height: 400.0),
+        child: Column(children: [
+          SizedBox(height: 40),
+          Container(
+            height: 40,
+            alignment: AlignmentDirectional(0.0, 0.0),
+            decoration: BoxDecoration(
+                color: Colors.blue.shade800,
+                border: Border.all(
+                  width: 7,
+                  color: Colors.grey.shade300,
+                ),
+                borderRadius: BorderRadius.circular(
+                  25,
+                )),
+            child: Text("Solve this riddle to unlock every city !",
+                style: TextStyle(fontSize: 20, fontFamily: 'OpenSans'),
+                textAlign: TextAlign.center),
+            constraints: BoxConstraints.expand(width: 350.0, height: 70.0),
           ),
-        ),
+          SizedBox(height: 50),
+          Container(
+            //color: Color.fromARGB(255, 38, 45, 50),
+            alignment: AlignmentDirectional(0.0, 0.0),
+            decoration: BoxDecoration(
+                color: Colors.blue.shade600,
+                border: Border.all(
+                  width: 7,
+                  color: Colors.grey.shade300,
+                ),
+                borderRadius: BorderRadius.circular(
+                  25,
+                )),
+            child: Column(children: [
+              SizedBox(height: 8.0),
+              Container(
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Color(0xFF2E5A90),
+                  borderRadius: BorderRadius.circular(10.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.white24,
+                      blurRadius: 6.0,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
+                ),
+                height: 180.0,
+                width: 300,
+                child: Text(
+                  "I have keys but do not lock. I have space but have no room. You can enter but not come in what am I ?",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'OpenSans',
+                    fontSize: 25,
+                  ),
+                ),
+                /*decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.only(top: 14.0),
+                    prefixIcon: Icon(
+                      Icons.question_mark,
+                      color: Colors.white,
+                    ),
+                  ),*/
+              ),
+              SizedBox(height: 20),
+              Container(
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: Color(0xFF2E5A90),
+                  borderRadius: BorderRadius.circular(10.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.white24,
+                      blurRadius: 6.0,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
+                ),
+                height: 60.0,
+                width: 300,
+                child: TextField(
+                  controller: riddleController,
+                  obscureText: false,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'OpenSans',
+                  ),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    contentPadding: EdgeInsets.only(top: 14.0),
+                    prefixIcon: Icon(
+                      Icons.question_mark,
+                      color: Colors.white,
+                    ),
+                    hintText: 'Answer',
+                    hintStyle: TextStyle(
+                      color: Colors.white54,
+                      fontFamily: 'OpenSans',
+                    ),
+                  ),
+                ),
+              ),
+            ]),
+            constraints: BoxConstraints.expand(width: 350.0, height: 290.0),
+          ),
+        ]),
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Color.fromARGB(176, 255, 255, 255).withOpacity(0.8),
+              onPressed: () async {
+                if (riddleController.text == 'keyboard' || riddleController.text == 'Keyboard' || riddleController.text == 'KEYBOARD')
+                {
+                final sp = await SharedPreferences.getInstance();
+                sp.setBool('riddle_answer', true);
+                _toExploreCities(context);
+                }
+                else 
+                {
+                  _toExploreCities(context);
+                }
+              },
+              child: Icon(Icons.arrow_forward_sharp),
+            ),
     );
-  } //build
+  }
 
+  //build
   void _toExploreCities(BuildContext context) {
     Navigator.of(context).pushReplacementNamed(ExploreCities.route);
   }
