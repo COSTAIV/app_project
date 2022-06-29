@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:city_app/screens/exploreCities.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class RiddlePage extends StatefulWidget {
+  //riddle to unlock every city
   RiddlePage({Key? key}) : super(key: key);
 
   static const route = '/riddlePage/';
@@ -15,7 +14,6 @@ class RiddlePage extends StatefulWidget {
 }
 
 class _RiddlePageState extends State<RiddlePage> {
-
   final riddleController = TextEditingController();
 
   @override
@@ -48,13 +46,12 @@ class _RiddlePageState extends State<RiddlePage> {
                   25,
                 )),
             child: Text("Solve this riddle to unlock every city !",
-                style: TextStyle(fontSize: 20, fontFamily: 'OpenSans'),
+                style: TextStyle(fontSize: 20, fontFamily: 'OpenSans', fontStyle: FontStyle.italic),
                 textAlign: TextAlign.center),
             constraints: BoxConstraints.expand(width: 350.0, height: 70.0),
           ),
           SizedBox(height: 50),
           Container(
-            //color: Color.fromARGB(255, 38, 45, 50),
             alignment: AlignmentDirectional(0.0, 0.0),
             decoration: BoxDecoration(
                 color: Colors.blue.shade600,
@@ -83,22 +80,16 @@ class _RiddlePageState extends State<RiddlePage> {
                 height: 180.0,
                 width: 300,
                 child: Text(
+                  //Riddle
                   "I have keys but do not lock. I have space but have no room. You can enter but not come in what am I ?",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,
                     fontFamily: 'OpenSans',
+                    fontStyle: FontStyle.italic,
                     fontSize: 25,
                   ),
                 ),
-                /*decoration: InputDecoration(
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.only(top: 14.0),
-                    prefixIcon: Icon(
-                      Icons.question_mark,
-                      color: Colors.white,
-                    ),
-                  ),*/
               ),
               SizedBox(height: 20),
               Container(
@@ -145,20 +136,22 @@ class _RiddlePageState extends State<RiddlePage> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color.fromARGB(176, 255, 255, 255).withOpacity(0.8),
-              onPressed: () async {
-                if (riddleController.text == 'keyboard' || riddleController.text == 'Keyboard' || riddleController.text == 'KEYBOARD')
-                {
-                final sp = await SharedPreferences.getInstance();
-                sp.setBool('riddle_answer', true);
-                _toExploreCities(context);
-                }
-                else 
-                {
-                  _toExploreCities(context);
-                }
-              },
-              child: Icon(Icons.arrow_forward_sharp),
-            ),
+        onPressed: () async {
+          //check the answer
+          if (riddleController.text == 'keyboard' ||
+              riddleController.text == 'Keyboard' ||
+              riddleController.text == 'KEYBOARD') {
+            final sp = await SharedPreferences.getInstance();
+            sp.setBool('riddle_answer',
+                true); //if the answer is correct you can visit every city,
+            _toExploreCities(
+                context); //if you log out you have to solve the riddle again.
+          } else {
+            _toExploreCities(context);
+          }
+        },
+        child: Icon(Icons.arrow_forward_sharp),
+      ),
     );
   }
 

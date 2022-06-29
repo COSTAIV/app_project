@@ -10,45 +10,37 @@ class DatabaseRepository extends ChangeNotifier {
   //Default constructor
   DatabaseRepository({required this.database});
 
-  //This method wraps the findAllTodos() method of the DAO
   Future<List<Day_infos>> findAllDayInfos() async {
     final results = await database.dayinfosDao.findAllDayInfos();
     return results;
-  } //findAllTodos
+  } //findAllDayInfos
 
-  //This method wraps the insertTodo() method of the DAO.
-  //Then, it notifies the listeners that something changed.
+
   Future<void> insertDayInfos(Day_infos day_infos) async {
     await database.dayinfosDao.insertDayInfos(day_infos);
     notifyListeners();
-  } 
+  }//insertDayInfos
 
- 
-  //Then, it notifies the listeners that something changed.
+
   Future<void> removeDayInfos(Day_infos day_infos) async {
     await database.dayinfosDao.removeDayInfos(day_infos);
     notifyListeners();
-  } //removeDaySteps
+  } //removeDayInfos
 
-
-
-    //This method wraps the findAllTodos() method of the DAO
   Future<List<Yesterday_sleep>> findAllYesterdaySleep() async {
     final results = await database.yesterdaysleepDao.findAllYesterdaySleep();
     return results;
-  } //findAllTodos
+  } //findAllYesterdaySleep
 
-  //This method wraps the insertTodo() method of the DAO.
-  //Then, it notifies the listeners that something changed.
+
   Future<void> insertYesterdaySleep(Yesterday_sleep yesterday_sleep) async {
     await database.yesterdaysleepDao.insertYesterdaySleep(yesterday_sleep);
     notifyListeners();
-  } 
+  }//insertYesterdaySleep
  
-  //Then, it notifies the listeners that something changed.
   Future<void> removeYesterdaySleep(Yesterday_sleep yesterday_sleep) async {
     await database.yesterdaysleepDao.removeYesterdaySleep(yesterday_sleep);
     notifyListeners();
-  } //removeDaySteps
+  } //removeYesterdaySleep
 
 } //DatabaseRepository

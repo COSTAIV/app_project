@@ -1,20 +1,19 @@
 class Stop {
-	String name = "";
-	String img = "";
-	String desc = "";
+  String name = ""; //name of the stop
+  String img = ""; //url of the image
+  String desc = ""; //description
 
-	// costruttore .create con i parametri
-	Stop.create(String n, String i, String d) {
-		name = n;
-		img = i;
-		desc = d;
-	}
+  //costructor with parameters
+  Stop.create(String n, String i, String d) {
+    name = n;
+    img = i;
+    desc = d;
+  }
 
-	// costruttore senza parametri
-	Stop() {
-		name = "";
-		img = "";
-		desc = "";
-	}
+  //costructor without parameters
+  Stop() {
+    name = "";
+    img = "";
+    desc = "";
+  }
 }
-  
