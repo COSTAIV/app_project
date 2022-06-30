@@ -251,7 +251,7 @@ City London = City(
           "https://cdn.thecrazytourist.com/wp-content/uploads/2018/08/ccimage-shutterstock_494643706.jpg",
           "Hyde Park is possibly the most famous park in London, and it is one of the largest. The park has historical significance, having hosted a number of demonstrations and protests including protests by the Suffragettes. The park’s famous Speaker’s Corner is still occupied by debates, protests, and performance artists every week. The park is home to several memorial features, as well as two bodies of water, the most famous being the Serpentine. Here you can go paddle-boating, see a number of swans, and take in a breath of fresh air in the center of the city. A must"),
       Stop.create(
-          "Buchingam palace",
+          "Buckingham palace",
           "https://cdn.thecrazytourist.com/wp-content/uploads/2018/08/ccimage-shutterstock_422936362.jpg",
           "A trip to London is incomplete without strolling through Green Park to catch a glimpse of Buckingham Palace. The palace has been home to the British Royal Family since 1837. It features 775 rooms and the largest private garden in London. Some of the palace is open to visitors so you can see a little piece of the royal lifestyle. From outside, watch the world-famous Changing of the Guard. This procedure happens a few times every day and is a great opportunity to witness a historic tradition and the utmost discipline of the Royal Guard – who are all wearing the iconic London bearskin."),
       Stop.create(
