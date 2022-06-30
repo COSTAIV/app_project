@@ -150,7 +150,7 @@ class _RiddlePageState extends State<RiddlePage> {
             _toExploreCities(context);
           }
         },
-        child: Icon(Icons.arrow_forward_sharp),
+        child: Icon(Icons.check_circle),
       ),
     );
   }

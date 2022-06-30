@@ -39,7 +39,36 @@ class ExploreCities extends StatelessWidget {
               _toProfilePage(context);
             },
             icon: Icon(Icons.arrow_back_rounded)),
-      ),
+        actions: <Widget>[
+          Padding(padding: EdgeInsets.only(right: 25.0)),
+          Padding(
+                padding: EdgeInsets.only(right: 25.0),
+                child: GestureDetector(
+                  onTap: () async {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text(""),
+                            content: Text(
+                                "Lets see what could you have visited with your weekly steps !"),
+                            actions: [
+                              FlatButton(
+                                child: Text("Ok"),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        });
+                  },
+                  child: Icon(
+                    Icons.info,
+                    size: 26.0,
+                  ),
+                )),
+        ],),
       body: _exploreCity(),
       floatingActionButton: FloatingActionButton(
         

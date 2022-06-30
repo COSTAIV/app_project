@@ -104,7 +104,7 @@ City Padova = City(
           "https://cdn.archilovers.com/projects/c_383_037e4d6dee6446579c6b5c9fcf17d213.jpg",
           "First opened in 1842, in the passenger building it has both passenger facilities and commercial activities. Don\'t miss your train!"),
       Stop.create(
-          "Cappella degli Scrovegni e Eremitani",
+          "Cappella degli Scrovegni",
           "https://upload.wikimedia.org/wikipedia/commons/4/44/La_Cappella_degli_Scrovegni.JPG",
           "Nominated UNESCO heritage site, it is the place where it is stored in near perfect conditions one of the most known and appreciated pieces of the Giotto\'s artistic collection: the \'Giudizio Universale\'"),
       Stop.create(
@@ -112,7 +112,7 @@ City Padova = City(
           "https://ilbolive.unipd.it/sites/default/files/2018-11/img_2614.jpg",
           "Historical venue of the University of Padova since 1493. To this day it hosts the rectorate, the Law School and the oldest Anatomical Theatre in the world"),
       Stop.create(
-          "Palazzo della ragione e piazza delle erbe",
+          "Palazzo della ragione",
           "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Exterior_of_Palazzo_della_Ragione_%28Padua%29.jpg/1200px-Exterior_of_Palazzo_della_Ragione_%28Padua%29.jpg",
           "The corner of the palace underneath the \'Volto della Corda\' is commonly called \'canton de le busie\' (corner of lies) because it was the place where traders met. Near the \'Volto\' the old padua\'s measurements are sculpted on white stones, they were useful not to get tricked by vendors"),
       Stop.create(
@@ -240,7 +240,7 @@ City London = City(
           "Warner Bros. Studio Tour London – The Making of Harry Potter is a walkthrough exhibition and studio tour in Leavesden, South East England, owned by Warner Bros. and operated by their Studio Tours division. It is located within Warner Bros. Studios, Leavesden, in Watford, in southwest Hertfordshire, and houses a permanent exhibit of authentic costumes, props and sets utilised in the production of the Harry Potter films, as well as behind-the-scenes production of visual effects. The tour is contained in Soundstages J and K, which were specially built for the attraction, and is separate from the studio's actual production facilities."),
       Stop.create(
           "London zoo",
-          "https://media.gettyimages.com/photos/bolivian-blackcapped-squirrel-monkeys-being-counted-at-the-zsl-london-picture-id1191309022?s=612x612.jpg",
+          "https://www.zsl.org/sites/default/files/image/2019-01/LZ%20Bhanu%20Birthday.jpg",
           "London Zoo aka ZSL London Zoo or London Zoological Gardens is the world's oldest scientific zoo.[7] It was opened in London on 27 April 1828,[8] and was originally intended to be used as a collection for scientific study. In 1831 or 1832, the animals of the Tower of London menagerie were transferred to the zoo's collection. It was opened to the public in 1847.[7] Today, it houses a collection of 673 species of animals, with 19,289 individuals, making it one of the largest collections in the United Kingdom.[9] The zoo is sometimes called Regent's Zoo."),
       Stop.create(
           "Notting Hill",

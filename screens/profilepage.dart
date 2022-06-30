@@ -6,6 +6,7 @@ import 'package:city_app/screens/loginpage.dart';
 import 'package:city_app/screens/stepsPage.dart';
 import 'package:city_app/screens/sleepPage.dart';
 import 'package:city_app/screens/exploreCities.dart';
+import 'package:city_app/screens/settingsPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fitbitter/fitbitter.dart';
 import 'package:provider/provider.dart';
@@ -56,123 +57,170 @@ class _ProfilePageState extends State<ProfilePage> {
                 : SizedBox(),
             Padding(padding: EdgeInsets.only(right: 25.0)),
             Padding(
-                padding: EdgeInsets.only(right: 25.0),
-                child: GestureDetector(
-                  onTap: () async {
-                    _deleteInfosTable(
-                        context); //delete the content of the database
-                  },
-                  child: Icon(
-                    Icons.delete,
-                    size: 26.0,
-                  ),
-                )),
-          ]),
-      drawer: Drawer(
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView(
-                padding: EdgeInsets.zero,
-                children: [
-                  Container(
-                    height: 200,
-                    alignment: Alignment.topLeft,
-                    child: Column(children: [
-                      SizedBox(height: 25),
-                      CircleAvatar(
-                        radius: 75,
-                        backgroundImage: NetworkImage(
-                            'https://cdn4.vectorstock.com/i/thumb-large/28/63/profile-placeholder-image-gray-silhouette-vector-21542863.jpg'),
-                        foregroundImage: NetworkImage(
-                            'https://www.facciabuco.com/grafica/vignette/preview_big/futurama-fry.jpg'),
-                      ),
-                    ]),
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(177, 44, 100, 212),
-                    ),
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.bed),
-                    title: const Text(
-                      'Sleep',
-                      style: TextStyle(fontSize: 24.0),
-                    ),
-                    onTap: () {
-                      _tosleepPage(context);
-                      title:
-                      'Sleep';
-                    },
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.directions_walk),
-                    title: const Text(
-                      'Steps',
-                      style: TextStyle(fontSize: 24.0),
-                    ),
-                    onTap: () {
-                      _tostepsPage(context);
-                      title:
-                      'Steps';
-                    },
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.explore),
-                    title: const Text(
-                      'Explore cities',
-                      style: TextStyle(fontSize: 24.0),
-                    ),
-                    onTap: () {
-                      final snackBar = SnackBar(
-                          duration: Duration(seconds: 6),
-                          backgroundColor: Colors.grey.shade400,
+              padding: EdgeInsets.only(right: 25.0),
+              child: GestureDetector(
+                onTap: () async {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("Are you sure ?"),
                           content: Text(
-                            'Lets see what could you have visited with your weekly steps !',
-                            textAlign: TextAlign.center,
-                          ));
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      _toExploreCities(context);
-                      title:
-                      'Explore cities';
-                    },
-                  ),
-                  SizedBox(height: 280),
-                  ListTile(
-                    leading: const Icon(Icons.block),
-                    title: const Text(
-                      'Unauthorize',
-                      style: TextStyle(fontSize: 24.0),
-                    ),
-                    onTap: () async {
-                      //unauthorize the app to use fitbit data
-                      await FitbitConnector.unauthorize(
-                        clientID: ClientInfo.fitbitClientID,
-                        clientSecret: ClientInfo.fitbitClientSecret,
-                      );
-                      final sp = await SharedPreferences.getInstance();
-                      sp.remove('userId');
-                      title:
-                      'Unauthorize';
-                    },
-                  ),
-                  ListTile(
-                    leading: const Icon(Icons.logout),
-                    title: const Text(
-                      'Logout',
-                      style: TextStyle(fontSize: 24.0),
-                    ),
-                    onTap: () {
-                      _toLoginPage(context);
-                      title:
-                      'Logout';
-                    },
-                  ),
-                ],
+                              "Are you sure you want to delete your data ?"),
+                          actions: [
+                            FlatButton(
+                              child: Text("Ok"),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                _deleteInfosTable(
+                                    context); //delete the content of the database
+                              },
+                            ),
+                            FlatButton(
+                              child: Text("Cancell"),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            )
+                          ],
+                        );
+                      });
+                },
+                child: Icon(
+                  Icons.delete,
+                  size: 26.0,
+                ),
               ),
             ),
-          ],
-        ),
-      ),
+          ]),
+      drawer: FutureBuilder(
+          future: SharedPreferences.getInstance(),
+          builder: ((context, snapshot) {
+            if (snapshot.hasData) {
+              final sp = snapshot.data as SharedPreferences;
+              return Drawer(
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView(
+                        padding: EdgeInsets.zero,
+                        children: [
+                          Container(
+                            height: 245,
+                            child: Row(children: [
+                              Container(
+                                  width: 198,
+                                  alignment: Alignment.topLeft,
+                                  margin: EdgeInsets.fromLTRB(20, 20, 30, 30),
+                                  child: Column(children: [
+                                    CircleAvatar(
+                                      radius: 74,
+                                      //backgroundImage: NetworkImage(
+                                      //'https://cdn4.vectorstock.com/i/thumb-large/28/63/profile-placeholder-image-gray-silhouette-vector-21542863.jpg'),
+                                      foregroundImage: NetworkImage(
+                                          'https://www.facciabuco.com/grafica/vignette/preview_big/futurama-fry.jpg'),
+                                    ),
+                                    SizedBox(height: 20),
+                                    Text(
+                                      sp.getString('nickname')!,
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ])),
+                              Container(
+                                alignment: Alignment.bottomRight,
+                                child: IconButton(
+                                  iconSize: 40,
+                                  icon: Icon(Icons.settings),
+                                  onPressed: () {
+                                    _tosettingsPage(context);
+                                  },
+                                ),
+                              ),
+                            ]),
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(177, 44, 100, 212),
+                            ),
+                          ),
+                          ListTile(
+                            leading: const Icon(Icons.bed),
+                            title: const Text(
+                              'Sleep',
+                              style: TextStyle(fontSize: 24.0),
+                            ),
+                            onTap: () {
+                              _tosleepPage(context);
+                              title:
+                              'Sleep';
+                            },
+                          ),
+                          ListTile(
+                            leading: const Icon(Icons.directions_walk),
+                            title: const Text(
+                              'Steps',
+                              style: TextStyle(fontSize: 24.0),
+                            ),
+                            onTap: () {
+                              _tostepsPage(context);
+                              title:
+                              'Steps';
+                            },
+                          ),
+                          ListTile(
+                            leading: const Icon(Icons.explore),
+                            title: const Text(
+                              'Explore cities',
+                              style: TextStyle(fontSize: 24.0),
+                            ),
+                            onTap: () {
+                              _toExploreCities(context);
+                              title:
+                              'Explore cities';
+                            },
+                          ),
+                          SizedBox(height: 280),
+                          ListTile(
+                            leading: const Icon(Icons.block),
+                            title: const Text(
+                              'Unauthorize',
+                              style: TextStyle(fontSize: 24.0),
+                            ),
+                            onTap: () async {
+                              //unauthorize the app to use fitbit data
+                              await FitbitConnector.unauthorize(
+                                clientID: ClientInfo.fitbitClientID,
+                                clientSecret: ClientInfo.fitbitClientSecret,
+                              );
+                              final sp = await SharedPreferences.getInstance();
+                              sp.remove('userId');
+                              title:
+                              'Unauthorize';
+                            },
+                          ),
+                          ListTile(
+                            leading: const Icon(Icons.logout),
+                            title: const Text(
+                              'Logout',
+                              style: TextStyle(fontSize: 24.0),
+                            ),
+                            onTap: () async {
+                              _toLoginPage(context);
+                              title:
+                              'Logout';
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            } else {
+              return CircularProgressIndicator();
+            }
+          })),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -180,8 +228,8 @@ class _ProfilePageState extends State<ProfilePage> {
             SizedBox(height: 10),
             CircleAvatar(
               radius: 85,
-              backgroundImage: NetworkImage(
-                  'https://cdn4.vectorstock.com/i/thumb-large/28/63/profile-placeholder-image-gray-silhouette-vector-21542863.jpg'),
+              //backgroundImage: NetworkImage(
+              //'https://cdn4.vectorstock.com/i/thumb-large/28/63/profile-placeholder-image-gray-silhouette-vector-21542863.jpg'),
               foregroundImage: NetworkImage(
                   'https://www.facciabuco.com/grafica/vignette/preview_big/futurama-fry.jpg'),
             ),
@@ -231,7 +279,7 @@ class _ProfilePageState extends State<ProfilePage> {
             SizedBox(height: 10),
             Container(
               height: 50,
-              width: 350,
+              width: 380,
               decoration: BoxDecoration(
                 gradient: const LinearGradient(
                     begin: Alignment.topLeft,
@@ -252,12 +300,12 @@ class _ProfilePageState extends State<ProfilePage> {
                         final sp = snapshot.data as SharedPreferences;
                         if (sp.getDouble('week_sleep') == null) {
                           sp.setDouble('week_sleep', 0);
-                          return Text('Last week you slept 0 hurs !',
+                          return Text('Last week you slept 0 hours !',
                               style: TextStyle(
                                   fontSize: 16.0, fontStyle: FontStyle.italic));
                         } else {
                           return Text(
-                              'Last week you slept ${(sp.getDouble('week_sleep')! / (7 * 60)).toStringAsFixed(2)} hours on average !',
+                              'Last week you slept ${((sp.getDouble('week_sleep')! / 7) ~/ 60).toString().padLeft(2, "0")}h${(((sp.getDouble('week_sleep')! / 7) % 60).toStringAsFixed(0).padLeft(2, "0"))}min on average !',
                               style: TextStyle(
                                   fontSize: 16.0, fontStyle: FontStyle.italic));
                         }
@@ -397,6 +445,7 @@ class _ProfilePageState extends State<ProfilePage> {
     final sp = await SharedPreferences.getInstance();
     sp.remove('logged');
     sp.remove('riddle_answer');
+    sp.setString('nickname', "");
     Navigator.of(context).pushReplacementNamed(LoginPage.route);
   }
 
@@ -545,6 +594,10 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void _toExploreCities(BuildContext context) {
     Navigator.of(context).pushReplacementNamed(ExploreCities.route);
+  }
+
+  void _tosettingsPage(BuildContext context) {
+    Navigator.of(context).pushReplacementNamed(SettingsPage.route);
   }
 } //ProfilePage
 
