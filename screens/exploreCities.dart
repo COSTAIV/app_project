@@ -51,7 +51,7 @@ class ExploreCities extends StatelessWidget {
                           return AlertDialog(
                             title: Text(""),
                             content: Text(
-                                "Lets see what could you have visited with your weekly steps !"),
+                                "Let\'s see what you could visit with your weekly steps !"),
                             actions: [
                               FlatButton(
                                 child: Text("Ok"),

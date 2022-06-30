@@ -50,7 +50,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     margin: EdgeInsets.all(10),
                     child: CircularProgressIndicator(
                       backgroundColor: Colors.grey,
-                      color: Color.fromARGB(255, 24, 202, 30),
+                      color: Colors.white,
                       strokeWidth: 5,
                     ),
                   )
@@ -71,13 +71,13 @@ class _ProfilePageState extends State<ProfilePage> {
                             FlatButton(
                               child: Text("Ok"),
                               onPressed: () {
-                                Navigator.of(context).pop();
+                                Navigator.of(context, rootNavigator: true).pop();                               
                                 _deleteInfosTable(
                                     context); //delete the content of the database
                               },
                             ),
                             FlatButton(
-                              child: Text("Cancell"),
+                              child: Text("Cancel"),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
@@ -180,7 +180,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               'Explore cities';
                             },
                           ),
-                          SizedBox(height: 280),
+                          SizedBox(height: 230),
                           ListTile(
                             leading: const Icon(Icons.block),
                             title: const Text(
@@ -264,7 +264,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           double? n = sp.getDouble(
                               'week_steps'); //we get the variable created after the synchronization
                           return Text(
-                              'Last week you walked ${sp.getDouble('week_steps')} steps !',
+                              'Last week you walked ${sp.getDouble('week_steps')?.toStringAsFixed(0)} steps !',
                               style: TextStyle(
                                   fontSize: 16.0, fontStyle: FontStyle.italic));
                         }
