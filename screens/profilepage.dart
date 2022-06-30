@@ -30,7 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
   final _tooltipBehavior =
       TooltipBehavior(enable: true); //to select the datapoints of the graph
   bool loading_flag = false; //true if we are deleting or synchronizing data
-  bool flag_dialog = false;   //use for dialoge logic
+  bool flag_dialog = false; //use for dialoge logic
 
   @override
   void initState() {
@@ -61,7 +61,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Padding(
               padding: EdgeInsets.only(right: 25.0),
               child: GestureDetector(
-                onTap: () async {                                  
+                onTap: () async {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -73,8 +73,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             FlatButton(
                               child: Text("Ok"),
                               onPressed: () {
-                                    Navigator.of(context).pop();
-                                    flag_dialog = true;
+                                Navigator.of(context).pop();
+                                flag_dialog = true;
                               },
                             ),
                             FlatButton(
@@ -86,13 +86,11 @@ class _ProfilePageState extends State<ProfilePage> {
                           ],
                         );
                       });
-                      if(flag_dialog == true)
-                      {
-                      _deleteInfosTable(
-                                    context); //delete the content of the database
-                                    flag_dialog = false;
-                      }
-
+                  if (flag_dialog == true) {
+                    _deleteInfosTable(
+                        context); //delete the content of the database
+                    flag_dialog = false;
+                  }
                 },
                 child: Icon(
                   Icons.delete,
@@ -126,7 +124,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       //backgroundImage: NetworkImage(
                                       //'https://cdn4.vectorstock.com/i/thumb-large/28/63/profile-placeholder-image-gray-silhouette-vector-21542863.jpg'),
                                       foregroundImage: NetworkImage(
-                                          'https://www.facciabuco.com/grafica/vignette/preview_big/futurama-fry.jpg'),
+                                          'https://www.meme-arsenal.com/memes/bae48f2ee48ba9c2285c7d653e9c8888.jpg'),
                                     ),
                                     SizedBox(height: 20),
                                     Text(
@@ -239,7 +237,7 @@ class _ProfilePageState extends State<ProfilePage> {
               //backgroundImage: NetworkImage(
               //'https://cdn4.vectorstock.com/i/thumb-large/28/63/profile-placeholder-image-gray-silhouette-vector-21542863.jpg'),
               foregroundImage: NetworkImage(
-                  'https://www.facciabuco.com/grafica/vignette/preview_big/futurama-fry.jpg'),
+                  'https://www.meme-arsenal.com/memes/bae48f2ee48ba9c2285c7d653e9c8888.jpg'),
             ),
             SizedBox(height: 10),
             Container(
@@ -482,7 +480,6 @@ class _ProfilePageState extends State<ProfilePage> {
       sp.remove('week_steps');
       sp.remove('week_sleep');
     });
-    
   }
 
   void _synchronize(BuildContext context) async {
