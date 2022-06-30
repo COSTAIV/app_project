@@ -14,6 +14,7 @@ import 'package:city_app/screens/stopsCities.dart';
 import 'package:city_app/screens/stepsPage.dart';
 import 'package:city_app/screens/sleepPage.dart';
 import 'package:city_app/screens/riddlePage.dart';
+import 'package:city_app/screens/settingsPage.dart';
 
 Future<void> main() async {
   //This is a special method that use WidgetFlutterBinding to interact with the Flutter engine.
@@ -62,6 +63,7 @@ class MyApp extends StatelessWidget {
         ExploreCities.route: (context) => ExploreCities(),
         IconStepperDemos.route: (context) => IconStepperDemos(),
         RiddlePage.route: (context) => RiddlePage(),
+        SettingsPage.route: (context) => SettingsPage(),
       },
     );
   } //build

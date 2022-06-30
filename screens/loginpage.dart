@@ -121,12 +121,17 @@ class _LoginPageState extends State<LoginPage> {
       child: RaisedButton(
         elevation: 5.0,
         onPressed: () async {
+          final sp = await SharedPreferences.getInstance();
           print('Login Button Pressed');
           if (passwordController.text.isNotEmpty &&
               mailController.text.isNotEmpty) {
-            if (mailController.text == 'example@domain.com' &&
-                passwordController.text == 'example') {
-              final sp = await SharedPreferences.getInstance();
+            if ((mailController.text == 'example@domain.com' &&
+                    passwordController.text == 'example') ||
+                (mailController.text == sp.getString('current_email') &&
+                    passwordController.text ==
+                        sp.getString('current_password'))) {
+              //if you don't remember email and password use 'example@domain.com' and 'example' respectively
+
               sp.setBool('logged', true);
               _toProfilePage(context);
             } else {
