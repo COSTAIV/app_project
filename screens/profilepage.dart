@@ -30,7 +30,6 @@ class _ProfilePageState extends State<ProfilePage> {
   final _tooltipBehavior =
       TooltipBehavior(enable: true); //to select the datapoints of the graph
   bool loading_flag = false; //true if we are deleting or synchronizing data
-  bool flag_dialog = false;   //use for dialoge logic
 
   @override
   void initState() {
@@ -59,9 +58,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 : SizedBox(),
             Padding(padding: EdgeInsets.only(right: 25.0)),
             Padding(
-              padding: EdgeInsets.only(right: 25.0),
-              child: GestureDetector(
-                onTap: () async {                                  
+              padding: EdgeInsets.only(right: 15.0),
+              child: IconButton(
+                onPressed: () async {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -73,8 +72,9 @@ class _ProfilePageState extends State<ProfilePage> {
                             FlatButton(
                               child: Text("Ok"),
                               onPressed: () {
-                                    Navigator.of(context).pop();
-                                    flag_dialog = true;
+                                Navigator.of(context).pop(context);
+                                                    _deleteInfosTable(
+                        context); //delete the content of the database
                               },
                             ),
                             FlatButton(
@@ -86,15 +86,11 @@ class _ProfilePageState extends State<ProfilePage> {
                           ],
                         );
                       });
-                      if(flag_dialog == true)
-                      {
-                      _deleteInfosTable(
-                                    context); //delete the content of the database
-                                    flag_dialog = false;
-                      }
+
+
 
                 },
-                child: Icon(
+                icon: Icon(
                   Icons.delete,
                   size: 26.0,
                 ),
@@ -482,7 +478,6 @@ class _ProfilePageState extends State<ProfilePage> {
       sp.remove('week_steps');
       sp.remove('week_sleep');
     });
-    
   }
 
   void _synchronize(BuildContext context) async {
