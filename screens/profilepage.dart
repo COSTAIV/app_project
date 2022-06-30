@@ -61,7 +61,7 @@ class _ProfilePageState extends State<ProfilePage> {
               padding: EdgeInsets.only(right: 15.0),
               child: IconButton(
                 onPressed: () async {
-                      _deleteInfosTable(
+                  _deleteInfosTable(
                       context); //delete the content of the database
                 },
                 icon: Icon(
@@ -304,7 +304,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 return FutureBuilder(
                   initialData: null,
                   future: dbr.findAllYesterdaySleep(),
-                  builder: (context, snapshot){
+                  builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       final data = snapshot.data as List<
                           Yesterday_sleep>; //to get the data about yesterday sleep
@@ -342,7 +342,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       piedata[1].yData = (cont_deep * 30) / 60;
                       piedata[2].yData = (cont_rem * 30) / 60;
                       piedata[3].yData = (cont_wake * 30) / 60;
-                      
+
                       return SfCircularChart(
                         //circular chart
                         title: ChartTitle(
