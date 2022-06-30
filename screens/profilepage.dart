@@ -56,39 +56,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   )
                 : SizedBox(),
-            Padding(padding: EdgeInsets.only(right: 25.0)),
+            Padding(padding: EdgeInsets.only(right: 10.0)),
             Padding(
               padding: EdgeInsets.only(right: 15.0),
               child: IconButton(
                 onPressed: () async {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text("Are you sure ?"),
-                          content: Text(
-                              "Are you sure you want to delete your data ?"),
-                          actions: [
-                            FlatButton(
-                              child: Text("Ok"),
-                              onPressed: () {
-                                Navigator.of(context).pop(context);
-                                                    _deleteInfosTable(
-                        context); //delete the content of the database
-                              },
-                            ),
-                            FlatButton(
-                              child: Text("Cancel"),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            )
-                          ],
-                        );
-                      });
-
-
-
+                      _deleteInfosTable(
+                      context); //delete the content of the database
                 },
                 icon: Icon(
                   Icons.delete,
@@ -122,7 +96,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       //backgroundImage: NetworkImage(
                                       //'https://cdn4.vectorstock.com/i/thumb-large/28/63/profile-placeholder-image-gray-silhouette-vector-21542863.jpg'),
                                       foregroundImage: NetworkImage(
-                                          'https://www.facciabuco.com/grafica/vignette/preview_big/futurama-fry.jpg'),
+                                          'https://www.meme-arsenal.com/memes/bae48f2ee48ba9c2285c7d653e9c8888.jpg'),
                                     ),
                                     SizedBox(height: 20),
                                     Text(
@@ -235,7 +209,7 @@ class _ProfilePageState extends State<ProfilePage> {
               //backgroundImage: NetworkImage(
               //'https://cdn4.vectorstock.com/i/thumb-large/28/63/profile-placeholder-image-gray-silhouette-vector-21542863.jpg'),
               foregroundImage: NetworkImage(
-                  'https://www.facciabuco.com/grafica/vignette/preview_big/futurama-fry.jpg'),
+                  'https://www.meme-arsenal.com/memes/bae48f2ee48ba9c2285c7d653e9c8888.jpg'),
             ),
             SizedBox(height: 10),
             Container(
@@ -330,7 +304,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 return FutureBuilder(
                   initialData: null,
                   future: dbr.findAllYesterdaySleep(),
-                  builder: (context, snapshot) {
+                  builder: (context, snapshot){
                     if (snapshot.hasData) {
                       final data = snapshot.data as List<
                           Yesterday_sleep>; //to get the data about yesterday sleep
@@ -368,7 +342,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       piedata[1].yData = (cont_deep * 30) / 60;
                       piedata[2].yData = (cont_rem * 30) / 60;
                       piedata[3].yData = (cont_wake * 30) / 60;
-
+                      
                       return SfCircularChart(
                         //circular chart
                         title: ChartTitle(

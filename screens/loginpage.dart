@@ -131,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                     passwordController.text ==
                         sp.getString('current_password'))) {
               //if you don't remember email and password use 'example@domain.com' and 'example' respectively
-              
+
               sp.setBool('logged', true);
               _toProfilePage(context);
             } else {
@@ -238,9 +238,9 @@ class _LoginPageState extends State<LoginPage> {
   void _toProfilePage(BuildContext context) async {
     final sp = await SharedPreferences.getInstance();
     if (sp.getString('nickname') == null) //for null safety
-      {
-        sp.setString('nickname', "");
-      }
+    {
+      sp.setString('nickname', "");
+    }
     Navigator.of(context).pushReplacementNamed(ProfilePage.route);
   } //_toProfilePage
 
