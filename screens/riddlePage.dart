@@ -46,7 +46,10 @@ class _RiddlePageState extends State<RiddlePage> {
                   25,
                 )),
             child: Text("Solve this riddle to unlock every city !",
-                style: TextStyle(fontSize: 20, fontFamily: 'OpenSans', fontStyle: FontStyle.italic),
+                style: TextStyle(
+                    fontSize: 20,
+                    fontFamily: 'OpenSans',
+                    fontStyle: FontStyle.italic),
                 textAlign: TextAlign.center),
             constraints: BoxConstraints.expand(width: 350.0, height: 70.0),
           ),

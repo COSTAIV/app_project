@@ -87,13 +87,14 @@ class SleepPage extends StatelessWidget {
       ),
     );
   } //build
-void _toExploresCities(BuildContext context) {
-  Navigator.pushNamed(context, '/exploreCities/');
-}
 
-void _toProfilePage(BuildContext context) {
-  Navigator.of(context).pushReplacementNamed(ProfilePage.route);
-} //_toProfilePage
+  void _toExploresCities(BuildContext context) {
+    Navigator.pushNamed(context, '/exploreCities/');
+  }
+
+  void _toProfilePage(BuildContext context) {
+    Navigator.of(context).pushReplacementNamed(ProfilePage.route);
+  } //_toProfilePage
 
 } //StepsPage
 

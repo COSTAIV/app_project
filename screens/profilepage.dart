@@ -30,6 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
   final _tooltipBehavior =
       TooltipBehavior(enable: true); //to select the datapoints of the graph
   bool loading_flag = false; //true if we are deleting or synchronizing data
+  bool flag_dialog = false;   //use for dialoge logic
 
   @override
   void initState() {
@@ -60,7 +61,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Padding(
               padding: EdgeInsets.only(right: 25.0),
               child: GestureDetector(
-                onTap: () async {                  
+                onTap: () async {                                  
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -71,10 +72,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           actions: [
                             FlatButton(
                               child: Text("Ok"),
-                              onPressed: () async {
-                                _deleteInfosTable(context);
-                                Navigator.of(context, rootNavigator: true).pop();                               
-                                
+                              onPressed: () {
+                                    Navigator.of(context).pop();
+                                    flag_dialog = true;
                               },
                             ),
                             FlatButton(
@@ -86,8 +86,13 @@ class _ProfilePageState extends State<ProfilePage> {
                           ],
                         );
                       });
-                       //delete the content of the database
-                  
+                      if(flag_dialog == true)
+                      {
+                      _deleteInfosTable(
+                                    context); //delete the content of the database
+                                    flag_dialog = false;
+                      }
+
                 },
                 child: Icon(
                   Icons.delete,
@@ -464,12 +469,12 @@ class _ProfilePageState extends State<ProfilePage> {
       await Provider.of<DatabaseRepository>(context, listen: false)
           .removeDayInfos(data[i]);
     }
-    final data_yeasterdaysleep =
+    final data_yesterdaysleep =
         await Provider.of<DatabaseRepository>(context, listen: false)
             .findAllYesterdaySleep() as List<Yesterday_sleep>;
-    for (var i = 0; i < data_yeasterdaysleep.length; i++) {
+    for (var i = 0; i < data_yesterdaysleep.length; i++) {
       await Provider.of<DatabaseRepository>(context, listen: false)
-          .removeYesterdaySleep(data_yeasterdaysleep[i]);
+          .removeYesterdaySleep(data_yesterdaysleep[i]);
     }
     final sp = await SharedPreferences.getInstance();
     setState(() {
