@@ -211,11 +211,11 @@ City Paris = City(
           "Place des Vosges is one of the most beautiful squares in Le Marais or even Paris which is funny if you think about it. If someone described it as a, “small park completely walled in by four walls of houses that look exactly the same as one another,” you may not really want to go there!"),
       Stop.create(
           "Musée de l\'Armée",
-          "https://upload.wikimedia.org/wikipedia/commons/0/07/Mus%C3%A9e_de_l%27Arm%C3%A9e_Les_Invalides_%2C_Army_Museum_Paris_2.jpg",
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Mus%C3%A9e_de_l%27Arm%C3%A9e_Les_Invalides_%2C_Army_Museum_Paris_2.JPG/390px-Mus%C3%A9e_de_l%27Arm%C3%A9e_Les_Invalides_%2C_Army_Museum_Paris_2.JPG",
           "The Musée de l'Armée is a national military museum of France located at Les Invalides in the 7th arrondissement of Paris. It is served by Paris Métro stations Invalides, Varenne, and La Tour-Maubourg. The Musée de l'Armée was created in 1905 with the merger of the Musée d'Artillerie and the Musée Historique de l'Armée. The museum's seven main spaces and departments contain collections that span the period from antiquity through the 20th century. "),
       Stop.create(
           "Versailles",
-          "https://images.france.fr/zeaejvyq9bhj/64kCwS0ni6U425WaHzUZGj/2f1cdfa24b5a6497f45bb1a521a78430/LATONE_-_Vue_du_Bassin___Cha__teau_de_Versailles__Christian_Milet.jpg",
+          "https://www.cronachedispogliatoio.it/wp-content/uploads/2022/01/versailles-scaled.jpg",
           "The Château de Versailles, the sprawling palace and former seat of power, is located 14 miles southwest of Paris in Versailles. Every year, millions of travelers make the trek from Paris to bear witness to the chateau's world-famous grandeur in person. But between all of the gold figurines, dramatic frescoes and cascading crystal chandeliers you'll no doubt find in bulk throughout the chateau, you might be surprised to learn that King Louis XIV's extravagant former residence had pretty humble-ish beginnings.")
     ]),
     75300);
@@ -251,7 +251,7 @@ City London = City(
           "https://cdn.thecrazytourist.com/wp-content/uploads/2018/08/ccimage-shutterstock_494643706.jpg",
           "Hyde Park is possibly the most famous park in London, and it is one of the largest. The park has historical significance, having hosted a number of demonstrations and protests including protests by the Suffragettes. The park’s famous Speaker’s Corner is still occupied by debates, protests, and performance artists every week. The park is home to several memorial features, as well as two bodies of water, the most famous being the Serpentine. Here you can go paddle-boating, see a number of swans, and take in a breath of fresh air in the center of the city. A must"),
       Stop.create(
-          "Buchingam palace",
+          "Buckingham Palace",
           "https://cdn.thecrazytourist.com/wp-content/uploads/2018/08/ccimage-shutterstock_422936362.jpg",
           "A trip to London is incomplete without strolling through Green Park to catch a glimpse of Buckingham Palace. The palace has been home to the British Royal Family since 1837. It features 775 rooms and the largest private garden in London. Some of the palace is open to visitors so you can see a little piece of the royal lifestyle. From outside, watch the world-famous Changing of the Guard. This procedure happens a few times every day and is a great opportunity to witness a historic tradition and the utmost discipline of the Royal Guard – who are all wearing the iconic London bearskin."),
       Stop.create(
