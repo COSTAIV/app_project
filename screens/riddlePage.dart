@@ -53,7 +53,7 @@ class _RiddlePageState extends State<RiddlePage> {
                 textAlign: TextAlign.center),
             constraints: BoxConstraints.expand(width: 350.0, height: 70.0),
           ),
-          SizedBox(height: 50),
+          SizedBox(height: 10),
           Container(
             alignment: AlignmentDirectional(0.0, 0.0),
             decoration: BoxDecoration(
