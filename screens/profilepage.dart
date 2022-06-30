@@ -7,6 +7,7 @@ import 'package:city_app/screens/stepsPage.dart';
 import 'package:city_app/screens/sleepPage.dart';
 import 'package:city_app/screens/exploreCities.dart';
 import 'package:city_app/screens/settingsPage.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fitbitter/fitbitter.dart';
 import 'package:provider/provider.dart';
@@ -59,7 +60,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Padding(
               padding: EdgeInsets.only(right: 25.0),
               child: GestureDetector(
-                onTap: () async {
+                onTap: () async {                  
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -70,10 +71,10 @@ class _ProfilePageState extends State<ProfilePage> {
                           actions: [
                             FlatButton(
                               child: Text("Ok"),
-                              onPressed: () {
+                              onPressed: () async {
+                                _deleteInfosTable(context);
                                 Navigator.of(context, rootNavigator: true).pop();                               
-                                _deleteInfosTable(
-                                    context); //delete the content of the database
+                                
                               },
                             ),
                             FlatButton(
@@ -85,6 +86,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           ],
                         );
                       });
+                       //delete the content of the database
+                  
                 },
                 child: Icon(
                   Icons.delete,
@@ -474,6 +477,7 @@ class _ProfilePageState extends State<ProfilePage> {
       sp.remove('week_steps');
       sp.remove('week_sleep');
     });
+    
   }
 
   void _synchronize(BuildContext context) async {

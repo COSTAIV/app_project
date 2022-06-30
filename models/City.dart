@@ -75,7 +75,7 @@ City Roma = City(
           "https://media.timeout.com/images/105163398/380/285/image.jpg",
           "An ancient Roman temple dedicated to \"All of the Gods\", the Pantheon is one of the best-preserved buildings from ancient Rome and continues to inspire visitors to this day. It was built by Emperor Hadrian in 125 AD on the site of a former temple built by Marcus Agrippa, and it boasts the largest (unreinforced) dome in the world, measuring 142 feet in diameter. If you are lucky enough to be in town over Pentecost weekend (which falls on June 9 this year), be sure to attend Sunday Mass when rose petals are dropped from the oculus during the celebration."),
       Stop.create(
-          "Villa Borghese, ",
+          "Villa Borghese ",
           "https://cdn.thecrazytourist.com/wp-content/uploads/2021/03/ccimage-shutterstock_83906344.jpg",
           "Situated in the Borghese Villa complex, the Galleria Borghese is an important art museum that contains a myriad of fine paintings, sculptures and antiques. Established in 1903, the Borghese complex is found in the northern part of the inner city next to the Via Pinciana road. The impressive building has a beautiful and ornate front facade that has many stone statues and decoration. Spread across twenty different rooms, the extensive Borghese collection includes works by Raphael, Caravaggio, Rubens and Titan. Allow ample time to view the masterpieces on display here and also the magnificent Borghese Villa gardens."),
       Stop.create(
