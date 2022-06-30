@@ -7,6 +7,7 @@ import 'package:city_app/screens/stepsPage.dart';
 import 'package:city_app/screens/sleepPage.dart';
 import 'package:city_app/screens/exploreCities.dart';
 import 'package:city_app/screens/settingsPage.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fitbitter/fitbitter.dart';
 import 'package:provider/provider.dart';
@@ -29,6 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
   final _tooltipBehavior =
       TooltipBehavior(enable: true); //to select the datapoints of the graph
   bool loading_flag = false; //true if we are deleting or synchronizing data
+  bool flag_dialog = false;   //use for dialoge logic
 
   @override
   void initState() {
@@ -50,7 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     margin: EdgeInsets.all(10),
                     child: CircularProgressIndicator(
                       backgroundColor: Colors.grey,
-                      color: Color.fromARGB(255, 24, 202, 30),
+                      color: Colors.white,
                       strokeWidth: 5,
                     ),
                   )
@@ -59,7 +61,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Padding(
               padding: EdgeInsets.only(right: 25.0),
               child: GestureDetector(
-                onTap: () async {
+                onTap: () async {                                  
                   showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -71,13 +73,12 @@ class _ProfilePageState extends State<ProfilePage> {
                             FlatButton(
                               child: Text("Ok"),
                               onPressed: () {
-                                Navigator.of(context).pop();
-                                _deleteInfosTable(
-                                    context); //delete the content of the database
+                                    Navigator.of(context).pop();
+                                    flag_dialog = true;
                               },
                             ),
                             FlatButton(
-                              child: Text("Cancell"),
+                              child: Text("Cancel"),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
@@ -85,6 +86,13 @@ class _ProfilePageState extends State<ProfilePage> {
                           ],
                         );
                       });
+                      if(flag_dialog == true)
+                      {
+                      _deleteInfosTable(
+                                    context); //delete the content of the database
+                                    flag_dialog = false;
+                      }
+
                 },
                 child: Icon(
                   Icons.delete,
@@ -180,7 +188,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               'Explore cities';
                             },
                           ),
-                          SizedBox(height: 280),
+                          SizedBox(height: 230),
                           ListTile(
                             leading: const Icon(Icons.block),
                             title: const Text(
@@ -264,7 +272,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           double? n = sp.getDouble(
                               'week_steps'); //we get the variable created after the synchronization
                           return Text(
-                              'Last week you walked ${sp.getDouble('week_steps')} steps !',
+                              'Last week you walked ${sp.getDouble('week_steps')?.toStringAsFixed(0)} steps !',
                               style: TextStyle(
                                   fontSize: 16.0, fontStyle: FontStyle.italic));
                         }
@@ -461,12 +469,12 @@ class _ProfilePageState extends State<ProfilePage> {
       await Provider.of<DatabaseRepository>(context, listen: false)
           .removeDayInfos(data[i]);
     }
-    final data_yeasterdaysleep =
+    final data_yesterdaysleep =
         await Provider.of<DatabaseRepository>(context, listen: false)
             .findAllYesterdaySleep() as List<Yesterday_sleep>;
-    for (var i = 0; i < data_yeasterdaysleep.length; i++) {
+    for (var i = 0; i < data_yesterdaysleep.length; i++) {
       await Provider.of<DatabaseRepository>(context, listen: false)
-          .removeYesterdaySleep(data_yeasterdaysleep[i]);
+          .removeYesterdaySleep(data_yesterdaysleep[i]);
     }
     final sp = await SharedPreferences.getInstance();
     setState(() {
@@ -474,6 +482,7 @@ class _ProfilePageState extends State<ProfilePage> {
       sp.remove('week_steps');
       sp.remove('week_sleep');
     });
+    
   }
 
   void _synchronize(BuildContext context) async {
