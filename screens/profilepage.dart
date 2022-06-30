@@ -122,24 +122,23 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
                                     SizedBox(height: 20),
                                     Text(
-                                    sp.getString('nickname')!,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                                                    ])),
-                                Container(
-                                  alignment: Alignment.bottomRight,
-                                  child: IconButton(
-                                    iconSize: 40,
-                                    icon: Icon(Icons.settings),
-                                    onPressed: () {
-                                      _tosettingsPage(context);
-                                    },
-                                  ),
+                                      sp.getString('nickname')!,
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                          fontSize: 20.0,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ])),
+                              Container(
+                                alignment: Alignment.bottomRight,
+                                child: IconButton(
+                                  iconSize: 40,
+                                  icon: Icon(Icons.settings),
+                                  onPressed: () {
+                                    _tosettingsPage(context);
+                                  },
                                 ),
-                              
+                              ),
                             ]),
                             decoration: BoxDecoration(
                               color: Color.fromARGB(177, 44, 100, 212),
@@ -446,6 +445,7 @@ class _ProfilePageState extends State<ProfilePage> {
     final sp = await SharedPreferences.getInstance();
     sp.remove('logged');
     sp.remove('riddle_answer');
+    sp.setString('nickname', "");
     Navigator.of(context).pushReplacementNamed(LoginPage.route);
   }
 
