@@ -7,6 +7,7 @@ import 'package:city_app/screens/stepsPage.dart';
 import 'package:city_app/screens/sleepPage.dart';
 import 'package:city_app/screens/exploreCities.dart';
 import 'package:city_app/screens/settingsPage.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fitbitter/fitbitter.dart';
 import 'package:provider/provider.dart';
@@ -51,7 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     margin: EdgeInsets.all(10),
                     child: CircularProgressIndicator(
                       backgroundColor: Colors.grey,
-                      color: Color.fromARGB(255, 24, 202, 30),
+                      color: Colors.white,
                       strokeWidth: 5,
                     ),
                   )
@@ -187,7 +188,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               'Explore cities';
                             },
                           ),
-                          SizedBox(height: 280),
+                          SizedBox(height: 230),
                           ListTile(
                             leading: const Icon(Icons.block),
                             title: const Text(
@@ -271,7 +272,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           double? n = sp.getDouble(
                               'week_steps'); //we get the variable created after the synchronization
                           return Text(
-                              'Last week you walked ${sp.getDouble('week_steps')} steps !',
+                              'Last week you walked ${sp.getDouble('week_steps')?.toStringAsFixed(0)} steps !',
                               style: TextStyle(
                                   fontSize: 16.0, fontStyle: FontStyle.italic));
                         }
@@ -481,6 +482,7 @@ class _ProfilePageState extends State<ProfilePage> {
       sp.remove('week_steps');
       sp.remove('week_sleep');
     });
+    
   }
 
   void _synchronize(BuildContext context) async {
