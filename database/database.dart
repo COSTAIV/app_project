@@ -13,7 +13,6 @@ import 'entities/yesterdaysleep.dart';
 //The generated code will be in database.g.dart
 part 'database.g.dart';
 
-//Here we are saying that this is the first version of the Database and it has just 1 entity, i.e., Todo
 @TypeConverters([DateTimeConverter])
 @Database(version: 1, entities: [Day_infos, Yesterday_sleep])
 abstract class AppDatabase extends FloorDatabase {

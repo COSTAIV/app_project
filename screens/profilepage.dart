@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:city_app/database/entities/dayinfos.dart';
 import 'package:city_app/database/entities/yesterdaysleep.dart';
 import 'package:city_app/utils/client_info.dart';
@@ -12,10 +10,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fitbitter/fitbitter.dart';
 import 'package:provider/provider.dart';
 import 'package:city_app/repository/databaseRepository.dart';
-import 'package:floor/floor.dart';
 
-import 'package:syncfusion_flutter_charts/charts.dart'; ////////////////////
-import 'package:intl/intl.dart'; ////////////////////
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:intl/intl.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -28,8 +25,9 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final _tooltipBehavior = TooltipBehavior(enable: true);
-  bool loading_flag = false;
+  final _tooltipBehavior =
+      TooltipBehavior(enable: true); //to select the datapoints of the graph
+  bool loading_flag = false; //true if we are deleting or synchronizing data
 
   @override
   void initState() {
@@ -45,7 +43,8 @@ class _ProfilePageState extends State<ProfilePage> {
           title: Text(ProfilePage.routename, textScaleFactor: 0.9),
           backgroundColor: Color.fromARGB(177, 44, 100, 212).withOpacity(0.8),
           actions: <Widget>[
-            loading_flag == true
+            loading_flag ==
+                    true //circular progress indicator only if we are deleting or synchronizing data
                 ? Container(
                     margin: EdgeInsets.all(10),
                     child: CircularProgressIndicator(
@@ -60,7 +59,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 padding: EdgeInsets.only(right: 25.0),
                 child: GestureDetector(
                   onTap: () async {
-                    _deleteInfosTable(context);
+                    _deleteInfosTable(
+                        context); //delete the content of the database
                   },
                   child: Icon(
                     Icons.delete,
@@ -83,6 +83,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       CircleAvatar(
                         radius: 75,
                         backgroundImage: NetworkImage(
+                            'https://cdn4.vectorstock.com/i/thumb-large/28/63/profile-placeholder-image-gray-silhouette-vector-21542863.jpg'),
+                        foregroundImage: NetworkImage(
                             'https://www.facciabuco.com/grafica/vignette/preview_big/futurama-fry.jpg'),
                       ),
                     ]),
@@ -121,6 +123,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       style: TextStyle(fontSize: 24.0),
                     ),
                     onTap: () {
+                      final snackBar = SnackBar(
+                          duration: Duration(seconds: 6),
+                          backgroundColor: Colors.grey.shade400,
+                          content: Text(
+                            'Lets see what could you have visited with your weekly steps !',
+                            textAlign: TextAlign.center,
+                          ));
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       _toExploreCities(context);
                       title:
                       'Explore cities';
@@ -134,6 +144,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       style: TextStyle(fontSize: 24.0),
                     ),
                     onTap: () async {
+                      //unauthorize the app to use fitbit data
                       await FitbitConnector.unauthorize(
                         clientID: ClientInfo.fitbitClientID,
                         clientSecret: ClientInfo.fitbitClientSecret,
@@ -168,15 +179,14 @@ class _ProfilePageState extends State<ProfilePage> {
           children: [
             SizedBox(height: 10),
             CircleAvatar(
-              //foregroundColor: Color.fromARGB(176, 234, 237, 243),
               radius: 85,
               backgroundImage: NetworkImage(
+                  'https://cdn4.vectorstock.com/i/thumb-large/28/63/profile-placeholder-image-gray-silhouette-vector-21542863.jpg'),
+              foregroundImage: NetworkImage(
                   'https://www.facciabuco.com/grafica/vignette/preview_big/futurama-fry.jpg'),
             ),
             SizedBox(height: 10),
             Container(
-              //height: MediaQuery.of(context).size.height * 1 / 10,
-              //width: MediaQuery.of(context).size.width * 3 / 5,
               height: 50,
               width: 320,
               decoration: BoxDecoration(
@@ -191,7 +201,6 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                // ignore: prefer_const_literals_to_create_immutables
                 children: [
                   FutureBuilder(
                     future: SharedPreferences.getInstance(),
@@ -204,7 +213,8 @@ class _ProfilePageState extends State<ProfilePage> {
                               style: TextStyle(
                                   fontSize: 16.0, fontStyle: FontStyle.italic));
                         } else {
-                          double? n = sp.getDouble('week_steps');
+                          double? n = sp.getDouble(
+                              'week_steps'); //we get the variable created after the synchronization
                           return Text(
                               'Last week you walked ${sp.getDouble('week_steps')} steps !',
                               style: TextStyle(
@@ -220,8 +230,6 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             SizedBox(height: 10),
             Container(
-              //height: MediaQuery.of(context).size.height * 1 / 10,
-              //width: MediaQuery.of(context).size.width * 3 / 5,
               height: 50,
               width: 350,
               decoration: BoxDecoration(
@@ -236,7 +244,6 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                // ignore: prefer_const_literals_to_create_immutables
                 children: [
                   FutureBuilder(
                     future: SharedPreferences.getInstance(),
@@ -273,7 +280,10 @@ class _ProfilePageState extends State<ProfilePage> {
                   future: dbr.findAllYesterdaySleep(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      final data = snapshot.data as List<Yesterday_sleep>;
+                      final data = snapshot.data as List<
+                          Yesterday_sleep>; //to get the data about yesterday sleep
+
+                      //initilizations
                       List<_PieData>? piedata = [
                         _PieData('light', 0),
                         _PieData('deep', 0),
@@ -286,7 +296,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       int cont_rem = 0;
                       int cont_wake = 0;
 
-                      //////////////riempimento della lista
+                      //count how many datapoints for each level
                       for (var i = 0; i < data.length; i++) {
                         if (data[i].level == 'light') {
                           cont_light++;
@@ -301,18 +311,14 @@ class _ProfilePageState extends State<ProfilePage> {
                           cont_wake++;
                         }
                       }
-
+                      //conversion in hours (a datapoint is 30s wide)
                       piedata[0].yData = (cont_light * 30) / 60;
                       piedata[1].yData = (cont_deep * 30) / 60;
                       piedata[2].yData = (cont_rem * 30) / 60;
                       piedata[3].yData = (cont_wake * 30) / 60;
 
-                      cont_light = 0;
-                      cont_deep = 0;
-                      cont_rem = 0;
-                      cont_wake = 0;
-
                       return SfCircularChart(
+                        //circular chart
                         title: ChartTitle(
                             text: 'Yesterday sleep',
                             textStyle: TextStyle(
@@ -330,7 +336,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               xValueMapper: (_PieData pie_data, _) =>
                                   pie_data.xData,
                               yValueMapper: (_PieData pie_data, _) =>
-                                  pie_data.yData / 60, //dato in ore
+                                  pie_data.yData / 60, //in hours
                               dataLabelSettings:
                                   DataLabelSettings(isVisible: false),
                               dataLabelMapper: (_PieData data, _) => data.text,
@@ -338,17 +344,14 @@ class _ProfilePageState extends State<ProfilePage> {
                         ],
                       );
                     } else {
-                      //A CircularProgressIndicator is shown while the list of Todo is loading.
                       return CircularProgressIndicator();
-                    } //else
-                  }, //builder of FutureBuilder
+                    }
+                  },
                 );
               }),
             ),
             SizedBox(height: 10),
             Container(
-              //height: MediaQuery.of(context).size.height * 1 / 10,
-              //width: MediaQuery.of(context).size.width * 3 / 5,
               height: 60,
               width: 300,
               decoration: BoxDecoration(
@@ -363,7 +366,6 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                // ignore: prefer_const_literals_to_create_immutables
                 children: [
                   const Text(""),
                   const Text("Synchronize your data",
@@ -379,7 +381,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         iconSize: 25.0,
                         color: Colors.green,
                         onPressed: () async {
-                          _synchronize(context);
+                          _synchronize(context); //data synchronization
                         },
                       )),
                 ],
@@ -391,23 +393,19 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  //build
   void _toLoginPage(BuildContext context) async {
-    //Unset the 'username' filed in SharedPreference
     final sp = await SharedPreferences.getInstance();
     sp.remove('logged');
-    sp.remove('email');
-
-    //Pop the drawer first
-    //Navigator.pop(context);        funziona correttemente senza a me ..., al prof va messa
-    //Then pop the ProfilePage
+    sp.remove('riddle_answer');
     Navigator.of(context).pushReplacementNamed(LoginPage.route);
   }
 
   void _deleteInfosTable(BuildContext context) async {
     setState(() {
-      loading_flag = true;
+      loading_flag = true; //for the circular progress indicator
     });
+
+    //deletion of table contents
     final data = await Provider.of<DatabaseRepository>(context, listen: false)
         .findAllDayInfos() as List<Day_infos>;
     for (var i = 0; i < data.length; i++) {
@@ -431,11 +429,10 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void _synchronize(BuildContext context) async {
     setState(() {
-      loading_flag = true;
+      loading_flag = true; //for the circular progress indicator
     });
-    //final sp = await SharedPreferences.getInstance();
-    //if (sp.getString('userId') == null) {     cambia logica perche expires il token mi sa ...
-    // Authorize the app se non lhai gia fatto
+
+    //request of authorization
     String? userId = await FitbitConnector.authorize(
         context: context,
         clientID: ClientInfo.fitbitClientID,
@@ -445,7 +442,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
     final sp = await SharedPreferences.getInstance();
     sp.setString('userId', userId!);
-    //}
 
     String? user_id = sp.getString('userId');
 
@@ -465,13 +461,13 @@ class _ProfilePageState extends State<ProfilePage> {
       resource: fitbitActivityTimeseriesDataManager.type,
     )) as List<FitbitActivityTimeseriesData>;
 
-    //fetchare dati sonno ////
-
+    //Instantiate a proper data manager
     FitbitSleepDataManager fitbitSleepDataManager = FitbitSleepDataManager(
       clientID: ClientInfo.fitbitClientID,
       clientSecret: ClientInfo.fitbitClientSecret,
     );
 
+    //Fetch sleep data
     FitbitSleepAPIURL fitbitSleepAPIURL =
         FitbitSleepAPIURL.withUserIDAndDateRange(
       startDate: DateTime.now().subtract(Duration(days: 8)),
@@ -479,19 +475,16 @@ class _ProfilePageState extends State<ProfilePage> {
       userID: userId,
     );
 
-    //List<FitbitSleepAPIURL> fitbitSleepAPIURL = await fitbitSleepDataManager.fetch(fitbitSleepAPIURL);  nel sito prof
     final sleepData = await fitbitSleepDataManager.fetch(fitbitSleepAPIURL)
         as List<FitbitSleepData>;
-    //final response = await getResponse(fitbitSleepAPIURL);
 
-    //trovo durata in minuti del sonno nelle varie giornate
+    //filling of the database
     DateTime current_day = DateTime.now().subtract(Duration(days: 1));
     current_day = DateUtils.dateOnly(current_day);
     final yesterday = current_day;
-
-    //riempimento database (magari mettilo sottoforma di funzione da chiamare)
     DateTime lim_inf = sleepData[0].entryDateTime!;
     DateTime lim_sup = sleepData[0].entryDateTime!;
+    //initializations
     num minutes_of_sleep = 0;
     int k = 0;
     double lastweek_steps = 0;
@@ -500,29 +493,27 @@ class _ProfilePageState extends State<ProfilePage> {
     for (var i = 0; i < sleepData.length - 2; i++) {
       if (DateUtils.dateOnly(sleepData[i].dateOfSleep!) == current_day &&
           DateUtils.dateOnly(sleepData[i + 1].dateOfSleep!) != current_day) {
+        //sleep duration as start - end entry date
         lim_sup = sleepData[i].entryDateTime!;
         minutes_of_sleep =
             (lim_sup.millisecondsSinceEpoch - lim_inf.millisecondsSinceEpoch) /
                 60000;
         lastweek_steps += stepsData[k].value!;
         lastweek_sleep += minutes_of_sleep;
-        print(minutes_of_sleep);
         Day_infos newdayinfos = Day_infos(
-          stepsData[6 - k].dateOfMonitoring!.millisecondsSinceEpoch,
+          stepsData[6 - k]
+              .dateOfMonitoring!
+              .millisecondsSinceEpoch, //Date in milliseconds = primary key
           stepsData[6 - k].dateOfMonitoring!,
           stepsData[6 - k].value!,
           minutes_of_sleep.toDouble(),
-        ); //devo essere sicuro che non sono null
-
-        //print (newdaysteps);
+        );
         await Provider.of<DatabaseRepository>(context, listen: false)
             .insertDayInfos(newdayinfos);
-
         k = k + 1;
-
-        ///salva in memoria minuti con data
         lim_inf = sleepData[i + 1].entryDateTime!;
-        current_day = current_day.subtract(Duration(days: 1));
+        current_day =
+            current_day.subtract(Duration(days: 1)); //pass to the day before
       }
 
       if (DateUtils.dateOnly(sleepData[i].dateOfSleep!) == yesterday) {
@@ -533,18 +524,15 @@ class _ProfilePageState extends State<ProfilePage> {
           sleepData[i].entryDateTime!,
         );
 
-        //inserisco primo per discorso indici
         await Provider.of<DatabaseRepository>(context, listen: false)
             .insertYesterdaySleep(newyesterday);
       }
     }
-
     setState(() {
       sp.setDouble('week_steps', lastweek_steps);
       sp.setDouble('week_sleep', lastweek_sleep);
       loading_flag = false;
     });
-
   }
 
   void _tostepsPage(BuildContext context) {

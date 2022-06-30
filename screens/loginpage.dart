@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:city_app/screens/profilepage.dart';
-//import 'package:flutter_login/flutter_login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
@@ -17,6 +16,13 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final mailController = TextEditingController();
   final passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    //Check if the user is already logged in before rendering the login page
+    _checkLogin();
+  } //initState
 
   Widget _buildEmailTF() {
     return Column(
@@ -118,43 +124,29 @@ class _LoginPageState extends State<LoginPage> {
           print('Login Button Pressed');
           if (passwordController.text.isNotEmpty &&
               mailController.text.isNotEmpty) {
-            //String password = getEncryptedString(passwordController.text);
-            //String mail = getEncryptedString(mailController.text);
-            if (mailController.text == 'marco@gmail.com' &&
-                passwordController.text == 'rossi') {
+            if (mailController.text == 'example@domain.com' &&
+                passwordController.text == 'example') {
               final sp = await SharedPreferences.getInstance();
               sp.setBool('logged', true);
-              sp.setString('email', mailController.text);
-
               _toProfilePage(context);
-              //final sp = await SharedPreferences.getInstance();
-              //sp.setString('username', data.name);
-              //return '';
             } else {
-              //return 'Wrong credentials';
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("Error"),
+                      content: Text("Wrong credentials"),
+                      actions: [
+                        FlatButton(
+                          child: Text("Ok"),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        )
+                      ],
+                    );
+                  });
             }
-
-            /*
-            final Map<String, String> body = {
-              'mail': mail,
-              'password': password
-            };
-            String response = await makePostRequest(
-                url, loginPath, header, body);
-            if (response.contains("#")) {
-              _showWindowDialog(response, context);
-              List<String> parameters = response.split("#")[1].split("*");
-              String username = parameters[0];
-              int id = int.parse(parameters[1]);
-              bool activated = parameters[2] ==
-                  "true"; //in dart non esiste un modo per passare da stringa a boolean...
-
-              UserData.user = new User(id, activated, username, mail);
-              //si potrebbe fare in un'unica richiesta, passando ad un formato json
-              UserData.activities = await getUserActivitiesSQL();
-            } else {
-              _showWindowDialog("Error: " + response, context);
-            }*/
           }
         },
         padding: EdgeInsets.all(15.0),
@@ -176,13 +168,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-    //Check if the user is already logged in before rendering the login page
-    _checkLogin();
-  } //initState
-
   void _checkLogin() async {
     //Get the SharedPreference instance and check if the value of the 'username' filed is set or not
     final sp = await SharedPreferences.getInstance();
@@ -191,40 +176,6 @@ class _LoginPageState extends State<LoginPage> {
       _toProfilePage(context);
     } //if
   } //_checkLogin
-
-/*
-  void initState() {
-    super.initState();
-    //Check if the user is already logged in before rendering the login page
-    _checkLogin();
-  }//initState
-  void _checkLogin() async {
-    //Get the SharedPreference instance and check if the value of the 'username' filed is set or not
-    final sp = await SharedPreferences.getInstance();
-    if(sp.getString('username') != null){
-      //If 'username is set, push the HomePage
-      _toHomePage(context);
-    }//if
-  }//_checkLogin
-  Future<String> _loginUser(LoginData data) async {
-    if(data.name == 'bug@expert.com' && data.password == '5TrNgP5Wd'){
-      final sp = await SharedPreferences.getInstance();
-      sp.setString('username', data.name);
-      return '';
-    } else {
-      return 'Wrong credentials';
-    }
-  } 
- // _loginUser
-  Future<String> _signUpUser(SignupData data) async {
-    return 'To be implemented';
-  } 
- // _signUpUser
-  Future<String> _recoverPassword(String email) async {
-    return 'Recover password functionality needs to be implemented';
-  } 
-  */
-  // _recoverPassword
 
   @override
   Widget build(BuildContext context) {
@@ -238,9 +189,8 @@ class _LoginPageState extends State<LoginPage> {
               Container(
                 height: double.infinity,
                 width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 18, 32, 47)
-                ),
+                decoration:
+                    BoxDecoration(color: Color.fromARGB(255, 18, 32, 47)),
               ),
               Container(
                 height: double.infinity,
@@ -254,7 +204,7 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        'Sign In',
+                        'Welcome',
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'OpenSans',
@@ -269,7 +219,6 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       _pwdWidget(),
                       _loginBtn(),
-                      //_signInBtn(),
                     ],
                   ),
                 ),
@@ -279,18 +228,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
-  
-    /*
-    return FlutterLogin(
-      title: 'login_flow',
-      onLogin: _loginUser,
-      onSignup: _signUpUser,
-      onRecoverPassword: _recoverPassword,
-      onSubmitAnimationCompleted: () async{
-        _toHomePage(context);
-      },
-    );*/
-  } // build
+  }
 
   void _toProfilePage(BuildContext context) {
     Navigator.of(context).pushReplacementNamed(ProfilePage.route);
