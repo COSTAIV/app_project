@@ -32,7 +32,7 @@ class _RiddlePageState extends State<RiddlePage> {
       ),
       body: Center(
         child: Column(children: [
-          SizedBox(height: 40),
+          SizedBox(height: 20),
           Container(
             height: 40,
             alignment: AlignmentDirectional(0.0, 0.0),
@@ -50,7 +50,7 @@ class _RiddlePageState extends State<RiddlePage> {
                 textAlign: TextAlign.center),
             constraints: BoxConstraints.expand(width: 350.0, height: 70.0),
           ),
-          SizedBox(height: 50),
+          SizedBox(height: 10),
           Container(
             alignment: AlignmentDirectional(0.0, 0.0),
             decoration: BoxDecoration(
