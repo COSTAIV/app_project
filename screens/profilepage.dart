@@ -324,17 +324,19 @@ class _ProfilePageState extends State<ProfilePage> {
 
                       //count how many datapoints for each level
                       for (var i = 0; i < data.length; i++) {
-                        if (data[i].level == 'light') {
-                          cont_light++;
-                        }
-                        if (data[i].level == 'deep') {
-                          cont_deep++;
-                        }
-                        if (data[i].level == 'rem') {
-                          cont_rem++;
-                        }
-                        if (data[i].level == 'wake') {
-                          cont_wake++;
+                        if (DateUtils.dateOnly(data[i].entryDateTime) == DateTime.now().subtract(Duration(days: 1))) {  //if yesterday datapoint 
+                          if (data[i].level == 'light') {
+                            cont_light++;
+                          }
+                          if (data[i].level == 'deep') {
+                            cont_deep++;
+                          }
+                          if (data[i].level == 'rem') {
+                            cont_rem++;
+                          }
+                          if (data[i].level == 'wake') {
+                            cont_wake++;
+                          }
                         }
                       }
                       //conversion in hours (a datapoint is 30s wide)
