@@ -61,7 +61,7 @@ class _ProfilePageState extends State<ProfilePage> {
               padding: EdgeInsets.only(right: 15.0),
               child: IconButton(
                 onPressed: () async {
-                      _deleteInfosTable(
+                  _deleteInfosTable(
                       context); //delete the content of the database
                 },
                 icon: Icon(
@@ -235,7 +235,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         final sp = snapshot.data as SharedPreferences;
                         if (sp.getDouble('week_steps') == null) {
                           sp.setDouble('week_steps', 0);
-                          return Text('Last week you walked 0 steps !',
+                          return const Text('Last week you walked 0 steps !',
                               style: TextStyle(
                                   fontSize: 16.0, fontStyle: FontStyle.italic));
                         } else {
@@ -243,7 +243,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               'week_steps'); //we get the variable created after the synchronization
                           return Text(
                               'Last week you walked ${sp.getDouble('week_steps')?.toStringAsFixed(0)} steps !',
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 16.0, fontStyle: FontStyle.italic));
                         }
                       } else {
@@ -304,7 +304,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 return FutureBuilder(
                   initialData: null,
                   future: dbr.findAllYesterdaySleep(),
-                  builder: (context, snapshot){
+                  builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       final data = snapshot.data as List<
                           Yesterday_sleep>; //to get the data about yesterday sleep
@@ -324,17 +324,19 @@ class _ProfilePageState extends State<ProfilePage> {
 
                       //count how many datapoints for each level
                       for (var i = 0; i < data.length; i++) {
-                        if (data[i].level == 'light') {
-                          cont_light++;
-                        }
-                        if (data[i].level == 'deep') {
-                          cont_deep++;
-                        }
-                        if (data[i].level == 'rem') {
-                          cont_rem++;
-                        }
-                        if (data[i].level == 'wake') {
-                          cont_wake++;
+                        if (DateUtils.dateOnly(data[i].dateTime) == DateUtils.dateOnly(DateTime.now().subtract(Duration(days: 1)))) {  //if yesterday datapoint 
+                          if (data[i].level == 'light') {
+                            cont_light++;
+                          }
+                          if (data[i].level == 'deep') {
+                            cont_deep++;
+                          }
+                          if (data[i].level == 'rem') {
+                            cont_rem++;
+                          }
+                          if (data[i].level == 'wake') {
+                            cont_wake++;
+                          }
                         }
                       }
                       //conversion in hours (a datapoint is 30s wide)
@@ -342,7 +344,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       piedata[1].yData = (cont_deep * 30) / 60;
                       piedata[2].yData = (cont_rem * 30) / 60;
                       piedata[3].yData = (cont_wake * 30) / 60;
-                      
+
                       return SfCircularChart(
                         //circular chart
                         title: ChartTitle(
@@ -456,7 +458,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void _synchronize(BuildContext context) async {
     setState(() {
-      loading_flag = true; //for the circular progress indicator
+      loading_flag = true;   //for the circular progress indicator
     });
 
     //request of authorization
@@ -471,6 +473,8 @@ class _ProfilePageState extends State<ProfilePage> {
     sp.setString('userId', userId!);
 
     String? user_id = sp.getString('userId');
+
+    print(user_id);
 
     //Instantiate a proper data manager
     FitbitActivityTimeseriesDataManager fitbitActivityTimeseriesDataManager =
@@ -585,3 +589,12 @@ class _PieData {
   num yData = 0;
   String? text;
 }
+
+
+
+
+
+
+
+
+
